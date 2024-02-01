@@ -30,6 +30,7 @@ public abstract class Animal implements Entity, AnimalInfo {
 		this._sight_range = sight_range;
 		this._pos = pos;
 		this._mate_strategy = mate_strategy;
+		feihfeihigf
 	}
 
 }
