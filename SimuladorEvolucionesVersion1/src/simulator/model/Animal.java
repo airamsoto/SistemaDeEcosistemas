@@ -36,7 +36,7 @@ public abstract class Animal implements Entity, AnimalInfo {
 		this._pos = pos;
 		this._mate_strategy = mate_strategy;
 		this._speed = Utils.get_randomized_parameter(init_speed, 0.1);
-		this._state = NORMAL;
+		this._state = State.NORMAL;
 		this._energy = 100.0;
 		this._desire = 0.0;
 		this._dest = null;
@@ -51,7 +51,7 @@ public abstract class Animal implements Entity, AnimalInfo {
 		this._baby = null;
 		this._mate_strategy = null;
 		this._region_mngr = null;
-		this._state = NORMAL;
+		this._state = State.NORMAL;
 		this._desire = 0.0;
 		this._genetic_code = p1._genetic_code;
 		this._diet = p1._diet;
@@ -99,10 +99,12 @@ public abstract class Animal implements Entity, AnimalInfo {
 	}
 
 	public JSONObject as_JSON() {
-		"pos": [28.90696391797469,22.009772194487613],
-		"gcode": "Sheep",
-		"diet": "HERBIVORE",
-		"state": "NORMAL"
+		//preguntar no llego a tenerlo del todo claro o mirar apuntes
+		JSONObject jsonObject = new JSONObject();
+		//jsonObject.put ("pos", [28.90696391797469,22.009772194487613]),
+		jsonObject.put ("gcode", "Sheep");
+		jsonObject.put ("diet", "HERBIVORE");
+		jsonObject.put ("state", "NORMAL");
 	 }
 
 	@Override
