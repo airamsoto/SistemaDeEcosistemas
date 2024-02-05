@@ -3,12 +3,12 @@ package simulator.model;
 import simulator.misc.Vector2D;
 
 public class Wolf extends Animal {
-	private SelectionStrategy _hunt_target;
-	private SelectionStrategy _hunting_strategy;
+	private Animal _hunt_target;
+	private Animal _hunting_strategy;
 	protected Vector2D _pos;
 
 	public Wolf(SelectionStrategy mate_strategy, SelectionStrategy hunting_strategy, Vector2D pos) {
-		super("wolf", Diet.CARNIVORE, 50.0, 60.0, mate_strategy, _pos);
+		super("wolf", Diet.CARNIVORE, 50.0, 60.0, mate_strategy, pos);
 	}
 
 	protected Sheep (Wolf p1, Animal p2) {
@@ -25,7 +25,7 @@ public class Wolf extends Animal {
 		}
 
 		if (this._state == State.NORMAL) {
-			if ((this._pos - this._dest) < 8.0) {
+			if (this._pos.minus(this._dest).magnitude() < 0.8) {
 				// elegir otro destino de manera aleatoria dentro del mapa
 			}
 			this.move(this._speed * dt * Math.exp((this._energy - 100.0) * 0.007));
@@ -51,8 +51,8 @@ public class Wolf extends Animal {
 				this._age += dt;
 				this._energy -= 18.0 * 1.2 * dt;
 				this._desire += 30.0 * dt;
-				if ((this._dest - this._hunt_target) < 8.0) {
-					this._hunt_target = State.DEAD;
+				if (this._dest.minus(this._hunt_target._pos).magnitude() < 8.0) {
+					this._hunt_target._state = State.DEAD;
 					this._hunt_target = null;
 					this._energy += 50.0;
 					// falta comprobar que la energia no pase de 100
@@ -82,7 +82,7 @@ public class Wolf extends Animal {
 				this._energy = Math.max(0.0, Math.min(this._energy, 100.0)); // no se si es asi
 				this._desire += 30.0 * dt;
 				// falta mantener desire entre 0 y 100
-				if ((this._dest - this._mate_target._pos) < 8.0) {
+				if (this._dest.minus(this._mate_target._pos).magnitude() < 8.0) {
 					this._desire = 0.0;
 					this._mate_target._desire = 0.0;
 					if (this._mate_target._baby == null) {
