@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.json.JSONObject;
 
+import simulator.factories.Factory;
+
 public class Simulator implements JSONable {
 	private Factory<Animal> _animalFactory;
 	private Factory<Region> _regionFactory;

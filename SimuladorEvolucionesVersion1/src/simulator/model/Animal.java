@@ -7,6 +7,11 @@ import simulator.misc.Vector2D;
 import simulator.model.*;
 
 public abstract class Animal implements Entity, AnimalInfo {
+	public static final int INITIAL_ENERGY = 100;
+	public static final double INITIAL_SPEED = 0.1;
+	public static final double RANDOM_POS = 60.0;
+	public static final double RANDOM_SIGHT_RANGE = 0.2;
+	public static final double RANDOM_SPEED = 0.2;
 	protected String _genetic_code;
 	protected Diet _diet;
 	protected State _state;
@@ -20,10 +25,10 @@ public abstract class Animal implements Entity, AnimalInfo {
 	protected Animal _mate_target;
 	protected Animal _baby;
 	protected AnimalMapView _region_mngr;
-	protected _region_mngrSelectionStrategy _mate_strategy;
+	protected SelectionStrategy _mate_strategy;
 
 	protected Animal(String genetic_code, Diet diet, double sight_range, double init_speed,
-			SelectionStrategy mate_strategy, Vector2D pos) {
+			SelectionStrategy mate_strategy, Vector2D pos) throws Exception {
 		if (sight_range <= 0 || init_speed <= 0)
 			throw new Exception("no puede ser negativo");
 		else if (mate_strategy == null)
@@ -35,9 +40,9 @@ public abstract class Animal implements Entity, AnimalInfo {
 		this._sight_range = sight_range;
 		this._pos = pos;
 		this._mate_strategy = mate_strategy;
-		this._speed = Utils.get_randomized_parameter(init_speed, 0.1);
+		this._speed = Utils.get_randomized_parameter(init_speed, INITIAL_SPEED);
 		this._state = State.NORMAL;
-		this._energy = 100.0;
+		this._energy = INITIAL_ENERGY;
 		this._desire = 0.0;
 		this._dest = null;
 		this._mate_target = null;
@@ -57,9 +62,9 @@ public abstract class Animal implements Entity, AnimalInfo {
 		this._diet = p1._diet;
 		this._energy = (p1._energy + p2._energy) / 2;
 		this._pos = p1.get_position()
-				.plus(Vector2D.get_random_vector(-1, 1).scale(60.0 * (Utils._rand.nextGaussian() + 1)));
-		this._sight_range = Utils.get_randomized_parameter((p1.get_sight_range() + p2.get_sight_range()) / 2, 0.2);
-		this._speed = Utils.get_randomized_parameter((p1.get_speed() + p2.get_speed()) / 2, 0.2);
+				.plus(Vector2D.get_random_vector(-1, 1).scale(RANDOM_POS * (Utils._rand.nextGaussian() + 1)));
+		this._sight_range = Utils.get_randomized_parameter((p1.get_sight_range() + p2.get_sight_range()) / 2, RANDOM_SIGHT_RANGE);
+		this._speed = Utils.get_randomized_parameter((p1.get_speed() + p2.get_speed()) / 2, RANDOM_SPEED);
 
 	}
 
@@ -72,87 +77,86 @@ public abstract class Animal implements Entity, AnimalInfo {
 			 * _region_mngr.get_width()-1 y Y entre 0 y _region_mngr.get_height()-1).
 			 */
 		} else {
-			while (x >= width)
-				x = (x - width);
+			while (reg_mngr.get_cols() >= reg_mngr.get_width())
+				x = (x - reg_mngr.get_width());
 			while (x < 0)
-				x = (x + width);
-			while (y >= height)
-				y = (y - height);
+				x = (x + reg_mngr.get_width());
+			while (y >= reg_mngr.get_height())
+				y = (y - reg_mngr.get_height());
 			while (y < 0)
-				y = (y + height);
+				y = (y + reg_mngr.get_height());
 		}
 
 	}
 
 	Animal deliver_baby() {
-		return this._baby;
+		Animal babyToReturn = this._baby;
 		this._baby = null;
+		return babyToReturn;
+
 	}
 
 	protected void move(double speed) {
-		/*
-		 * las subclases usan este método para actualizar la posición del animal (para
-		 * que se mueva hacia _dest con velocidad speed). Esto se puede hace usando _pos
-		 * = _pos.plus(_dest.minus(_pos).direction().scale(speed))
-		 */
+
 		this._pos = _pos.plus(_dest.minus(_pos).direction().scale(speed));
 	}
 
 	public JSONObject as_JSON() {
-		//preguntar no llego a tenerlo del todo claro o mirar apuntes
+		// preguntar no llego a tenerlo del todo claro o mirar apuntes
 		JSONObject jsonObject = new JSONObject();
-		//jsonObject.put ("pos", [28.90696391797469,22.009772194487613]),
-		jsonObject.put ("gcode", "Sheep");
-		jsonObject.put ("diet", "HERBIVORE");
-		jsonObject.put ("state", "NORMAL");
-	 }
+		jsonObject.put ("pos", 28.90696391797469); //,22.009772194487613 falta por poner esto pero detecta dos argumentos double
+		jsonObject.put("gcode", "Sheep");
+		jsonObject.put("diet", "HERBIVORE");
+		jsonObject.put("state", "NORMAL");
+		return jsonObject;
+	}
 
 	@Override
 	public State get_state() {
 		// TODO Auto-generated method stub
-		return null;
+		return this._state;
 	}
 
 	@Override
 	public Vector2D get_position() {
 		// TODO Auto-generated method stub
-		return null;
+		return this._pos;
 	}
 
 	@Override
 	public String get_genetic_code() {
 		// TODO Auto-generated method stub
-		return null;
+		return this._genetic_code;
 	}
 
 	@Override
 	public Diet get_diet() {
 		// TODO Auto-generated method stub
-		return null;
+		return this._diet;
 	}
 
 	@Override
 	public double get_speed() {
 		// TODO Auto-generated method stub
-		return 0;
+		return this._speed;
 	}
 
 	@Override
 	public double get_sight_range() {
 		// TODO Auto-generated method stub
-		return 0;
+		return this._sight_range;
 	}
 
 	@Override
 	public double get_energy() {
 		// TODO Auto-generated method stub
-		return 0;
+		return this._energy;
 	}
 
 	@Override
 	public double get_age() {
 		// TODO Auto-generated method stub
-		return 0;
+		return this._age;
 	}
 
 	@Override

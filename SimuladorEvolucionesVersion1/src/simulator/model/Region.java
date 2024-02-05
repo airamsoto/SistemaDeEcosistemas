@@ -1,34 +1,42 @@
 package simulator.model;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.json.JSONObject;
 
-public abstract class Region implements Entity, FoodSupplier, RegionInfo{
-	//atributo con la lista de animales que se encuentran en la region, haciendolo protected
+public abstract class Region implements Entity, FoodSupplier, RegionInfo {
+	// atributo con la lista de animales que se encuentran en la region, haciendolo
+	// protected
 	protected List<Animal> animalList;
-	public Region () {
-		//inicializa la lista de los animales
+
+	public Region() {
+		// hay que inicializar la lista de animales
 	}
+
 	final void add_animal(Animal a) {
 		this.animalList.add(a);
-		//comprobar que se incrementaba solo lo del contador
-		//añade el animal a la lista de animales.
 	}
+
 	final void remove_animal(Animal a) {
 		this.animalList.remove(a);
-		//igaul que arriba
-		//quita el animal de la lista de animales.
 	}
-	final List<Animal> getAnimals(){
-		return animalList;
-		//devuelve una versión inmodificable de la lista de animales.
+
+	final List<Animal> getAnimals() {
+		return Collections.unmodifiableList(this.animalList); // preguntar si es asi
+		// devuelve una versión inmodificable de la lista de animales.
 	}
+
 	public JSONObject as_JSON() {
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("animal", false);
-		//aqui haria falta devolver lo que le corresponda a cada animal
-		
+		JSONObject jsonList = new JSONObject();
+		for (Animal animal : this.animalList) {
+			jsonList.put(null, animal.as_JSON());
+		}
+		jsonObject.put("animal", jsonList);
+		// aqui haria falta devolver lo que le corresponda a cada animal
+		// no se si lo que tengo del bucle esta bien, preguntar profe
+
 		return jsonObject;
 	}
 
