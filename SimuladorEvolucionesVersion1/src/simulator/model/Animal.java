@@ -63,7 +63,8 @@ public abstract class Animal implements Entity, AnimalInfo {
 		this._energy = (p1._energy + p2._energy) / 2;
 		this._pos = p1.get_position()
 				.plus(Vector2D.get_random_vector(-1, 1).scale(RANDOM_POS * (Utils._rand.nextGaussian() + 1)));
-		this._sight_range = Utils.get_randomized_parameter((p1.get_sight_range() + p2.get_sight_range()) / 2, RANDOM_SIGHT_RANGE);
+		this._sight_range = Utils.get_randomized_parameter((p1.get_sight_range() + p2.get_sight_range()) / 2,
+				RANDOM_SIGHT_RANGE);
 		this._speed = Utils.get_randomized_parameter((p1.get_speed() + p2.get_speed()) / 2, RANDOM_SPEED);
 
 	}
@@ -77,7 +78,8 @@ public abstract class Animal implements Entity, AnimalInfo {
 			 * _region_mngr.get_width()-1 y Y entre 0 y _region_mngr.get_height()-1).
 			 */
 		} else {
-			this._pos.ajustar(); //falta termianr de implementar correctamente la funcion ajustar en la clase vector
+
+			this._pos.ajustar(reg_mngr.get_height(), reg_mngr.get_width());
 		}
 
 	}
@@ -97,7 +99,8 @@ public abstract class Animal implements Entity, AnimalInfo {
 	public JSONObject as_JSON() {
 		// preguntar no llego a tenerlo del todo claro o mirar apuntes
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put ("pos", 28.90696391797469); //,22.009772194487613 falta por poner esto pero detecta dos argumentos double
+		jsonObject.put("pos", 28.90696391797469); // ,22.009772194487613 falta por poner esto pero detecta dos
+													// argumentos double
 		jsonObject.put("gcode", "Sheep");
 		jsonObject.put("diet", "HERBIVORE");
 		jsonObject.put("state", "NORMAL");
