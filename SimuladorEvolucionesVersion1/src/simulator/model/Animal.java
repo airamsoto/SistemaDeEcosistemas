@@ -77,14 +77,7 @@ public abstract class Animal implements Entity, AnimalInfo {
 			 * _region_mngr.get_width()-1 y Y entre 0 y _region_mngr.get_height()-1).
 			 */
 		} else {
-			while (reg_mngr.get_cols() >= reg_mngr.get_width())
-				x = (x - reg_mngr.get_width());
-			while (x < 0)
-				x = (x + reg_mngr.get_width());
-			while (y >= reg_mngr.get_height())
-				y = (y - reg_mngr.get_height());
-			while (y < 0)
-				y = (y + reg_mngr.get_height());
+			this._pos.ajustar(); //falta termianr de implementar correctamente la funcion ajustar en la clase vector
 		}
 
 	}

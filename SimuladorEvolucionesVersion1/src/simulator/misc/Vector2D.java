@@ -151,5 +151,13 @@ public class Vector2D {
 	public String toString() {
 		return "[" + _x + "," + _y + "]";
 	}
+	
+	
+	public void ajustar() {
+		while (this._x >= width) this._x = (this._x - width);
+		while (this._x < 0) this._x = (this._x + width);
+		while (this._y >= height) this._y = (this._y - height);
+		while (this._y < 0) this._y = (this._y + height);
+	}
 
 }
