@@ -24,6 +24,7 @@ public class RegionManager implements AnimalMapView {
 		//pone que hay que usar la constructora por defectoq
 		DefaultRegion df = new DefaultRegion();
 		this._regions = df;
+		this._animal_region = new HashMap();
 		//falta inicializar animal region
 		
 	}
@@ -31,12 +32,14 @@ public class RegionManager implements AnimalMapView {
 	void set_region(int row, int col, Region r) {
 		this._cols = col;
 		this._rows = row;
-		this._animal_region; //falta ponerle la region y lo de animAL
+		this._animal_region.keySet(); //no se si directamaente coge lo de animal
+		
+		//falta ponerle la region y lo de animAL
 
 	}
 
 	void register_animal(Animal a) {
-		
+		this._animal_region.put(a, _regions); //falta ver si el segundo parametro es regions
 
 	}
 
