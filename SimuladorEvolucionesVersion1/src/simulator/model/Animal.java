@@ -71,12 +71,10 @@ public abstract class Animal implements Entity, AnimalInfo {
 
 	void init(AnimalMapView reg_mngr) {
 		this._region_mngr = reg_mngr;
-		if (this._pos == null) {
-			// this._pos = (1, 1);
-			/*
-			 * hay que elegir una posición aleatoria dentro del rango del mapa (X entre 0 y
-			 * _region_mngr.get_width()-1 y Y entre 0 y _region_mngr.get_height()-1).
-			 */
+		if (this._pos.equals(new Vector2D (1,1))) {
+			double x = Utils._rand.nextDouble(800);
+			double y = Utils._rand.nextDouble(600);
+			Vector2D v = new Vector2D(x, y);
 		} else {
 
 			this._pos.ajustar(reg_mngr.get_height(), reg_mngr.get_width());
@@ -158,7 +156,7 @@ public abstract class Animal implements Entity, AnimalInfo {
 	@Override
 	public Vector2D get_destination() {
 		// TODO Auto-generated method stub
-		return null;
+		return this._dest;
 	}
 
 	@Override
@@ -172,5 +170,6 @@ public abstract class Animal implements Entity, AnimalInfo {
 		// TODO Auto-generated method stub
 
 	}
+	//funcion is out
 
 }

@@ -24,7 +24,7 @@ public class RegionManager implements AnimalMapView {
 		//pone que hay que usar la constructora por defectoq
 		DefaultRegion df = new DefaultRegion();
 		this._regions = df;
-		this._animal_region = new HashMap();
+		//this._animal_region =
 		//falta inicializar animal region
 		
 	}
@@ -40,14 +40,22 @@ public class RegionManager implements AnimalMapView {
 
 	void register_animal(Animal a) {
 		this._animal_region.put(a, _regions); //falta ver si el segundo parametro es regions
+		
 
 	}
 
 	void unregister_animal(Animal a) {
+		this._animal_region.remove(a, this._regions); //igual que arriba saber si el segundo parametro es regions o no
 
 	}
 
 	void update_animal_region(Animal a) {
+		/*
+		 * comprobar si el animal esta en la region en la que pertence.
+		 * si no lo esta -> eliminarlo de la region en la que se encuentra y añadirlo a la que pertence
+		 * 
+		 */
+		
 
 	}
 
@@ -57,10 +65,20 @@ public class RegionManager implements AnimalMapView {
 	}
 
 	void update_all_regions(double dt) {
-
+		
 	}
 
-	public List<Animal> get_animals_in_range(Animal a, Predicate<Animal> filter) {
+ List<Animal> get_animals_in_range(Animal a, Predicate<Animal> filter) {
+		//hay que calcular que regiones toco  con mi campo visual a parte de la propia region dl animal
+	 	//calculando los extremos de los ejes de la cirunferencia que se forma (haceindo un bucle)
+	 	// cuando tengo las regiones observo las listas de animales de cada regiona porque esos
+	 	// animales pueden interesar (los que esten cerca y que cumplen el filter) estan suficientemenre 
+	 	//cerca si la distancia del animal a mi es menor que el radio
+	 	//p.test (a`) lo que cumplan el test sera 	QUE EL CODIGO GENETICO SEA IGUAL SI ESTOY BUSCANDO EMPAREAJR,E
+	 	// lo de las landa funciones se usaara cunado llamaemos a esta funcion
+	 	// el animal soy yo y el predicado sera la landa funcion, va a recibir un atributo a sobre el que comprobar cosas, que sera de tipo animal
+	 	// y  -> {lo de genetic code por ejemplo} a.diet == herviboro
+	 	
 		return null;
 
 	}

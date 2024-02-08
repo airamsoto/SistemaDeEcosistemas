@@ -18,15 +18,16 @@ public class Simulator implements JSONable {
 
 	}
 
-	private set_region(int row, int col, JSONObject r) {
+	private void set_region(int row, int col, JSONObject r) {
 		
 	}
 
-	void set_region(int row, int col, JSONObject r_json) {
+	void set_region3(int row, int col, JSONObject r_json) {
 
 	}
 
 	private void add_animal(Animal a) {
+		
 
 	}
 
@@ -38,7 +39,8 @@ public class Simulator implements JSONable {
 		return this._regionManager;
 	}
 
-	public List<? extends Animalnfo> get_animals() {
+	public List<? extends AnimalInfo> get_animals() {
+		return null;
 
 	}
 
@@ -50,20 +52,26 @@ public class Simulator implements JSONable {
 		this._time += dt;
 		/*
 		 * Quitar todos los animales con estado DEAD de la lista de animales y
-		 * eliminarlos del gestor de regiones. ○ Para cada animal: llama a su update(dt)
-		 * y pide al gestor de regiones que actualice su región. ○ Pedir al gestor de
-		 * regiones actualizar todas las regiones. ○ Para cada animal: si is_pregnant()
-		 * devuelve true, obtenemos el bebé usando su método 14 deliver_baby() y lo
+		 * eliminarlos del gestor de regiones. 
+		 * ○ Para cada animal: llama a su update(dt)
+		 * y pide al gestor de regiones que actualice su región. 
+		 * ○ Pedir al gestor de regiones actualizar todas las regiones. 
+		 * 5.
+		 * ○ Para cada animal: si is_pregnant() devuelve true, obtenemos el bebé usando su método 14 deliver_baby() y lo
 		 * añadimos a la simulación usando add_animal.
+		 * 6.
 		 */
-
+		//5.
+		this._regionManager.update_all_regions(dt);
+		//6.
+		
 	}
 
 	public JSONObject as_JSON() {
 		JSONObject JSONreturn = new JSONObject();
 		JSONreturn.put("time: ", this._time);
 		JSONreturn.put("state: ", this._regionManager.as_JSON());
-
+		return JSONreturn;
 	}
 
 	/*

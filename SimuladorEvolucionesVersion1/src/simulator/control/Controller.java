@@ -37,7 +37,7 @@ public class Controller {
 			view = new SimpleObjectViewer("[ECOSYSTEM]",
 			m.get_width(), m.get_height(),
 			m.get_cols(), m.get_rows());
-			view.update(to_animals_info(_sim.get_animals()), _sim.get_time(), dt);
+			//view.update(to_animals_info(_sim.get_animals()), _sim.get_time(), dt);
 			
 
 		}
