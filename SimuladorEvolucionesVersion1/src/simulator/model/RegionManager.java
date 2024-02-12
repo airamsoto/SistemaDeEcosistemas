@@ -3,6 +3,7 @@ package simulator.model;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.*;
 
 import org.json.JSONObject;
 
@@ -11,7 +12,7 @@ public class RegionManager implements AnimalMapView {
 	private int _rows;
 	private int _width;
 	private int _height;
-	private Region _regions;
+	private Region[][] _regions;
 	private Map<Animal, Region> _animal_region;
 
 	
@@ -20,26 +21,24 @@ public class RegionManager implements AnimalMapView {
 		this._rows = rows;
 		this._width = width;
 		this._height = height;
-		//falta hacer lo de dividir altura entre numero de columna
-		//pone que hay que usar la constructora por defectoq
-		DefaultRegion df = new DefaultRegion();
-		this._regions = df;
-		//this._animal_region =
-		//falta inicializar animal region
+		this._regions = new Region [rows][cols];
+		this._animal_region = new HashMap <Animal, Region>();
+
 		
 	}
 	
 	void set_region(int row, int col, Region r) {
-		this._cols = col;
-		this._rows = row;
-		this._animal_region.keySet(); //no se si directamaente coge lo de animal
+		for(Animal a:  this._regions[row][col].animalList) {
+			r.add_animal(a);
+			this._animal_region.put(a,r);
+			
+		}
+		r = this._regions[row][col]; //no se si es asi o al reves
 		
-		//falta ponerle la region y lo de animAL
-
 	}
 
 	void register_animal(Animal a) {
-		this._animal_region.put(a, _regions); //falta ver si el segundo parametro es regions
+		this._animal_region.put(a, _regions[1][1]); //falta ver si el segundo parametro es regions
 		
 
 	}
@@ -50,6 +49,7 @@ public class RegionManager implements AnimalMapView {
 	}
 
 	void update_animal_region(Animal a) {
+		
 		/*
 		 * comprobar si el animal esta en la region en la que pertence.
 		 * si no lo esta -> eliminarlo de la region en la que se encuentra y añadirlo a la que pertence
@@ -64,7 +64,8 @@ public class RegionManager implements AnimalMapView {
 
 	}
 
-	void update_all_regions(double dt) {
+	void update_all_regions(double dt) {//doble
+		
 		
 	}
 
