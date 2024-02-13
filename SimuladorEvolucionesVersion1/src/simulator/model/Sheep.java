@@ -81,9 +81,16 @@ public class Sheep extends Animal {
 			else if (this._state == State.MATE) {
 				if(this._mate_target != null && (this._mate_target._state == State.DEAD || true)) { // el triue deberia ser está fuera del campo visual
 					this._mate_target = null;
-				} 
+				}
 				if(this._mate_target != null) {
-					
+					this._dest = this._mate_target.get_position();
+					this.move(2.0*_speed*dt*Math.exp((_energy-100.0)*0.007));
+					this._age += dt;
+					this._energy += 20.0*1.2*dt;
+					this._desire += 40.0*dt;
+					if((this._pos.minus(this._mate_target._pos)).magnitude() < 8.0) { //se puede ver si con lo del distance to iria bine
+						
+					}
 				}
 			}
 	}
