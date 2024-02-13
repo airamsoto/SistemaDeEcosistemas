@@ -14,7 +14,20 @@ public class Auxiliar {
 		}
 //main
 	List<Animal> l = new LinkedList<>();
-	SelectionStrategy jose = new Selectionx 800 y 600 //MATE DANGER 15 filas 20 columnas
+	SelectionStrategy hunt_strategy = new SelectClosest ();
+	SelectionStrategy mate_strategy = new SelectClosest();
+	
+	
+	for (int i = 0; i < 800; i++) {
+		double x = Utils._rand.nextDouble(800);
+		double y = Utils._rand.nextDouble(600);
+		Vector2D v = new Vector2D(x, y);
+
+	}
+	
+			
+			
+			//800 y 600 //MATE DANGER 15 filas 20 columnas
 			//
 
 }

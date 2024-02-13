@@ -38,7 +38,7 @@ public class RegionManager implements AnimalMapView {
 	}
 
 	void register_animal(Animal a) {
-		this._animal_region.put(a, _regions[1][1]); //falta ver si el segundo parametro es regions
+		this._animal_region.put(a, _regions[this._rows][this._cols]); //falta ver si el segundo parametro es regions
 		
 
 	}
@@ -65,11 +65,16 @@ public class RegionManager implements AnimalMapView {
 	}
 
 	void update_all_regions(double dt) {//doble
+		for (int i = 0; i < this._rows; i++) {
+			for (int j = 0; j < this._cols; j++) {
+				this._regions[i][j].update(dt);
+			}
+		}
 		
 		
 	}
 
- List<Animal> get_animals_in_range(Animal a, Predicate<Animal> filter) {
+ public List<Animal> get_animals_in_range(Animal a, Predicate<Animal> filter) {
 		//hay que calcular que regiones toco  con mi campo visual a parte de la propia region dl animal
 	 	//calculando los extremos de los ejes de la cirunferencia que se forma (haceindo un bucle)
 	 	// cuando tengo las regiones observo las listas de animales de cada regiona porque esos
@@ -123,6 +128,8 @@ public class RegionManager implements AnimalMapView {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+
 
 
 
