@@ -42,7 +42,7 @@ public class Sheep extends Animal {
 				this._desire += 40.0 * dt;
 				
 				if(this._danger_source == null) { 
-					this._danger_source = this._region_mngr.get_animals_in_range(this, ); 
+					
 				}
 				if(this._danger_source != null) this._state = State.DANGER;
 				if(this._desire > 65.0 && this._danger_source == null) this._state = State.MATE;
@@ -89,8 +89,20 @@ public class Sheep extends Animal {
 					this._energy += 20.0*1.2*dt;
 					this._desire += 40.0*dt;
 					if((this._pos.minus(this._mate_target._pos)).magnitude() < 8.0) { //se puede ver si con lo del distance to iria bine
-						
+						this._desire = 0;
+						this._mate_target._desire = 0;
+						if(!this.is_pregnant()) {
+							
+						}
+						this._mate_target = null;
 					}
+					
+				}
+				if(this._danger_source == null) {
+					//buscar un nuevo animal que se considere como peligroso
+					if(this._desire < 65.0) this._state = State.NORMAL;
+				} else {
+					this._state = State.DANGER;
 				}
 			}
 	}

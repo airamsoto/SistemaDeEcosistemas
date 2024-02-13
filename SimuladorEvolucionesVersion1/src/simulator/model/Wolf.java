@@ -5,7 +5,7 @@ import simulator.misc.Vector2D;
 public class Wolf extends Animal {
 	private Animal _hunt_target;
 	private Animal _hunting_strategy;
-	protected Vector2D _pos;
+	
 
 	public Wolf(SelectionStrategy mate_strategy, SelectionStrategy hunting_strategy, Vector2D pos) throws Exception {
 		super("wolf", Diet.CARNIVORE, 50.0, 60.0, mate_strategy, pos);
@@ -25,7 +25,7 @@ public class Wolf extends Animal {
 		}
 
 		if (this._state == State.NORMAL) {
-			if (this._pos.minus(this._dest).magnitude() < 0.8) {
+			if (this._pos.distanceTo(_dest) < 0.8) {
 				// elegir otro destino de manera aleatoria dentro del mapa
 			}
 			this.move(this._speed * dt * Math.exp((this._energy - 100.0) * 0.007));
