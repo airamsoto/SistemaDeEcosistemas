@@ -41,7 +41,7 @@ public class Sheep extends Animal {
 		} else {
 			if (this._state == State.NORMAL) {
 				if (this._pos.minus(this._dest).magnitude() < 0.8) {
-					// elegir otro destino de manera aleatoria dentro del mapa
+					
 				}
 				this.move(this._speed * dt * Math.exp((this._energy - 100.0) * 0.007));
 				this._age += dt;
@@ -51,9 +51,8 @@ public class Sheep extends Animal {
 				if(this._desire + 40.0 * dt < 100)
 				this._desire += 40.0 * dt;
 				
-				if(this._danger_source == null) { //pedir lista de peligrosos y elegir 
-					this._danger_source = this._region_mngr.get_animals_in_range(this, ); //lamda funcion con carnivoro
-					//elegir de la lista con un metodo select 
+				if(this._danger_source == null) { 
+					this._danger_source = this._region_mngr.get_animals_in_range(this, ); 
 				}
 				if(this._danger_source != null) this._state = State.DANGER;
 				if(this._desire > 65.0 && this._danger_source == null) this._state = State.MATE;
@@ -76,7 +75,7 @@ public class Sheep extends Animal {
 						this._hunt_target._state = State.DEAD;
 						this._hunt_target = null;
 						this._energy += 50.0;
-						// falta comprobar que la energia no pase de 100
+						
 						this._energy = Math.max(0.0, Math.min(this._energy, 100.0));
 					}
 
