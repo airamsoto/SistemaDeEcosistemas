@@ -22,17 +22,6 @@ public class Sheep extends Animal {
 		this._danger_strategy = p1._danger_strategy;
 		this._danger_source = null;
 	}
-
-	
-	//Buscar anmial peligroso con animals_in_range y elegir uno con seleccion 
-	
-	//Buscar animal emparejarse pedir al gestor de regiones lista de animales con mismo codigo 
-	//genetico en el campo visual con get_animals_in range y seleccionar 
-	
-	//cuando se actualiza estado a NORMAL _danger_source y _mate_target a null
-	//estado MATE _danger_source a null
-	//estado DANGER _mate_target a null
-	
 	
 	@Override
 	public void update(double dt) {
@@ -139,6 +128,20 @@ public class Sheep extends Animal {
 			}
 		}
 	}	
+
+	
+	//Buscar anmial peligroso con animals_in_range y elegir uno con seleccion 
+	
+	//Buscar animal emparejarse pedir al gestor de regiones lista de animales con mismo codigo 
+	//genetico en el campo visual con get_animals_in range y seleccionar 
+	
+	//cuando se actualiza estado a NORMAL _danger_source y _mate_target a null
+	//estado MATE _danger_source a null
+	//estado DANGER _mate_target a null
+	
+	
+	
+	
 	
 
 	/*@Override
