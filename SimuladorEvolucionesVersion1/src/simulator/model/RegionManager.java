@@ -14,6 +14,9 @@ public class RegionManager implements AnimalMapView {
 	private int _height;
 	private Region[][] _regions;
 	private Map<Animal, Region> _animal_region;
+	private int widthcol;
+	private int heightrow;
+	
 
 	
 	public RegionManager(int cols, int rows, int width, int height) {
@@ -23,6 +26,7 @@ public class RegionManager implements AnimalMapView {
 		this._height = height;
 		this._regions = new Region [rows][cols];
 		this._animal_region = new HashMap <Animal, Region>();
+		//inicialziar los que faltan
 
 		
 	}
@@ -31,14 +35,26 @@ public class RegionManager implements AnimalMapView {
 		for(Animal a:  this._regions[row][col].animalList) {
 			r.add_animal(a);
 			this._animal_region.put(a,r);
-			
 		}
-		r = this._regions[row][col]; //no se si es asi o al reves
+		this._regions[row][col] = r; 
 		
 	}
 
 	void register_animal(Animal a) {
-		this._animal_region.put(a, _regions[this._rows][this._cols]); //falta ver si el segundo parametro es regions
+		 
+		 int i = 0;
+		 while (i < this._cols && a._pos.getX() < (i+1)*this.widthcol) {
+	
+			 i++;
+		 }
+		 int j = 0;
+		 while (j < this._rows && a._pos.getY() < (j+1)*this.heightrow) {
+	
+			 j++;
+		 }
+		 this._animal_region.put(a, this._regions[i][j]);
+		 this._regions[i][j].add_animal(a);
+		 a.init(this);
 		
 
 	}

@@ -3,12 +3,13 @@ import java.util.*;
 
 import simulator.misc.Utils;
 import simulator.model.*;
+import simulator.view.SimpleObjectViewer;
 import simulator.view.SimpleObjectViewer.ObjInfo;
 import simulator.misc.*;
 
 public class Auxiliar {
 	
-	private List<ObjInfo> to_animals_info(List<? extends AnimalInfo> animals) {
+	private static List<ObjInfo> to_animals_info(List<? extends AnimalInfo> animals) {
 		List<ObjInfo> ol = new ArrayList<>(animals.size());
 		for (AnimalInfo a : animals)
 		ol.add(new ObjInfo(a.get_genetic_code(),
@@ -28,7 +29,7 @@ public class Auxiliar {
 			l.add(new Wolf(mate_strategy,hunt_strategy, v));
 		}
 		
-		for (int i = 0; i < 30; i++) {
+		for (int i = 0; i < 200; i++) {
 			double x = Utils._rand.nextDouble(800);
 			double y = Utils._rand.nextDouble(600);
 			Vector2D v = new Vector2D(x, y);
@@ -37,9 +38,11 @@ public class Auxiliar {
 		
 		double dt = 0.003;
 		double time = 0.0;
+		SimpleObjectViewer sv = new SimpleObjectViewer ("JOSE",800, 600, 15, 20);
 		while (time<10) {
 		time += dt;
 		for( Animal a : l ) a.update(dt);
+		sv.update(to_animals_info(l));
 		}
 
 		
