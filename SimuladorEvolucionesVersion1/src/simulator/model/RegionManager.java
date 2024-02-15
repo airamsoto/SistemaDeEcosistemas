@@ -26,9 +26,8 @@ public class RegionManager implements AnimalMapView {
 		this._height = height;
 		this._regions = new Region [rows][cols];
 		this._animal_region = new HashMap <Animal, Region>();
-		//inicialziar los que faltan
-
-		
+		this.widthcol = (this._width / this._cols);
+		this.heightrow =(this._height / this._rows);
 	}
 	
 	void set_region(int row, int col, Region r) {
@@ -60,7 +59,7 @@ public class RegionManager implements AnimalMapView {
 	}
 
 	void unregister_animal(Animal a) {
-		this._animal_region.remove(a);
+		
 
 	}
 
@@ -79,7 +78,7 @@ public class RegionManager implements AnimalMapView {
 		return dt;
 	}
 
-	void update_all_regions(double dt) {//doble
+	void update_all_regions(double dt) {
 		for (int i = 0; i < this._rows; i++) {
 			for (int j = 0; j < this._cols; j++) {
 				this._regions[i][j].update(dt);
@@ -111,39 +110,41 @@ public class RegionManager implements AnimalMapView {
 	@Override
 	public int get_cols() {
 		// TODO Auto-generated method stub
-		return 0;
+		return this._cols;
 	}
 
 	@Override
 	public int get_rows() {
 		// TODO Auto-generated method stub
-		return 0;
+		return this._rows;
 	}
 
 	@Override
 	public int get_width() {
 		// TODO Auto-generated method stub
-		return 0;
+		return this._width;
 	}
 
 	@Override
 	public int get_height() {
 		// TODO Auto-generated method stub
-		return 0;
+		return this._height;
 	}
 
 	@Override
 	public int get_region_width() {
 		// TODO Auto-generated method stub
-		return 0;
+		return this.widthcol;
 	}
 
 	@Override
 	public int get_region_height() {
 		// TODO Auto-generated method stub
-		return 0;
+		return this.heightrow;
 	}
 
+
+	
 
 
 

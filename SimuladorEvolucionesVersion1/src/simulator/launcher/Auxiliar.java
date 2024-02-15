@@ -22,11 +22,13 @@ public class Auxiliar {
 		SelectionStrategy hunt_strategy = new SelectClosest ();
 		SelectionStrategy mate_strategy = new SelectClosest();
 		
+
 		for (int i = 0; i < 30; i++) {
 			double x = Utils._rand.nextDouble(800);
 			double y = Utils._rand.nextDouble(600);
 			Vector2D v = new Vector2D(x, y);
 			l.add(new Wolf(mate_strategy,hunt_strategy, v));
+			
 		}
 		
 		for (int i = 0; i < 200; i++) {
