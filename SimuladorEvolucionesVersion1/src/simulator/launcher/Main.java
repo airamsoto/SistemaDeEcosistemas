@@ -3,6 +3,8 @@ package simulator.launcher;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.lang.ModuleLayer.Controller;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -14,8 +16,11 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import simulator.misc.Utils;
+import simulator.model.Simulator;
 
 public class Main {
+	private Controller controller;
+	private Simulator simulator;
 
 	private enum ExecMode {
 		BATCH("batch", "Batch mode"), GUI("gui", "Graphical User Interface mode");
