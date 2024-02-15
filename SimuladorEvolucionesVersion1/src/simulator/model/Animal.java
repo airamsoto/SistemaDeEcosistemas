@@ -1,5 +1,6 @@
 package simulator.model;
 
+
 import org.json.JSONObject;
 
 import simulator.misc.Utils;
@@ -44,7 +45,8 @@ public abstract class Animal implements Entity, AnimalInfo {
 		this._state = State.NORMAL;
 		this._energy = INITIAL_ENERGY;
 		this._desire = 0.0;
-		this._dest = this._pos.minus(new Vector2D (8,8));
+		//this._dest = null;
+		this._dest = Vector2D.get_random_vector(400, 600);
 		this._mate_target = null;
 		this._baby = null;
 		this._region_mngr = null;
@@ -52,7 +54,8 @@ public abstract class Animal implements Entity, AnimalInfo {
 	}
 
 	protected Animal(Animal p1, Animal p2) {
-		this._dest = null;
+		//this._dest = null;
+		this._dest = Vector2D.get_random_vector(400, 600);
 		this._baby = null;
 		this._mate_strategy = null;
 		this._region_mngr = null;
@@ -79,10 +82,8 @@ public abstract class Animal implements Entity, AnimalInfo {
 
 			this._pos.ajustar(reg_mngr.get_height(), reg_mngr.get_width());
 		}
-		double x = Utils._rand.nextDouble(800);
-		double y = Utils._rand.nextDouble(600);
-		Vector2D v = new Vector2D(x, y);
-		this._dest = v.get_random_vector(y, x);
+		this._dest = Vector2D.get_random_vector(this._region_mngr.get_width(), this._region_mngr.get_height()); //hay que cambiar lo de los argumentos
+		
 
 	}
 
