@@ -3,6 +3,7 @@ package simulator.factories;
 import org.json.JSONObject;
 
 public abstract class Builder<T> {
+	
 	private String _type_tag;
 	private String _desc;
 
@@ -28,7 +29,7 @@ public abstract class Builder<T> {
 	}
 
 	protected void fill_in_data(JSONObject o) {
-
+		
 	}
 
 	@Override
@@ -37,5 +38,31 @@ public abstract class Builder<T> {
 	}
 
 	protected abstract T create_instance(JSONObject data);
+	
+	protected void SelectFirstBuilder(JSONObject o) { //IlegalArgumentException y lanza mensaje
+		/*SelectFirstBuilder
+		{
+		"type": "first"
+		"data": {}
+		}*/
+
+	}
+	protected void SelectClosestBuilder (JSONObject o) {
+		
+	}
+	protected void SelectYoungestBuilder (JSONObject o) {
+		
+	}
+	protected void SheepBuilder (JSONObject o) {
+	}
+	protected void WolfBuilder (JSONObject o) {
+	}
+	protected void DefaultRegionBuilder (JSONObject o) {
+		
+	}
+	protected void DynamicSupplyRegionBuilder (JSONObject o) {
+		
+	}
+
 
 }

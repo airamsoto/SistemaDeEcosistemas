@@ -12,10 +12,29 @@ import simulator.model.SelectionStrategy;
 public class BuilderBasedFactory<T> implements Factory <T>{
 	private Map<String, Builder <T>> _builders;
 	private List<JSONObject> _builders_info;
+	
+	public BuilderBasedFactory() {
+		// Create a HashMap for _builders, and a LinkedList _builders_info
+		// …
+		}
+
+	public BuilderBasedFactory(List<Builder<T>> builders) {
+		this();
+		// call add_builder(b) for each builder b in builder
+		// …
+		}
+		public void add_builder(Builder<T> b) {
+		// add an entry “b.getTag() |−> b” to _builders.
+		// ...
+		// add b.get_info() to _buildersInfo
+		// ...
+		}
+	
 
 	@Override
 	public T create_instance(JSONObject info) {
 		if(info == null) throw new IllegalArgumentException ("'info' cannot be null");
+		
 		this._builders.containsKey(info.getString("type"));
 		
 		
@@ -36,7 +55,7 @@ public class BuilderBasedFactory<T> implements Factory <T>{
 	List<Builder<SelectionStrategy>> selection_strategy_builders = new ArrayList<>();
 	selection_strategy_builders.add(new SelectFirstBuilder());
 	selection_strategy_builders.add(new SelectClosestBuilder());
-	Factory<SelectionStrategy> selection_strategy_factory = new BuilderBasedFactory<SelectionStrategy>(selection_strategy_builders);
+	Factory<SelectionStrategy> selection_strategy_factory = new BuilderBasedFactory<SelectionStrategy>();
 
 
 }
