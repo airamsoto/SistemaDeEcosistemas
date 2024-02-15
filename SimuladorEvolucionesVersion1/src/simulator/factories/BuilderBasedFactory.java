@@ -34,8 +34,8 @@ public class BuilderBasedFactory<T> implements Factory <T>{
 	
 	//crear e inicializar las factorias
 	List<Builder<SelectionStrategy>> selection_strategy_builders = new ArrayList<>();
-	//selection_strategy_builders.add(new SelectFirstBuilder());
-	//selection_strategy_builders.add(new SelectClosestBuilder());
+	selection_strategy_builders.add(new SelectFirstBuilder());
+	selection_strategy_builders.add(new SelectClosestBuilder());
 	Factory<SelectionStrategy> selection_strategy_factory = new BuilderBasedFactory<SelectionStrategy>(selection_strategy_builders);
 
 

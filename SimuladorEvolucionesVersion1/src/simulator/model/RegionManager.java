@@ -60,7 +60,7 @@ public class RegionManager implements AnimalMapView {
 	}
 
 	void unregister_animal(Animal a) {
-		this._animal_region.remove(a, this._regions); //igual que arriba saber si el segundo parametro es regions o no
+		this._animal_region.remove(a);
 
 	}
 
@@ -77,7 +77,6 @@ public class RegionManager implements AnimalMapView {
 
 	public double get_food(Animal a, double dt) {
 		return dt;
-
 	}
 
 	void update_all_regions(double dt) {//doble
