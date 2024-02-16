@@ -1,5 +1,6 @@
 package simulator.model;
 
+import simulator.misc.Utils;
 import simulator.misc.Vector2D;
 
 public class Wolf extends Animal {
@@ -91,6 +92,7 @@ public class Wolf extends Animal {
 						this._mate_target._desire = 0.0;
 						if (this._mate_target._baby == null) {
 							if (!this.is_pregnant()) {
+								//lo de la probabilidad se podria hacer con el random
 
 							}
 							/*
@@ -126,7 +128,7 @@ public class Wolf extends Animal {
 		}
 		if (this._state != State.DEAD) {
 			// comprobar si es hunt targets
-			this._energy = this._region_mngr.get_food(this, dt);
+			//this._energy = this._region_mngr.get_food(this, dt);
 			Math.max(0.0, Math.min(this._energy, 100.0));
 			// llama a get food y la anyade a la su energy manteniendolo entre 0 y 100
 		}

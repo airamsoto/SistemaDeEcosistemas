@@ -45,12 +45,11 @@ public abstract class Animal implements Entity, AnimalInfo {
 		this._state = State.NORMAL;
 		this._energy = INITIAL_ENERGY;
 		this._desire = 0.0;
-		//this._dest = null;
+		//this._dest = null; ponerlo a null cuando ya no este usando el auxiliar
 		this._dest = Vector2D.get_random_vector(400, 600);
 		this._mate_target = null;
 		this._baby = null;
 		this._region_mngr = null;
-
 	}
 
 	protected Animal(Animal p1, Animal p2) {
