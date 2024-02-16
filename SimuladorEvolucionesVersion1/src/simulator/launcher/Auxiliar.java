@@ -23,7 +23,7 @@ public class Auxiliar {
 		SelectionStrategy mate_strategy = new SelectClosest();
 		
 
-		for (int i = 0; i < 30; i++) {
+		for (int i = 0; i < 3; i++) {
 			double x = Utils._rand.nextDouble(800);
 			double y = Utils._rand.nextDouble(600);
 			Vector2D v = new Vector2D(x, y);
@@ -31,7 +31,7 @@ public class Auxiliar {
 			
 		}
 		
-		for (int i = 0; i < 200; i++) {
+		for (int i = 0; i < 2; i++) {
 			double x = Utils._rand.nextDouble(800);
 			double y = Utils._rand.nextDouble(600);
 			Vector2D v = new Vector2D(x, y);

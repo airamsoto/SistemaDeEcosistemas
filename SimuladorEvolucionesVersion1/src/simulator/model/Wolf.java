@@ -24,100 +24,17 @@ public class Wolf extends Animal {
 
 		}
 
-		if (this._state == State.NORMAL) {
-			if (this._pos.distanceTo(_dest) < 0.8) {
-				// elegir otro destino de manera aleatoria dentro del mapa
-			}
-			this.move(this._speed * dt * Math.exp((this._energy - 100.0) * 0.007));
-			this._age += dt;
-			this._energy -= 18.0 * dt;
-			this._desire += 30.0 * dt;
-			if (this._energy < 50.0) {
-				this._state = State.HUNGER;
-			} else if (this._desire > 65.0) {
-				this._state = State.MATE;
-			}
+		else if (this._state == State.NORMAL) {
+			this.normalState(dt);
 
 		} else if (this._state == State.HUNGER) {
-			if (this._hunt_target == null || (this._hunt_target._state == State.DEAD
-					|| (this._pos.minus(this._hunt_target._pos).magnitude() < this._sight_range))) {
-				// mirar si lo del campo visual es asi
-			}
-			if (this._hunt_target == null) {
-				this.move(this._speed * dt * Math.exp((this._energy - 100.0) * 0.007));
-			} else {
-				this._dest = this._hunt_target.get_position();
-				this.move(3.0 * _speed * dt * Math.exp((_energy - 100.0) * 0.007));
-				this._age += dt;
-				this._energy -= 18.0 * 1.2 * dt;
-				this._desire += 30.0 * dt;
-				if (this._dest.minus(this._hunt_target._pos).magnitude() < 8.0) {
-					this._hunt_target._state = State.DEAD;
-					this._hunt_target = null;
-					this._energy += 50.0;
-					this._energy = Math.max(0.0, Math.min(this._energy, 100.0));
-				}
-
-			}
-			if (this._energy > 50.0) {
-				if (this._desire < 65.0) {
-					this._state = State.NORMAL;
-				} else {
-					this._state = State.MATE;
-				}
-			}
+			this.hungerState(dt);
 
 		} else if (this._state == State.MATE) {
-			if (this._mate_target != null && (this._mate_target._state == State.DEAD
-					|| (this._pos.minus(this._hunt_target._pos).magnitude() < this._sight_range))) {
-				this._mate_target = null;
-			}
-			if (this._mate_target == null) {
-				// buscar un animal para emparejartse
-				this._mate_target = this._mate_strategy.select(null, null);
-				if (this._mate_target == null) {
-					// si no lo encuentra se mueve asi
-					this.move(3.0 * _speed * dt * Math.exp((_energy - 100.0) * 0.007));
-				} else {
-					// si mate target ya no es null
-					this._dest = this._mate_target.get_position();
-					this.move(3.0 * _speed * dt * Math.exp((_energy - 100.0) * 0.007));
-					this._age += dt;
-					this._energy -= 18.0 * 1.2 * dt;
-					this._energy = Math.max(0.0, Math.min(this._energy, 100.0)); // no se si es asi
-					this._desire += 30.0 * dt;
-					this._desire = Math.max(0.0, Math.min(this._desire, 100.0));
-					if (this._dest.minus(this._mate_target._pos).magnitude() < 8.0) {
-						this._desire = 0.0;
-						this._mate_target._desire = 0.0;
-						if (this._mate_target._baby == null) {
-							if (!this.is_pregnant()) {
-								//lo de la probabilidad se podria hacer con el random
+			this.mateState(dt);
+		}
 
-							}
-							/*
-							 * Si el animal no lleva un bebe ya, con probabilidad de 0.9 va a llevar a un
-							 * nuevo bebe usando new Wolf(this, _mate_target).
-							 */
-							this.deliver_baby();
-							this._energy -= 10.0;
-							this._energy = Math.max(0.0, Math.min(this._energy, 100.0));
-							this._mate_target = null;
-						}
-					}
-
-				}
-
-			}
-			if (this._energy < 50.0) {
-				this._state = State.HUNGER;
-			} else if (this._desire < 65.0) {
-				this._state = State.NORMAL;
-			}
-
-		} // aqui acaba el mate
-
-//esto es la parte de encima de los estados del update
+		//esto es la parte de encima de los estados del update
 		if (this._pos == null) { // cambiar lo de null por una posicion fuera del tablero
 			this._state = State.NORMAL;
 			// falta ajustar la posicion
@@ -128,9 +45,104 @@ public class Wolf extends Animal {
 		}
 		if (this._state != State.DEAD) {
 			// comprobar si es hunt targets
-			//this._energy = this._region_mngr.get_food(this, dt);
+			// this._energy = this._region_mngr.get_food(this, dt);
 			Math.max(0.0, Math.min(this._energy, 100.0));
 			// llama a get food y la anyade a la su energy manteniendolo entre 0 y 100
+		}
+
+	}
+
+	private void normalState(double dt) {
+		if (this._pos.distanceTo(_dest) < 0.8) {
+			//destino aleatorio dentro del mapa
+		}
+		this.move(this._speed * dt * Math.exp((this._energy - 100.0) * 0.007));
+		this._age += dt;
+		this._energy -= 18.0 * dt;
+		this._desire += 30.0 * dt;
+		if (this._energy < 50.0) {
+			this._state = State.HUNGER;
+		} else if (this._desire > 65.0) {
+			this._state = State.MATE;
+		}
+	}
+
+	private void hungerState(double dt) {
+		if (this._hunt_target == null || (this._hunt_target._state == State.DEAD
+				|| (this._pos.minus(this._hunt_target._pos).magnitude() < this._sight_range))) {
+		}
+		if (this._hunt_target == null) {
+			this.move(this._speed * dt * Math.exp((this._energy - 100.0) * 0.007));
+		} else {
+			this._dest = this._hunt_target.get_position();
+			this.move(3.0 * _speed * dt * Math.exp((_energy - 100.0) * 0.007));
+			this._age += dt;
+			this._energy -= 18.0 * 1.2 * dt;
+			this._desire += 30.0 * dt;
+			if (this._dest.minus(this._hunt_target._pos).magnitude() < 8.0) {
+				this._hunt_target._state = State.DEAD;
+				this._hunt_target = null;
+				this._energy += 50.0;
+				this._energy = Math.max(0.0, Math.min(this._energy, 100.0));
+			}
+
+		}
+		if (this._energy > 50.0) {
+			if (this._desire < 65.0) {
+				this._state = State.NORMAL;
+			} else {
+				this._state = State.MATE;
+			}
+		}
+	}
+
+	private void mateState(double dt) {
+		if (this._mate_target != null && (this._mate_target._state == State.DEAD
+				|| (this._pos.minus(this._hunt_target._pos).magnitude() < this._sight_range))) {
+			this._mate_target = null;
+		}
+		if (this._mate_target == null) {
+			// buscar un animal para emparejartse
+			this._mate_target = this._mate_strategy.select(null, null);
+			if (this._mate_target == null) {
+				// si no lo encuentra se mueve asi
+				this.move(3.0 * _speed * dt * Math.exp((_energy - 100.0) * 0.007));
+			} else {
+				// si mate target ya no es null
+				this._dest = this._mate_target.get_position();
+				this.move(3.0 * _speed * dt * Math.exp((_energy - 100.0) * 0.007));
+				this._age += dt;
+				this._energy -= 18.0 * 1.2 * dt;
+				this._energy = Math.max(0.0, Math.min(this._energy, 100.0)); // no se si es asi
+				this._desire += 30.0 * dt;
+				this._desire = Math.max(0.0, Math.min(this._desire, 100.0));
+				if (this._dest.minus(this._mate_target._pos).magnitude() < 8.0) {
+					this._desire = 0.0;
+					this._mate_target._desire = 0.0;
+					if (this._mate_target._baby == null) {
+						if (!this.is_pregnant()) {
+							// lo de la probabilidad se podria hacer con el random
+
+						}
+						/*
+						 * Si el animal no lleva un bebe ya, con probabilidad de 0.9 va a llevar a un
+						 * nuevo bebe usando new Wolf(this, _mate_target).
+						 */
+						this.deliver_baby();
+						this._energy -= 10.0;
+						this._energy = Math.max(0.0, Math.min(this._energy, 100.0));
+						this._mate_target = null;
+					}
+				}
+			}
+
+		}
+		if (this._energy < 50.0) {
+
+			this._state = State.HUNGER;
+		} else if (this._desire < 65.0) {
+
+			this._state = State.NORMAL;
 		}
 
 	}
