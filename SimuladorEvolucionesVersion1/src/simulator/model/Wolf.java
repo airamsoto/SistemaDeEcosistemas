@@ -122,7 +122,7 @@ public class Wolf extends Animal {
 					if (this._mate_target._baby == null) {
 						if (!this.is_pregnant()) {
 							// lo de la probabilidad se podria hacer con el random
-
+							
 						}
 						/*
 						 * Si el animal no lleva un bebe ya, con probabilidad de 0.9 va a llevar a un
