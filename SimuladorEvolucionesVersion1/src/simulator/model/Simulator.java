@@ -9,29 +9,37 @@ import simulator.factories.Factory;
 public class Simulator implements JSONable {
 	private Factory<Animal> _animalFactory;
 	private Factory<Region> _regionFactory;
-	private RegionManager _regionManager;
+//	private RegionManager _regionManager;
 	private double _time;
 
 	public Simulator(int cols, int rows, int width, int height, Factory<Animal> animals_factory,
 			Factory<Region> regions_factory) {
 		this._time = 0.0;
+		this._regionFactory = regions_factory;
+		this._animalFactory = animals_factory;
+		//terminar
 
 	}
 
-	private void set_region(int row, int col, JSONObject r) {
+	private void set_region(int row, int col, Region r) {
+	
+		
 		
 	}
 
-	void set_region3(int row, int col, JSONObject r_json) {
-
+	void set_region(int row, int col, JSONObject r_json) {
+		//comprobar
+		this.set_region(row, col,this._regionFactory.create_instance(r_json));
 	}
 
 	private void add_animal(Animal a) {
-		
+		//this._animalFactory.
 
 	}
 
 	public void add_animal(JSONObject a_json) {
+		//comprobar
+		this.add_animal(this._animalFactory.create_instance(a_json));
 
 	}
 
@@ -62,7 +70,7 @@ public class Simulator implements JSONable {
 		 * 6.
 		 */
 		//5.
-		this._regionManager.update_all_regions(dt);
+		
 		//6.
 		
 	}
@@ -70,7 +78,7 @@ public class Simulator implements JSONable {
 	public JSONObject as_JSON() {
 		JSONObject JSONreturn = new JSONObject();
 		JSONreturn.put("time: ", this._time);
-		JSONreturn.put("state: ", this._regionManager.as_JSON());
+		JSONreturn.put("state: ", this._regionFactory.get_info()); //comprobar
 		return JSONreturn;
 	}
 
