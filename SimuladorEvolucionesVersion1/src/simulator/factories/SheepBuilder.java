@@ -17,5 +17,15 @@ public class SheepBuilder extends Builder<Object> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override 
+	public void fill_in_data(JSONObject o) {
+		if(o.get("mate_strategy") == null) { //lo de get type se puso solo no se si habraia que pasarle "mate_strategy"
+			//SelectFirst
+		}
+		if(o.get("pos") == null) {
+		
+		} 
+		
+	}
 
 }
