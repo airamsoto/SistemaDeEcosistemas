@@ -59,7 +59,9 @@ public class RegionManager implements AnimalMapView {
 	}
 
 	void unregister_animal(Animal a) {
-		
+		Region region = this._animal_region.get(a);
+		region.remove_animal(a);
+		this._animal_region.remove(a);
 
 	}
 
@@ -104,7 +106,12 @@ public class RegionManager implements AnimalMapView {
 	}
 
 	public JSONObject as_JSON() {
-		return null;
+		JSONObject json = new JSONObject();
+		JSONObject jlist = new JSONObject();
+		//falta hacer en jlist lo correspondiente a cada region
+		
+		json.put("regiones: ", jlist);
+		return json;
 	}
 
 	@Override

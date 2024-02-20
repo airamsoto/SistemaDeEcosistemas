@@ -11,7 +11,7 @@ public abstract class Region implements Entity, FoodSupplier, RegionInfo {
 	protected List<Animal> animalList;
 
 	public Region() {
-		// hay que inicializar la lista de animales
+		//inicializar la region
 	}
 
 	final void add_animal(Animal a) {

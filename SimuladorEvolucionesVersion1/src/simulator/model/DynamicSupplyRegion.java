@@ -14,9 +14,18 @@ public class DynamicSupplyRegion extends Region {
 		 * return Math.min(_food(a, dt),60.0*Math.exp(-Math.max(0,n-5.0)*2.0)*dt);
 
 		 */
+		int _food;
+		int n = 0;
+		for (int i = 0; i < this.animalList.size(); i++) {
+			if(this.getAnimals().get(i)._diet == Diet.HERBIVORE) {
+				
+				n++;
+			}
+			//no se si es this.getanimals o animal list
+		}
+		//return Math.min(this.d(a, dt),60.0*Math.exp(-Math.max(0,n-5.0)*2.0)*dt);
+		return 0.0;
 		
-		
-		return 1.0;
 	}
 
 	@Override

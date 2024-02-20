@@ -101,11 +101,10 @@ public abstract class Animal implements Entity, AnimalInfo {
 	public JSONObject as_JSON() {
 		// preguntar no llego a tenerlo del todo claro o mirar apuntes
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("pos", 28.90696391797469); // ,22.009772194487613 falta por poner esto pero detecta dos
-													// argumentos double
-		jsonObject.put("gcode", "Sheep");
-		jsonObject.put("diet", "HERBIVORE");
-		jsonObject.put("state", "NORMAL");
+		jsonObject.put("pos", this._pos); 									
+		jsonObject.put("gcode", this._genetic_code);
+		jsonObject.put("diet", this._diet);
+		jsonObject.put("state", this._state);
 		return jsonObject;
 	}
 
