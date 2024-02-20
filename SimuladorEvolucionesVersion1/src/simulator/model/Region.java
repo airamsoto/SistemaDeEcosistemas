@@ -1,6 +1,7 @@
 package simulator.model;
 
 import java.util.Collections;
+import java.util.*;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -11,7 +12,7 @@ public abstract class Region implements Entity, FoodSupplier, RegionInfo {
 	protected List<Animal> animalList;
 
 	public Region() {
-		//inicializar la region
+		this.animalList = new ArrayList<Animal>();
 	}
 
 	final void add_animal(Animal a) {

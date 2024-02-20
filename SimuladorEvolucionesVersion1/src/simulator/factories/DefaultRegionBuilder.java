@@ -1,8 +1,10 @@
 package simulator.factories;
 
+import simulator.model.*;
+
 import org.json.JSONObject;
 
-public class DefaultRegionBuilder extends Builder<Object>{
+public class DefaultRegionBuilder extends Builder<Region>{
 
 	public DefaultRegionBuilder(String type_tag, String desc) {
 		super(type_tag, desc);
@@ -10,9 +12,7 @@ public class DefaultRegionBuilder extends Builder<Object>{
 	}
 
 	@Override
-	protected Object create_instance(JSONObject data) {
-		// TODO Auto-generated method stub
-		return null;
+	protected Region create_instance(JSONObject data) {
+		return new DefaultRegion();
 	}
-
 }
