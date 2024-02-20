@@ -15,11 +15,16 @@ public class BuilderBasedFactory<T> implements Factory <T>{
 	
 	public BuilderBasedFactory() {
 		// Create a HashMap for _builders, and a LinkedList _builders_info
+		this._builders = new HashMap();
+		this._builders_info = new LinkedList();
 		// …
 		}
 
 	public BuilderBasedFactory(List<Builder<T>> builders) {
 		this();
+		for (Builder <T> builder : builders) {
+			this.add_builder(builder);
+		}
 		// call add_builder(b) for each builder b in builder
 		// …
 		}
