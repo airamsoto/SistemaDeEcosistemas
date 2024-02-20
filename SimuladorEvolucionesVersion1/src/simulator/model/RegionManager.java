@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 import java.util.*;
 
 import org.json.JSONObject;
-
+import org.json.JSONArray;
 public class RegionManager implements AnimalMapView {
 	private int _cols;
 	private int _rows;
@@ -72,7 +72,22 @@ public class RegionManager implements AnimalMapView {
 		 * si no lo esta -> eliminarlo de la region en la que se encuentra y añadirlo a la que pertence
 		 * 
 		 */
-		
+		 int i = 0;
+		 while (i < this._cols && a._pos.getX() < (i+1)*this.widthcol) {
+	
+			 i++;
+		 }
+		 int j = 0;
+		 while (j < this._rows && a._pos.getY() < (j+1)*this.heightrow) {
+	
+			 j++;
+		 }
+		 if(this._regions[i][j] != this._animal_region.get(a)) {
+			 this._animal_region.get(a).remove_animal(a);
+			 this._regions[i][j].add_animal(a);
+			 this._animal_region.put(a, this._regions[i][j]);
+			 
+		 } 
 
 	}
 
@@ -107,10 +122,18 @@ public class RegionManager implements AnimalMapView {
 
 	public JSONObject as_JSON() {
 		JSONObject json = new JSONObject();
-		JSONObject jlist = new JSONObject();
-		//falta hacer en jlist lo correspondiente a cada region
+		JSONObject jose = new JSONObject();
+		JSONArray jlist = new JSONArray();
+		for (int i = 0; i < this._rows; i++) {
+			for (int j = 0; j < this._cols; j++) {
+				json.put("row", i);
+				json.put("col", j);
+				json.put("data", this._regions[i][j].as_JSON());
+				jlist.put(json);
+			}
+		}
 		
-		json.put("regiones: ", jlist);
+		jose.put("regiones: ", jlist);
 		return json;
 	}
 

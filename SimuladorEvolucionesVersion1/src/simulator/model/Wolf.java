@@ -103,7 +103,7 @@ public class Wolf extends Animal {
 		}
 		if (this._mate_target == null) {
 			// buscar un animal para emparejartse
-			this._mate_target = this._mate_strategy.select(null, null);
+			this._mate_target = this._mate_strategy.select(this, this._region_mngr.get_animals_in_range(this, e -> e._diet == Diet.HERBIVORE));
 			if (this._mate_target == null) {
 				// si no lo encuentra se mueve asi
 				this.move(3.0 * _speed * dt * Math.exp((_energy - 100.0) * 0.007));
@@ -121,14 +121,12 @@ public class Wolf extends Animal {
 					this._mate_target._desire = 0.0;
 					if (this._mate_target._baby == null) {
 						if (!this.is_pregnant()) {
-							// lo de la probabilidad se podria hacer con el random
-							
+							if(Utils._rand.nextDouble() < 0.9) {
+								this._baby = new Wolf(this, this._mate_target);
+							}
 						}
-						/*
-						 * Si el animal no lleva un bebe ya, con probabilidad de 0.9 va a llevar a un
-						 * nuevo bebe usando new Wolf(this, _mate_target).
-						 */
-						this.deliver_baby();
+						
+						this.deliver_baby(); //que es eso
 						this._energy -= 10.0;
 						this._energy = Math.max(0.0, Math.min(this._energy, 100.0));
 						this._mate_target = null;
