@@ -23,13 +23,15 @@ public abstract class Builder<T> {
 		info.put("type", _type_tag);
 		info.put("desc", _desc);
 		JSONObject data = new JSONObject();
-		fill_in_data(data);
+		fill_in_data(data);           // los Json simpre se pasan por referencia
 		info.put("data", data);
+		//Devuelve la informacion de lo creado
 		return info;
 	}
 
 	protected void fill_in_data(JSONObject o) {
-		
+		//Sobreescriben hijos
+		//lo llamo desde el getInfo con objeto 
 	}
 
 	@Override
