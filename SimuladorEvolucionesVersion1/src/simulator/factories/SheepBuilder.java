@@ -20,21 +20,21 @@ public class SheepBuilder extends Builder<Sheep> {
 
 	@Override
 	protected Sheep create_instance(JSONObject data) {
-		SelectionStrategy jose
+	/*	SelectionStrategy jose
 		if(data.has("mate_strategy")) { //lo de get type se puso solo no se si habraia que pasarle "mate_strategy"
 			 = data.getJSONObject("mate_strategy");
 		} else {
 			
-		}
+		}*/
 		if(data.has("pos")) {
-			JSONObject raul = data.getJSONObject("pos");
-			JSONArray Miguel = raul.getJSONArray ("x_range");
-			JSONArray Mishel = raul.getJSONArray ("y_range");
-			double pedro1 = Miguel.getDouble(0);
-			double pedro2 = Miguel.getDouble(1);
-			double sara1 = Mishel.getDouble(0);
-			double sara2 = Mishel.getDouble(1);
-			Vector2D po= new Vector2D(Utils._rand.nextDouble(pedro1, pedro2), Utils._rand.nextDouble(sara1, sara2));
+			JSONObject jPos = data.getJSONObject("pos");
+			JSONArray jX = jPos.getJSONArray ("x_range");
+			JSONArray jY = jPos.getJSONArray ("y_range");
+			double pedro1 = jX.getDouble(0);
+			double pedro2 = jX.getDouble(1);
+			double sara1 = jY.getDouble(0);
+			double sara2 = jY.getDouble(1);
+			Vector2D pos = new Vector2D(Utils._rand.nextDouble(pedro1, pedro2), Utils._rand.nextDouble(sara1, sara2));
 		} 
 		return null;
 	}
