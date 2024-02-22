@@ -1,5 +1,6 @@
 package simulator.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -9,22 +10,22 @@ import simulator.factories.Factory;
 public class Simulator implements JSONable {
 	private Factory<Animal> _animalFactory;
 	private Factory<Region> _regionFactory;
-//	private RegionManager _regionManager;
 	private double _time;
-
+	private RegionManager _regionManager;
+	private List<Animal> _animalList;
+	
 	public Simulator(int cols, int rows, int width, int height, Factory<Animal> animals_factory,
 			Factory<Region> regions_factory) {
 		this._time = 0.0;
 		this._regionFactory = regions_factory;
 		this._animalFactory = animals_factory;
-		//terminar
-
+		this._animalList = new ArrayList<Animal>();
+		this._regionManager = new RegionManager(cols, rows, width, height);
+		//iniciar lista vacia
 	}
 
 	private void set_region(int row, int col, Region r) {
-	
-		
-		
+		this._regionManager.set_region(row, col, r);
 	}
 
 	void set_region(int row, int col, JSONObject r_json) {
@@ -33,7 +34,8 @@ public class Simulator implements JSONable {
 	}
 
 	private void add_animal(Animal a) {
-		//this._animalFactory.
+		this._animalList.add(a);
+		this._regionManager.register_animal(a);
 
 	}
 
@@ -49,7 +51,7 @@ public class Simulator implements JSONable {
 
 	public List<? extends AnimalInfo> get_animals() {
 		return null;
-
+		//Falta completar 
 	}
 
 	public double get_time() {
@@ -70,9 +72,7 @@ public class Simulator implements JSONable {
 		 * 6.
 		 */
 		//5.
-		
 		//6.
-		
 	}
 
 	public JSONObject as_JSON() {
@@ -82,6 +82,15 @@ public class Simulator implements JSONable {
 		return JSONreturn;
 	}
 
+	public List<Animal> get_animalList() {
+		return _animalList;
+	}
+
+	public void set_animalList(List<Animal> _animalList) {
+		this._animalList = _animalList;
+	}
+	
+	
 	/*
 	 * 
 	 * Como puedes observar, hay dos versiones de los métodos add_animal y

@@ -7,6 +7,7 @@ import java.util.*;
 
 import org.json.JSONObject;
 import org.json.JSONArray;
+
 public class RegionManager implements AnimalMapView {
 	private int _cols;
 	private int _rows;
@@ -16,45 +17,42 @@ public class RegionManager implements AnimalMapView {
 	private Map<Animal, Region> _animal_region;
 	private int widthcol;
 	private int heightrow;
-	
 
-	
 	public RegionManager(int cols, int rows, int width, int height) {
 		this._cols = cols;
 		this._rows = rows;
 		this._width = width;
 		this._height = height;
-		this._regions = new Region [rows][cols];
-		this._animal_region = new HashMap <Animal, Region>();
+		this._regions = new Region[rows][cols];
+		this._animal_region = new HashMap<Animal, Region>();
 		this.widthcol = (this._width / this._cols);
-		this.heightrow =(this._height / this._rows);
+		this.heightrow = (this._height / this._rows);
 	}
-	
+
 	void set_region(int row, int col, Region r) {
-		for(Animal a:  this._regions[row][col].animalList) {
+		for (Animal a : this._regions[row][col].animalList) {
 			r.add_animal(a);
-			this._animal_region.put(a,r);
+			this._animal_region.put(a, r);
 		}
-		this._regions[row][col] = r; 
-		
+		this._regions[row][col] = r;
+
 	}
 
 	void register_animal(Animal a) {
-		 
-		 int i = 0;
-		 while (i < this._cols && a._pos.getX() < (i+1)*this.widthcol) {
-	
-			 i++;
-		 }
-		 int j = 0;
-		 while (j < this._rows && a._pos.getY() < (j+1)*this.heightrow) {
-	
-			 j++;
-		 }
-		 this._animal_region.put(a, this._regions[i][j]);
-		 this._regions[i][j].add_animal(a);
-		 a.init(this);
-		
+
+		int i = 0;
+		while (i < this._cols && a._pos.getX() < (i + 1) * this.widthcol) {
+
+			i++;
+		}
+		int j = 0;
+		while (j < this._rows && a._pos.getY() < (j + 1) * this.heightrow) {
+
+			j++;
+		}
+		this._animal_region.put(a, this._regions[i][j]);
+		this._regions[i][j].add_animal(a);
+		a.init(this);
 
 	}
 
@@ -66,28 +64,28 @@ public class RegionManager implements AnimalMapView {
 	}
 
 	void update_animal_region(Animal a) {
-		
+
 		/*
-		 * comprobar si el animal esta en la region en la que pertence.
-		 * si no lo esta -> eliminarlo de la region en la que se encuentra y añadirlo a la que pertence
+		 * comprobar si el animal esta en la region en la que pertence. si no lo esta ->
+		 * eliminarlo de la region en la que se encuentra y añadirlo a la que pertence
 		 * 
 		 */
-		 int i = 0;
-		 while (i < this._cols && a._pos.getX() < (i+1)*this.widthcol) {
-	
-			 i++;
-		 }
-		 int j = 0;
-		 while (j < this._rows && a._pos.getY() < (j+1)*this.heightrow) {
-	
-			 j++;
-		 }
-		 if(this._regions[i][j] != this._animal_region.get(a)) {
-			 this._animal_region.get(a).remove_animal(a);
-			 this._regions[i][j].add_animal(a);
-			 this._animal_region.put(a, this._regions[i][j]);
-			 
-		 } 
+		int i = 0;
+		while (i < this._cols && a._pos.getX() < (i + 1) * this.widthcol) {
+
+			i++;
+		}
+		int j = 0;
+		while (j < this._rows && a._pos.getY() < (j + 1) * this.heightrow) {
+
+			j++;
+		}
+		if (this._regions[i][j] != this._animal_region.get(a)) {
+			this._animal_region.get(a).remove_animal(a);
+			this._regions[i][j].add_animal(a);
+			this._animal_region.put(a, this._regions[i][j]);
+
+		}
 
 	}
 
@@ -101,21 +99,26 @@ public class RegionManager implements AnimalMapView {
 				this._regions[i][j].update(dt);
 			}
 		}
-		
-		
+
 	}
 
- public List<Animal> get_animals_in_range(Animal a, Predicate<Animal> filter) {
-		//hay que calcular que regiones toco  con mi campo visual a parte de la propia region dl animal
-	 	//calculando los extremos de los ejes de la cirunferencia que se forma (haceindo un bucle)
-	 	// cuando tengo las regiones observo las listas de animales de cada regiona porque esos
-	 	// animales pueden interesar (los que esten cerca y que cumplen el filter) estan suficientemenre 
-	 	//cerca si la distancia del animal a mi es menor que el radio
-	 	//p.test (a`) lo que cumplan el test sera 	QUE EL CODIGO GENETICO SEA IGUAL SI ESTOY BUSCANDO EMPAREAJR,E
-	 	// lo de las landa funciones se usaara cunado llamaemos a esta funcion
-	 	// el animal soy yo y el predicado sera la landa funcion, va a recibir un atributo a sobre el que comprobar cosas, que sera de tipo animal
-	 	// y  -> {lo de genetic code por ejemplo} a.diet == herviboro
-	 	
+	public List<Animal> get_animals_in_range(Animal a, Predicate<Animal> filter) {
+		// hay que calcular que regiones toco con mi campo visual a parte de la propia
+		// region dl animal
+		// calculando los extremos de los ejes de la cirunferencia que se forma
+		// (haceindo un bucle)
+		// cuando tengo las regiones observo las listas de animales de cada regiona
+		// porque esos
+		// animales pueden interesar (los que esten cerca y que cumplen el filter) estan
+		// suficientemenre
+		// cerca si la distancia del animal a mi es menor que el radio
+		// p.test (a`) lo que cumplan el test sera QUE EL CODIGO GENETICO SEA IGUAL SI
+		// ESTOY BUSCANDO EMPAREAJR,E
+		// lo de las landa funciones se usaara cunado llamaemos a esta funcion
+		// el animal soy yo y el predicado sera la landa funcion, va a recibir un
+		// atributo a sobre el que comprobar cosas, que sera de tipo animal
+		// y -> {lo de genetic code por ejemplo} a.diet == herviboro
+
 		return null;
 
 	}
@@ -132,7 +135,7 @@ public class RegionManager implements AnimalMapView {
 				jlist.put(json);
 			}
 		}
-		
+
 		jose.put("regiones: ", jlist);
 		return json;
 	}
@@ -172,11 +175,5 @@ public class RegionManager implements AnimalMapView {
 		// TODO Auto-generated method stub
 		return this.heightrow;
 	}
-
-
-	
-
-
-
 
 }

@@ -15,6 +15,9 @@ public class Controller {
 		this._sim = sim;
 	}
 	public void load_data(JSONObject data) {
+		//Hacer lectura de los arrayList de region y animal 
+		_sim.set_region();
+		
 		
 	}
 	public void run(double t, double dt, boolean sv, OutputStream out) {
