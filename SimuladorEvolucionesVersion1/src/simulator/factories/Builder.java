@@ -23,7 +23,7 @@ public abstract class Builder<T> {
 		info.put("type", _type_tag);
 		info.put("desc", _desc);
 		JSONObject data = new JSONObject();
-		fill_in_data(data);           // los Json simpre se pasan por referencia
+		fill_in_data(data);            // los Json simpre se pasan por referencia
 		info.put("data", data);
 		//Devuelve la informacion de lo creado
 		return info;
@@ -39,7 +39,7 @@ public abstract class Builder<T> {
 		return _desc;
 	}
 
-	protected abstract T create_instance(JSONObject data);
+	protected abstract T create_instance(JSONObject data) throws Exception;
 	
 	protected void SelectFirstBuilder(JSONObject o) { //IlegalArgumentException y lanza mensaje
 		/*SelectFirstBuilder

@@ -40,13 +40,19 @@ public class BuilderBasedFactory<T> implements Factory <T>{
 	public T create_instance(JSONObject info) {
 		if(info == null) throw new IllegalArgumentException ("'info' cannot be null");
 		
-		this._builders.containsKey(info.getString("type"));
+		if(this._builders.containsKey(info.getString("type"))) {
+			if(this.create_instance(info.has("data") ? info.getJSONObject("data") : new JSONObject()) != null) {
+				return null; //habria que retornar la instancia creada
+			}
+			
+		}
 		
 		
-		///Data optional
-		//info.has("data") ? info.getJSONObject("data") : new JSONObject();
-		
-		
+		List<Builder<SelectionStrategy>> selection_strategy_builders = new ArrayList<>();
+		selection_strategy_builders.add(new SelectFirstBuilder());
+		selection_strategy_builders.add(new SelectClosestBuilder());
+		Factory<SelectionStrategy> selection_strategy_factory = new BuilderBasedFactory<SelectionStrategy>();
+
 		throw new IllegalArgumentException ("Unrecognized 'info': " +  info.toString());
 	
 	}
@@ -57,10 +63,6 @@ public class BuilderBasedFactory<T> implements Factory <T>{
 	}
 	
 	//crear e inicializar las factorias
-	List<Builder<SelectionStrategy>> selection_strategy_builders = new ArrayList<>();
-	selection_strategy_builders.add(new SelectFirstBuilder());
-	selection_strategy_builders.add(new SelectClosestBuilder());
-	Factory<SelectionStrategy> selection_strategy_factory = new BuilderBasedFactory<SelectionStrategy>();
 
 
 }

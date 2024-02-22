@@ -5,17 +5,19 @@ import org.json.JSONObject;
 
 import simulator.misc.Utils;
 import simulator.misc.Vector2D;
+import simulator.model.SelectionStrategy;
 import simulator.model.Wolf;
 
 public class WolfBuilder extends Builder<Wolf> {
 
-	public WolfBuilder(String type_tag, String desc) {
+	public WolfBuilder(Factory <SelectionStrategy> selectionStrategy) {
 		super("Wolf", "Genera Lobo");
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	protected Wolf create_instance(JSONObject data) {
+	protected Wolf create_instance(JSONObject data) throws Exception {
+		Vector2D pos = null;
 		if(data.has("pos")) {
 			JSONObject jPos = data.getJSONObject("pos");
 			JSONArray jX = jPos.getJSONArray ("x_range");
@@ -24,9 +26,17 @@ public class WolfBuilder extends Builder<Wolf> {
 			double pedro2 = jX.getDouble(1);
 			double sara1 = jY.getDouble(0);
 			double sara2 = jY.getDouble(1);
-			Vector2D pos = new Vector2D(Utils._rand.nextDouble(pedro1, pedro2), Utils._rand.nextDouble(sara1, sara2));
-		} 
-		return null;
+			pos = new Vector2D(Utils._rand.nextDouble(pedro1, pedro2), Utils._rand.nextDouble(sara1, sara2));
+		}
+		
+		return new Wolf (null, null, pos);
+	}
+	
+	@Override 
+	protected void fill_in_data(JSONObject o) {
+		//Sobreescriben hijos
+		//lo llamo desde el getInfo con objeto 
+		
 	}
 
 }
