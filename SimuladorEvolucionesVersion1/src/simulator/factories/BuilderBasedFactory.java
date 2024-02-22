@@ -32,8 +32,8 @@ public class BuilderBasedFactory<T> implements Factory <T>{
 		// add an entry “b.getTag() |−> b” to _builders.
 		// ...
 		// add b.get_info() to _buildersInfo
-		// ...
-		}
+		// ..
+		this._builders_info.add(b.get_info());		}
 	
 
 	@Override
@@ -43,6 +43,8 @@ public class BuilderBasedFactory<T> implements Factory <T>{
 		if(this._builders.containsKey(info.getString("type"))) {
 			if(this.create_instance(info.has("data") ? info.getJSONObject("data") : new JSONObject()) != null) {
 				return null; //habria que retornar la instancia creada
+			} else {
+				//creo que aqui habria que lanzar la exception tb
 			}
 			
 		}
@@ -62,7 +64,5 @@ public class BuilderBasedFactory<T> implements Factory <T>{
 		return Collections.unmodifiableList(this._builders_info);
 	}
 	
-	//crear e inicializar las factorias
-
 
 }
