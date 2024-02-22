@@ -80,16 +80,7 @@ public class Simulator implements JSONable {
 		JSONreturn.put("time: ", this._time);
 		JSONreturn.put("state: ", this._regionFactory.get_info()); //comprobar
 		return JSONreturn;
-	}
-
-	public List<Animal> get_animalList() {
-		return _animalList;
-	}
-
-	public void set_animalList(List<Animal> _animalList) {
-		this._animalList = _animalList;
-	}
-	
+	}	
 	
 	/*
 	 * 
