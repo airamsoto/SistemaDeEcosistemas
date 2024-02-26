@@ -158,10 +158,15 @@ public class Main {
 
 	private static void start_batch_mode() throws Exception {
 		InputStream is = new FileInputStream(new File(_in_file));
-		JSONObject jose = new JSONObject ();
+		JSONObject jose = new JSONObject (is);
+		int width = jose.getInt("width");
+		int height = jose.getInt("height");
+		int rows = jose.getInt("rows");
+		int cols = jose.getInt("cols");
+		//falta ver lo de las factorias del json
 		//falta crear archivo de salida
-		Simulator simer = new Simulator(1,1,1,1, null, null);
-		Controller conter = new Controller (simer);
+		Simulator simer = new Simulator(width,height, rows, cols, null, null);
+		Controller cont = new Controller(simer);
 		
 		
 		
