@@ -17,6 +17,7 @@ public class SheepBuilder extends Builder<Animal> {
 	}
 
 	@Override
+	//ver
 	protected Sheep create_instance(JSONObject data) throws Exception {
 		SelectionStrategy mate= new SelectFirst();
 		SelectionStrategy danger = new SelectFirst();
