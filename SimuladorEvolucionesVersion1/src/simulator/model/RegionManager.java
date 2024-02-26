@@ -64,12 +64,6 @@ public class RegionManager implements AnimalMapView {
 	}
 
 	void update_animal_region(Animal a) {
-
-		/*
-		 * comprobar si el animal esta en la region en la que pertence. si no lo esta ->
-		 * eliminarlo de la region en la que se encuentra y añadirlo a la que pertence
-		 * 
-		 */
 		int i = 0;
 		while (i < this._cols && a._pos.getX() < (i + 1) * this.widthcol) {
 
@@ -90,7 +84,7 @@ public class RegionManager implements AnimalMapView {
 	}
 
 	public double get_food(Animal a, double dt) {
-		return dt;
+		return dt; //falta por hacer
 	}
 
 	void update_all_regions(double dt) {
@@ -142,37 +136,31 @@ public class RegionManager implements AnimalMapView {
 
 	@Override
 	public int get_cols() {
-		// TODO Auto-generated method stub
 		return this._cols;
 	}
 
 	@Override
 	public int get_rows() {
-		// TODO Auto-generated method stub
 		return this._rows;
 	}
 
 	@Override
 	public int get_width() {
-		// TODO Auto-generated method stub
 		return this._width;
 	}
 
 	@Override
 	public int get_height() {
-		// TODO Auto-generated method stub
 		return this._height;
 	}
 
 	@Override
 	public int get_region_width() {
-		// TODO Auto-generated method stub
 		return this.widthcol;
 	}
 
 	@Override
 	public int get_region_height() {
-		// TODO Auto-generated method stub
 		return this.heightrow;
 	}
 
