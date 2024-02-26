@@ -7,8 +7,8 @@ import simulator.model.SelectionStrategy;
 
 public class SelectYoungestBuilder extends Builder<SelectionStrategy> {
 
-	public SelectYoungestBuilder(String type_tag, String desc) {
-		super(type_tag, desc);
+	public SelectYoungestBuilder() {
+		super("estrategia", "estrategia");
 		// TODO Auto-generated constructor stub
 	}
 
