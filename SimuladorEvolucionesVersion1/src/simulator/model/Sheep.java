@@ -1,5 +1,6 @@
 package simulator.model;
 
+import simulator.misc.Utils;
 import simulator.misc.Vector2D;
 
 public class Sheep extends Animal {
@@ -35,14 +36,17 @@ public class Sheep extends Animal {
 				}
 				this.move(this._speed * dt * Math.exp((this._energy - 100.0) * 0.007));
 				this._age += dt;
-				if(this._energy - 20.0 * dt > 0)
+				if(this._energy - 20.0 * dt > 0) {
 					this._energy -= 20.0 * dt;
+					this._energy = Utils.constrain_value_in_range(this._energy, 0.0, 100.0);
+				}	
 				else this._energy = 0.0;
 				if(this._desire + 40.0 * dt < 100)
 				this._desire += 40.0 * dt;
+				this._energy = Utils.constrain_value_in_range(this._energy, 0.0, 100.0);
 				
 				if(this._danger_source == null) { 
-					
+					//buscar nuevo animal que se considere peligroso
 				}
 				if(this._danger_source != null) this._state = State.DANGER;
 				if(this._desire > 65.0 && this._danger_source == null) this._state = State.MATE;
@@ -62,12 +66,14 @@ public class Sheep extends Animal {
 					this._dest = _pos.plus(_pos.minus(_danger_source.get_position()).direction());
 					this.move(2.0*_speed*dt*Math.exp((_energy-100.0)*0.007));
 					this._age+=dt;
-					this._energy -= 20.0*1.2*dt; //falta lo de mantenerlo y abajo igual
+					this._energy -= 20.0*1.2*dt;
+					this._energy = Utils.constrain_value_in_range(this._energy, 0.0, 100.0);
 					this._desire += 40.0 * dt;
+					this._desire = Utils.constrain_value_in_range(this._desire, 0.0, 100.0);
 				}
 				
 		
-				if (this._danger_source == null || true) { //lo de true hay que cambiarlo por damger source fuera de su campo visual
+				if (this._danger_source == null || (this._pos.minus(this._danger_source._pos).magnitude() < this._sight_range)) { 
 					this._danger_source = this._danger_strategy.select(_danger_source, null); // no es asi pero hay que buscarle un nuevo animal que le peuda poner el peligro
 					if (this._danger_source == null) {
 						if (this._desire < 65) this._state = State.NORMAL;
@@ -79,7 +85,7 @@ public class Sheep extends Animal {
 			
 			
 			else if (this._state == State.MATE) {
-				if(this._mate_target != null && (this._mate_target._state == State.DEAD || true)) { // el triue deberia ser está fuera del campo visual
+				if(this._mate_target != null && (this._mate_target._state == State.DEAD || this._pos.minus(this._mate_target._pos).magnitude() < this._sight_range)) {
 					this._mate_target = null;
 				}
 				if(this._mate_target != null) {
@@ -92,7 +98,9 @@ public class Sheep extends Animal {
 						this._desire = 0;
 						this._mate_target._desire = 0;
 						if(!this.is_pregnant()) {
-							
+							if(Utils._rand.nextDouble() < 0.9) {
+								this._baby = new Sheep(this, this._mate_target);
+							}
 						}
 						this._mate_target = null;
 					}
@@ -100,6 +108,7 @@ public class Sheep extends Animal {
 				}
 				if(this._danger_source == null) {
 					//buscar un nuevo animal que se considere como peligroso
+					this._danger_source = this._danger_strategy.select(this, this._region_mngr.get_animals_in_range(this, e -> this.is_pregnant())); //hay que cambiar lo de pregmant por peligroso
 					if(this._desire < 65.0) this._state = State.NORMAL;
 				} else {
 					this._state = State.DANGER;

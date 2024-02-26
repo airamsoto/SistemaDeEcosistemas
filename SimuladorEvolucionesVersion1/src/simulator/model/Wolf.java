@@ -45,8 +45,8 @@ public class Wolf extends Animal {
 		}
 		if (this._state != State.DEAD) {
 			// comprobar si es hunt targets
-			// this._energy = this._region_mngr.get_food(this, dt);
-			Math.max(0.0, Math.min(this._energy, 100.0));
+			this._energy = this._region_mngr.get_food(this, dt);
+			this._energy = Utils.constrain_value_in_range(this._energy, 0.0, 100.0);
 			// llama a get food y la anyade a la su energy manteniendolo entre 0 y 100
 		}
 
@@ -54,7 +54,7 @@ public class Wolf extends Animal {
 
 	private void normalState(double dt) {
 		if (this._pos.distanceTo(_dest) < 0.8) {
-			//destino aleatorio dentro del mapa
+			//destino random dentro del mapa
 		}
 		this.move(this._speed * dt * Math.exp((this._energy - 100.0) * 0.007));
 		this._age += dt;
@@ -83,7 +83,7 @@ public class Wolf extends Animal {
 				this._hunt_target._state = State.DEAD;
 				this._hunt_target = null;
 				this._energy += 50.0;
-				this._energy = Math.max(0.0, Math.min(this._energy, 100.0));
+				this._energy = Utils.constrain_value_in_range(this._energy, 0.0, 100.0);
 			}
 
 		}
@@ -113,9 +113,9 @@ public class Wolf extends Animal {
 				this.move(3.0 * _speed * dt * Math.exp((_energy - 100.0) * 0.007));
 				this._age += dt;
 				this._energy -= 18.0 * 1.2 * dt;
-				this._energy = Math.max(0.0, Math.min(this._energy, 100.0)); // no se si es asi
+				this._energy = Utils.constrain_value_in_range(this._energy, 0.0, 100.0);
 				this._desire += 30.0 * dt;
-				this._desire = Math.max(0.0, Math.min(this._desire, 100.0));
+				this._desire = Utils.constrain_value_in_range(this._desire, 0.0, 100.0);
 				if (this._dest.minus(this._mate_target._pos).magnitude() < 8.0) {
 					this._desire = 0.0;
 					this._mate_target._desire = 0.0;
@@ -128,7 +128,7 @@ public class Wolf extends Animal {
 						
 						this.deliver_baby(); //que es eso
 						this._energy -= 10.0;
-						this._energy = Math.max(0.0, Math.min(this._energy, 100.0));
+						this._energy = Utils.constrain_value_in_range(this._energy, 0.0, 100.0);
 						this._mate_target = null;
 					}
 				}
