@@ -1,9 +1,12 @@
 package simulator.launcher;
 
 import java.io.File;
+
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.lang.ModuleLayer.Controller;
+
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -57,7 +60,10 @@ public class Main {
 	//
 	private static Double _time = null;
 	private static String _in_file = null;
+	private static String _out_file = null;
 	private static ExecMode _mode = ExecMode.BATCH;
+	private static Factory<Animal> _animalFactory;
+	private static Factory<Region> _regionFactory;
 
 	private static void parse_args(String[] args) {
 
@@ -114,7 +120,8 @@ public class Main {
 		cmdLineOptions.addOption(Option.builder("o").longOpt("--output <arg>").hasArg()
 				.desc("Output file, where output is written.\n").build());
 		// sv
-		cmdLineOptions.addOption(Option.builder("sv").longOpt("--simple-viewer").desc("Show the viewer window in console mode.").build());
+		cmdLineOptions.addOption(Option.builder("sv").longOpt("--simple-viewer")
+				.desc("Show the viewer window in console mode.").build());
 
 		return cmdLineOptions;
 	}
@@ -148,8 +155,18 @@ public class Main {
 		List<Builder<SelectionStrategy>> selection_strategy_builders = new ArrayList<>();
 		selection_strategy_builders.add(new SelectFirstBuilder());
 		selection_strategy_builders.add(new SelectClosestBuilder());
+		selection_strategy_builders.add(new SelectYoungestBuilder());
 		Factory<SelectionStrategy> selection_strategy_factory = new BuilderBasedFactory<SelectionStrategy>(
 				selection_strategy_builders);
+		List<Builder<Animal>> animal_builders = new ArrayList<>();
+		animal_builders.add(new SheepBuilder(selection_strategy_factory));
+		animal_builders.add(new WolfBuilder(selection_strategy_factory));
+		_animalFactory = new BuilderBasedFactory<Animal>(animal_builders);
+		List<Builder<Region>> region_builders = new ArrayList<>();
+		region_builders.add(new DefaultRegionBuilder());
+		region_builders.add(new DinamicSupplyRegionBuilder());
+		_regionFactory = new BuilderBasedFactory<Region>(region_builders);
+
 	}
 
 	private static JSONObject load_JSON_file(InputStream in) {
@@ -158,18 +175,16 @@ public class Main {
 
 	private static void start_batch_mode() throws Exception {
 		InputStream is = new FileInputStream(new File(_in_file));
-		JSONObject jose = new JSONObject (is);
+		OutputStream raul = new FileOutputStream(new File(_out_file));
+		JSONObject jose = load_JSON_file(is);
 		int width = jose.getInt("width");
 		int height = jose.getInt("height");
 		int rows = jose.getInt("rows");
 		int cols = jose.getInt("cols");
-		//falta ver lo de las factorias del json
-		//falta crear archivo de salida
-		Simulator simer = new Simulator(width,height, rows, cols, null, null);
+		Simulator simer = new Simulator(width, height, rows, cols, _animalFactory, _regionFactory);
 		Controller cont = new Controller(simer);
-		
-		
-		
+		raul.close();
+
 	}
 
 	private static void start_GUI_mode() throws Exception {
