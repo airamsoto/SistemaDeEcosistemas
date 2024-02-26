@@ -108,7 +108,7 @@ public class Sheep extends Animal {
 				}
 				if(this._danger_source == null) {
 					//buscar un nuevo animal que se considere como peligroso
-					this._danger_source = this._danger_strategy.select(this, this._region_mngr.get_animals_in_range(this, e -> this.is_pregnant())); //hay que cambiar lo de pregmant por peligroso
+					//this._danger_source = this._danger_strategy.select(this, this._region_mngr.get_animals_in_range(this, e -> this.is_pregnant())); //hay que cambiar lo de pregmant por peligroso
 					if(this._desire < 65.0) this._state = State.NORMAL;
 				} else {
 					this._state = State.DANGER;

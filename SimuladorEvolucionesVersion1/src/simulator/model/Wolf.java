@@ -45,7 +45,7 @@ public class Wolf extends Animal {
 		}
 		if (this._state != State.DEAD) {
 			// comprobar si es hunt targets
-			this._energy = this._region_mngr.get_food(this, dt);
+			//this._energy = this._region_mngr.get_food(this, dt);
 			this._energy = Utils.constrain_value_in_range(this._energy, 0.0, 100.0);
 			// llama a get food y la anyade a la su energy manteniendolo entre 0 y 100
 		}
@@ -103,7 +103,7 @@ public class Wolf extends Animal {
 		}
 		if (this._mate_target == null) {
 			// buscar un animal para emparejartse
-			this._mate_target = this._mate_strategy.select(this, this._region_mngr.get_animals_in_range(this, e -> e._genetic_code == this._genetic_code));
+			//this._mate_target = this._mate_strategy.select(this, this._region_mngr.get_animals_in_range(this, e -> e._genetic_code == this._genetic_code));
 			if (this._mate_target == null) {
 				// si no lo encuentra se mueve asi
 				this.move(3.0 * _speed * dt * Math.exp((_energy - 100.0) * 0.007));
