@@ -50,10 +50,7 @@ public class BuilderBasedFactory<T> implements Factory <T>{
 		}
 		
 		
-		List<Builder<SelectionStrategy>> selection_strategy_builders = new ArrayList<>();
-		selection_strategy_builders.add(new SelectFirstBuilder());
-		selection_strategy_builders.add(new SelectClosestBuilder());
-		Factory<SelectionStrategy> selection_strategy_factory = new BuilderBasedFactory<SelectionStrategy>();
+		
 
 		throw new IllegalArgumentException ("Unrecognized 'info': " +  info.toString());
 	

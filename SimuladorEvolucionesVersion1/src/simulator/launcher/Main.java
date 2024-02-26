@@ -17,6 +17,13 @@ import org.json.JSONTokener;
 
 import simulator.misc.Utils;
 import simulator.model.Simulator;
+import simulator.model.*;
+import simulator.factories.*;
+import simulator.factories.SelectClosestBuilder;
+import simulator.factories.SelectFirstBuilder;
+import simulator.control.*;
+
+import java.util.*;
 
 public class Main {
 	private Controller controller;
@@ -45,7 +52,7 @@ public class Main {
 	// default values for some parameters
 	//
 	private final static Double _default_time = 10.0; // in seconds
-
+	private final static Double _default_delta = 0.03;
 	// some attributes to stores values corresponding to command-line parameters
 	//
 	private static Double _time = null;
@@ -99,6 +106,15 @@ public class Main {
 				.desc("An real number representing the total simulation time in seconds. Default value: "
 						+ _default_time + ".")
 				.build());
+		// dt
+		cmdLineOptions.addOption(
+				Option.builder("dt").longOpt("--delta-time <arg>").desc("A double representing actual time, in "
+						+ "seconds, per simulation step. Default value: " + _default_delta).build());
+		// o
+		cmdLineOptions.addOption(Option.builder("o").longOpt("--output <arg>").hasArg()
+				.desc("Output file, where output is written.\n").build());
+		// sv
+		cmdLineOptions.addOption(Option.builder("sv").longOpt("--simple-viewer").desc("Show the viewer window in console mode.").build());
 
 		return cmdLineOptions;
 	}
@@ -129,15 +145,26 @@ public class Main {
 	}
 
 	private static void init_factories() {
+		List<Builder<SelectionStrategy>> selection_strategy_builders = new ArrayList<>();
+		selection_strategy_builders.add(new SelectFirstBuilder());
+		selection_strategy_builders.add(new SelectClosestBuilder());
+		Factory<SelectionStrategy> selection_strategy_factory = new BuilderBasedFactory<SelectionStrategy>(
+				selection_strategy_builders);
 	}
 
 	private static JSONObject load_JSON_file(InputStream in) {
 		return new JSONObject(new JSONTokener(in));
 	}
 
-
 	private static void start_batch_mode() throws Exception {
 		InputStream is = new FileInputStream(new File(_in_file));
+		JSONObject jose = new JSONObject ();
+		//falta crear archivo de salida
+		Simulator simer = new Simulator(1,1,1,1, null, null);
+		Controller conter = new Controller (simer);
+		
+		
+		
 	}
 
 	private static void start_GUI_mode() throws Exception {
