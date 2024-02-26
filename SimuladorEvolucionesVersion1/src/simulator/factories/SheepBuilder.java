@@ -10,19 +10,17 @@ import simulator.misc.*;
 public class SheepBuilder extends Builder<Animal> {
 	private Factory <SelectionStrategy> selectionFactory;
 
-//creo que lo del constructor vacio era aui
 	public SheepBuilder(Factory <SelectionStrategy> selectionStrategy) {
 		super("Sheep", "Genera Oveja");
 		//NO PONER LOS DOS PARAMTREOS POR DEFECTO
 	}
 
 	@Override
-	//ver
 	protected Sheep create_instance(JSONObject data) throws Exception {
 		SelectionStrategy mate= new SelectFirst();
 		SelectionStrategy danger = new SelectFirst();
 		if(data.has("mate_strategy")) {
-			mate = this.selectionFactory.create_instance(data);
+			mate = this.selectionFactory.create_instance(data.getJSONObject("mate_strategy"));
 		}
 		if(data.has("danger_strategy")) {
 			danger = this.selectionFactory.create_instance(data);

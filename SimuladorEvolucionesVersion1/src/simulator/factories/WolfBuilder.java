@@ -39,7 +39,7 @@ public class WolfBuilder extends Builder<Animal> {
 			double sara2 = jY.getDouble(1);
 			pos = new Vector2D(Utils._rand.nextDouble(pedro1, pedro2), Utils._rand.nextDouble(sara1, sara2));
 		}
-		
+	
 		return new Wolf (mate, hunt, pos);
 	}
 	
