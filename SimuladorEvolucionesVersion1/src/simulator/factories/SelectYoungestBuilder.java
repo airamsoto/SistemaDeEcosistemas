@@ -8,7 +8,7 @@ import simulator.model.SelectionStrategy;
 public class SelectYoungestBuilder extends Builder<SelectionStrategy> {
 
 	public SelectYoungestBuilder() {
-		super("estrategia", "estrategia");
+		super("SelectYoungest", "Genera SelectYoungest");
 		// TODO Auto-generated constructor stub
 	}
 

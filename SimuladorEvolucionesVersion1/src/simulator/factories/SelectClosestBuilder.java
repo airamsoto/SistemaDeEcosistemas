@@ -8,7 +8,7 @@ import simulator.model.SelectionStrategy;
 public class SelectClosestBuilder extends Builder<SelectionStrategy>{
 
 	public SelectClosestBuilder() {
-		super("hola", "hola");
+		super("SelectClosest", "Genera SelectClosest");
 		// TODO Auto-generated constructor stub
 	}
 

@@ -7,8 +7,8 @@ import simulator.model.Region;
 
 public class DinamicSupplyRegionBuilder extends Builder<Region> {
 
-	public DinamicSupplyRegionBuilder(String type_tag, String desc) {
-		super(type_tag, desc);
+	public DinamicSupplyRegionBuilder() {
+		super("DinamicSupplyRegion", "Genera DinamicSupplyRegion");
 		// TODO Auto-generated constructor stub
 	}
 

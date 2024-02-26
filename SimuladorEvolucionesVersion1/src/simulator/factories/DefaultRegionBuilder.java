@@ -6,8 +6,8 @@ import org.json.JSONObject;
 
 public class DefaultRegionBuilder extends Builder<Region>{
 
-	public DefaultRegionBuilder(String type_tag, String desc) {
-		super(type_tag, desc);
+	public DefaultRegionBuilder() {
+		super("DefaultRegion", "Genera DefaultRegion");
 		// TODO Auto-generated constructor stub
 	}
 
