@@ -84,7 +84,7 @@ public class RegionManager implements AnimalMapView {
 	}
 
 	public double get_food(Animal a, double dt) {
-		return dt; //falta por hacer
+		return this._animal_region.get(a).get_food(a, dt);
 	}
 
 	void update_all_regions(double dt) {
