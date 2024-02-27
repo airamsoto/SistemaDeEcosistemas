@@ -37,7 +37,7 @@ public class RegionManager implements AnimalMapView {
 		this._regions[row][col] = r;
 
 	}
-
+//COMPROBAR LO DE LA REGION DEL ANIMAL NO SE PUEDE USAR BUCLES
 	void register_animal(Animal a) {
 
 		int i = 0;

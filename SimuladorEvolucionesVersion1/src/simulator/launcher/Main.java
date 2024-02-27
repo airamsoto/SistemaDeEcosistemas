@@ -57,6 +57,7 @@ public class Main {
 	// some attributes to stores values corresponding to command-line parameters
 	//
 	private static Double _time = null;
+	private static Double _delta = null;
 	private static String _in_file = null;
 	private static String _out_file = null;
 	private static ExecMode _mode = ExecMode.BATCH;
@@ -77,7 +78,10 @@ public class Main {
 			parse_help_option(line, cmdLineOptions);
 			parse_in_file_option(line);
 			parse_time_option(line);
-
+			parse_delta_option(line);
+			parse_output_option(line);
+			parse_sv_option(line);
+		
 			// if there are some remaining arguments, then something wrong is
 			// provided in the command line!
 			//
@@ -111,14 +115,16 @@ public class Main {
 						+ _default_time + ".")
 				.build());
 		// dt
-		cmdLineOptions.addOption(
-				Option.builder("dt").longOpt("--delta-time <arg>").desc("A double representing actual time, in "
-						+ "seconds, per simulation step. Default value: " + _default_delta).build());
-		// o es opcional, si esta puerta recibe un archivo de salida, si no esta puesta se escribe en consola
-		cmdLineOptions.addOption(Option.builder("o").longOpt("--output <arg>").hasArg()
+		cmdLineOptions.addOption(Option.builder("dt").longOpt("delta-time <arg>").hasArg().desc(
+				"A double representing actual time, in seconds, per simulation step. Default value:" + _default_delta)
+				.build());
+
+		// o es opcional, si esta puerta recibe un archivo de salida, si no esta puesta
+		// se escribe en consola
+		cmdLineOptions.addOption(Option.builder("o").longOpt("output <arg>").hasArg()
 				.desc("Output file, where output is written.\n").build());
 		// sv
-		cmdLineOptions.addOption(Option.builder("sv").longOpt("--simple-viewer")
+		cmdLineOptions.addOption(Option.builder("sv").longOpt("simple-viewer")
 				.desc("Show the viewer window in console mode.").build());
 
 		return cmdLineOptions;
@@ -132,11 +138,26 @@ public class Main {
 		}
 	}
 
-	private static void parse_in_file_option(CommandLine line) throws ParseException {
-		_in_file = line.getOptionValue("i");
-		if (_mode == ExecMode.BATCH && _in_file == null) {
-			throw new ParseException("In batch mode an input configuration file is required");
+	private static void parse_delta_option(CommandLine line) throws ParseException {
+		String t = line.getOptionValue("dt", _default_delta.toString());
+		try {
+			_delta = Double.parseDouble(t);
+			assert (_delta >= 0);
+		} catch (Exception e) {
+			throw new ParseException("Invalid value for time: " + t);
 		}
+	}
+	
+	private static void parse_output_option(CommandLine line) throws ParseException {
+		_out_file = line.getOptionValue("o");
+		if (_mode == ExecMode.BATCH && _out_file == null) {
+			throw new ParseException("In batch mode an output configuration file is required");
+		}
+		
+	}
+	
+	private static void parse_sv_option(CommandLine line) throws ParseException {
+		
 	}
 
 	private static void parse_time_option(CommandLine line) throws ParseException {
@@ -146,6 +167,12 @@ public class Main {
 			assert (_time >= 0);
 		} catch (Exception e) {
 			throw new ParseException("Invalid value for time: " + t);
+		}
+	}
+	private static void parse_in_file_option(CommandLine line) throws ParseException {
+		_in_file = line.getOptionValue("i");
+		if (_mode == ExecMode.BATCH && _in_file == null) {
+			throw new ParseException("In batch mode an input configuration file is required");
 		}
 	}
 
