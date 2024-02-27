@@ -19,6 +19,9 @@ public class Controller {
 	}
 
 	public void load_data(JSONObject data) {
+		if(data.has("regions")) {
+		
+		}
 		// Hacer lectura de los arrayList de region y animal
 
 		// _sim.set_region();
