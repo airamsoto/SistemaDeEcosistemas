@@ -20,6 +20,7 @@ import org.json.JSONTokener;
 
 import simulator.misc.Utils;
 import simulator.model.Simulator;
+import simulator.view.SimpleObjectViewer;
 import simulator.model.*;
 import simulator.factories.*;
 import simulator.factories.SelectClosestBuilder;
@@ -60,6 +61,7 @@ public class Main {
 	private static Double _delta = null;
 	private static String _in_file = null;
 	private static String _out_file = null;
+	private static SimpleObjectViewer _sv = null;
 	private static ExecMode _mode = ExecMode.BATCH;
 	private static Factory<Animal> _animalFactory;
 	private static Factory<Region> _regionFactory;
@@ -139,12 +141,12 @@ public class Main {
 	}
 
 	private static void parse_delta_option(CommandLine line) throws ParseException {
-		String t = line.getOptionValue("dt", _default_delta.toString());
+		String dt = line.getOptionValue("dt", _default_delta.toString());
 		try {
-			_delta = Double.parseDouble(t);
+			_delta = Double.parseDouble(dt);
 			assert (_delta >= 0);
 		} catch (Exception e) {
-			throw new ParseException("Invalid value for time: " + t);
+			throw new ParseException("Invalid value for time: " + dt);
 		}
 	}
 	
@@ -157,7 +159,9 @@ public class Main {
 	}
 	
 	private static void parse_sv_option(CommandLine line) throws ParseException {
-		
+		//inicia la interfaz grafica
+		_sv = new SimpleObjectViewer ("Ecosistema",800, 600, 15, 20);
+			
 	}
 
 	private static void parse_time_option(CommandLine line) throws ParseException {
