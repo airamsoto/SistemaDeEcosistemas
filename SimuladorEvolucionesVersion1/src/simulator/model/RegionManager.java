@@ -34,6 +34,7 @@ public class RegionManager implements AnimalMapView {
 			r.add_animal(a);
 			this._animal_region.put(a, r);
 		}
+		//a lo mejor solo hay que hacer eso
 		this._regions[row][col] = r;
 
 	}
