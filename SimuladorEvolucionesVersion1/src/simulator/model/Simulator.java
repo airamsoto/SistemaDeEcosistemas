@@ -52,8 +52,8 @@ public class Simulator implements JSONable {
 	}
 
 	public List<? extends AnimalInfo> get_animals() {
-		return 	Collections.unmodifiableList(this._animalList);
-		
+		return Collections.unmodifiableList(this._animalList);
+
 	}
 
 	public double get_time() {
@@ -63,9 +63,8 @@ public class Simulator implements JSONable {
 	public void advance(double dt) {
 
 		this._time += dt;
-		// No se si esto esta bien del todo
+
 		Iterator<Animal> iterator = _animalList.iterator();
-	
 		while (iterator.hasNext()) {
 			Animal animal = iterator.next();
 			if (animal.get_state() == State.DEAD) {
@@ -80,7 +79,7 @@ public class Simulator implements JSONable {
 		}
 
 		this._regionManager.update_all_regions(dt);
-		
+
 		List<Animal> babys = new ArrayList<Animal>();
 		for (Animal animal : _animalList) {
 			if (animal.is_pregnant()) {
