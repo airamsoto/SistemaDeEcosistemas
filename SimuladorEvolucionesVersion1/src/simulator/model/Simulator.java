@@ -1,6 +1,7 @@
 package simulator.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -13,7 +14,7 @@ public class Simulator implements JSONable {
 	private double _time;
 	private RegionManager _regionManager;
 	private List<Animal> _animalList;
-	
+
 	public Simulator(int cols, int rows, int width, int height, Factory<Animal> animals_factory,
 			Factory<Region> regions_factory) {
 		this._time = 0.0;
@@ -21,7 +22,7 @@ public class Simulator implements JSONable {
 		this._animalFactory = animals_factory;
 		this._animalList = new ArrayList<Animal>();
 		this._regionManager = new RegionManager(cols, rows, width, height);
-		//iniciar lista vacia
+		// iniciar lista vacia
 	}
 
 	private void set_region(int row, int col, Region r) {
@@ -29,8 +30,8 @@ public class Simulator implements JSONable {
 	}
 
 	void set_region(int row, int col, JSONObject r_json) {
-		//comprobar
-		this.set_region(row, col,this._regionFactory.create_instance(r_json));
+		// comprobar
+		this.set_region(row, col, this._regionFactory.create_instance(r_json));
 	}
 
 	private void add_animal(Animal a) {
@@ -40,7 +41,7 @@ public class Simulator implements JSONable {
 	}
 
 	public void add_animal(JSONObject a_json) {
-		//comprobar
+		// comprobar
 		this.add_animal(this._animalFactory.create_instance(a_json));
 
 	}
@@ -51,7 +52,8 @@ public class Simulator implements JSONable {
 
 	public List<? extends AnimalInfo> get_animals() {
 		return null;
-		//Falta completar 
+		// Falta completar
+		// COMO QUE DEVUELVE LA LISTA INMODIFICABLE?
 	}
 
 	public double get_time() {
@@ -59,29 +61,47 @@ public class Simulator implements JSONable {
 	}
 
 	public void advance(double dt) {
+
 		this._time += dt;
+		// No se si esto esta bien del todo
+		Iterator<Animal> iterator = _animalList.iterator();
+		while (iterator.hasNext()) {
+			Animal animal = iterator.next();
+			if (animal.get_state() == State.DEAD) {
+				iterator.remove();
+				this._regionManager.unregister_animal(animal);
+			}
+		}
+
+		for (Animal animal : _animalList) {
+			animal.update(dt);
+			this._regionManager.update_animal_region(animal);
+		}
+
+		this._regionManager.update_all_regions(dt);
+
+		for (Animal animal : _animalList) {
+			if (animal.is_pregnant()) {
+				add_animal(animal.deliver_baby());
+			}
+		}
 		/*
 		 * Quitar todos los animales con estado DEAD de la lista de animales y
-		 * eliminarlos del gestor de regiones. 
-		 * ○ Para cada animal: llama a su update(dt)
-		 * y pide al gestor de regiones que actualice su región. 
-		 * ○ Pedir al gestor de regiones actualizar todas las regiones. 
-		 * 5.
-		 * ○ Para cada animal: si is_pregnant() devuelve true, obtenemos el bebé usando su método 14 deliver_baby() y lo
-		 * añadimos a la simulación usando add_animal.
-		 * 6.
+		 * eliminarlos del gestor de regiones. ○ Para cada animal: llama a su update(dt)
+		 * y pide al gestor de regiones que actualice su región. ○ Pedir al gestor de
+		 * regiones actualizar todas las regiones. 5. ○ Para cada animal: si
+		 * is_pregnant() devuelve true, obtenemos el bebé usando su método 14
+		 * deliver_baby() y lo añadimos a la simulación usando add_animal. 6.
 		 */
-		//5.
-		//6.
 	}
 
 	public JSONObject as_JSON() {
 		JSONObject JSONreturn = new JSONObject();
 		JSONreturn.put("time: ", this._time);
-		JSONreturn.put("state: ", this._regionFactory.get_info()); //comprobar
+		JSONreturn.put("state: ", this._regionFactory.get_info()); // comprobar
 		return JSONreturn;
-	}	
-	
+	}
+
 	/*
 	 * 
 	 * Como puedes observar, hay dos versiones de los métodos add_animal y
@@ -94,5 +114,4 @@ public class Simulator implements JSONable {
 	 * factorías cambialas a private de nuevo. De esta manera puedes depurar el
 	 * programa sin haber implementado las factorías.
 	 */
-
 }

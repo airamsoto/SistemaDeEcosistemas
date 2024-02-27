@@ -49,7 +49,8 @@ public class Controller {
 		return_state.put("out:", final_state);
 
 		// NO SE SI ES ASI, MIRAR BIEN EL VISOR DE OBJETOS
-		if (sv) view.close();
+		if (sv)
+			view.close();
 	}
 
 	private List<ObjInfo> to_animals_info(List<? extends Animalnfo> animals) {
