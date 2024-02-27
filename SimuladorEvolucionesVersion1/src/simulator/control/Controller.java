@@ -2,7 +2,7 @@ package simulator.control;
 
 import java.io.OutputStream;
 import java.util.List;
-
+import java.util.*;
 import org.json.JSONObject;
 
 import simulator.model.AnimalInfo;
@@ -53,9 +53,9 @@ public class Controller {
 			view.close();
 	}
 
-	private List<ObjInfo> to_animals_info(List<? extends Animalnfo> animals) {
+	private List<ObjInfo> to_animals_info(List<? extends AnimalInfo> animals) {
 		List<ObjInfo> ol = new ArrayList<>(animals.size());
-		for (Animalnfo a : animals)
+		for (AnimalInfo a : animals)
 			ol.add(new ObjInfo(a.get_genetic_code(), (int) a.get_position().getX(), (int) a.get_position().getY(),
 					(int) Math.round(a.get_age()) + 2));
 		return ol;

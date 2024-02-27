@@ -29,8 +29,6 @@ import simulator.control.*;
 import java.util.*;
 
 public class Main {
-	private Controller controller;
-	private Simulator simulator;
 
 	private enum ExecMode {
 		BATCH("batch", "Batch mode"), GUI("gui", "Graphical User Interface mode");
@@ -116,7 +114,7 @@ public class Main {
 		cmdLineOptions.addOption(
 				Option.builder("dt").longOpt("--delta-time <arg>").desc("A double representing actual time, in "
 						+ "seconds, per simulation step. Default value: " + _default_delta).build());
-		// o
+		// o es opcional, si esta puerta recibe un archivo de salida, si no esta puesta se escribe en consola
 		cmdLineOptions.addOption(Option.builder("o").longOpt("--output <arg>").hasArg()
 				.desc("Output file, where output is written.\n").build());
 		// sv

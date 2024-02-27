@@ -113,7 +113,7 @@ public class RegionManager implements AnimalMapView {
 		// atributo a sobre el que comprobar cosas, que sera de tipo animal
 		// y -> {lo de genetic code por ejemplo} a.diet == herviboro
 
-		
+		return null;
 
 	}
 
