@@ -83,6 +83,13 @@ public class RegionManager implements AnimalMapView {
 		}
 
 	}
+	List <Animal> 
+	
+	aimalLis
+	
+	//dos doubles
+	
+	//x entre witdhtr y al reves
 
 	public double get_food(Animal a, double dt) {
 		return this._animal_region.get(a).get_food(a, dt);

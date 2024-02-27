@@ -195,7 +195,9 @@ public class Main {
 		region_builders.add(new DefaultRegionBuilder());
 		region_builders.add(new DinamicSupplyRegionBuilder());
 		_regionFactory = new BuilderBasedFactory<Region>(region_builders);
-
+		
+		
+	
 	}
 
 	private static JSONObject load_JSON_file(InputStream in) {
