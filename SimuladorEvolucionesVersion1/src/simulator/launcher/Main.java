@@ -175,15 +175,17 @@ public class Main {
 
 	private static void start_batch_mode() throws Exception {
 		InputStream is = new FileInputStream(new File(_in_file));
-		OutputStream raul = new FileOutputStream(new File(_out_file));
-		JSONObject jose = load_JSON_file(is);
-		int width = jose.getInt("width");
-		int height = jose.getInt("height");
-		int rows = jose.getInt("rows");
-		int cols = jose.getInt("cols");
+		OutputStream outFile = new FileOutputStream(new File(_out_file));
+		JSONObject json = load_JSON_file(is);
+		int width = json.getInt("width");
+		int height = json.getInt("height");
+		int rows = json.getInt("rows");
+		int cols = json.getInt("cols");
 		Simulator simer = new Simulator(width, height, rows, cols, _animalFactory, _regionFactory);
 		Controller cont = new Controller(simer);
-		raul.close();
+		cont.load_data(json);
+		cont.run(_default_time, _default_delta, false, outFile);
+		outFile.close();
 
 	}
 
