@@ -79,11 +79,13 @@ public class Simulator implements JSONable {
 		}
 
 		this._regionManager.update_all_regions(dt);
-
+		
+		List<Animal> babys = new ArrayList<Animal>();
 		for (Animal animal : _animalList) {
 			if (animal.is_pregnant()) {
-				add_animal(animal.deliver_baby());
+				babys.add(animal.deliver_baby());
 			}
+			this._animalList.addAll(babys);
 		}
 		/*
 		 * Quitar todos los animales con estado DEAD de la lista de animales y
