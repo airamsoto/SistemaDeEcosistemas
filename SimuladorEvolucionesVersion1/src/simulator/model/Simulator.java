@@ -65,6 +65,7 @@ public class Simulator implements JSONable {
 		this._time += dt;
 		// No se si esto esta bien del todo
 		Iterator<Animal> iterator = _animalList.iterator();
+	
 		while (iterator.hasNext()) {
 			Animal animal = iterator.next();
 			if (animal.get_state() == State.DEAD) {

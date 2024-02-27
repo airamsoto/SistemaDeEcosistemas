@@ -34,10 +34,11 @@ public class RegionManager implements AnimalMapView {
 			r.add_animal(a);
 			this._animal_region.put(a, r);
 		}
-		//a lo mejor solo hay que hacer eso
+		// a lo mejor solo hay que hacer eso
 		this._regions[row][col] = r;
 
 	}
+
 //COMPROBAR LO DE LA REGION DEL ANIMAL NO SE PUEDE USAR BUCLES
 	void register_animal(Animal a) {
 
@@ -83,13 +84,13 @@ public class RegionManager implements AnimalMapView {
 		}
 
 	}
-	//List <Animal> 
-	
-	//aimalLis
-	
-	//dos doubles
-	
-	//x entre witdhtr y al reves
+	// List <Animal>
+
+	// aimalLis
+
+	// dos doubles
+
+	// x entre witdhtr y al reves
 
 	public double get_food(Animal a, double dt) {
 		return this._animal_region.get(a).get_food(a, dt);
@@ -103,8 +104,20 @@ public class RegionManager implements AnimalMapView {
 		}
 
 	}
-
+	
 	public List<Animal> get_animals_in_range(Animal a, Predicate<Animal> filter) {
+		List<Animal> al = new ArrayList<>();
+		//Recorre todas las regiones 
+		for(Region[] reg : _regions) {
+			for(Region r : reg) {
+				for(Animal other : r.getAnimals()) {
+					if(other != a && filter.test(other) && a.get_position().distanceTo(other.get_position()) < a.get_sight_range()){
+						al.add(other);
+					}
+				}
+			}
+		}
+		return al;
 		// hay que calcular que regiones toco con mi campo visual a parte de la propia
 		// region dl animal
 		// calculando los extremos de los ejes de la cirunferencia que se forma
@@ -121,9 +134,7 @@ public class RegionManager implements AnimalMapView {
 		// atributo a sobre el que comprobar cosas, que sera de tipo animal
 		// y -> {lo de genetic code por ejemplo} a.diet == herviboro
 
-		return null;
-
-	}
+		}
 
 	public JSONObject as_JSON() {
 		JSONObject json = new JSONObject();
