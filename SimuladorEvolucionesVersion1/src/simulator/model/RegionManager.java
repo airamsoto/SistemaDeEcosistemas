@@ -83,9 +83,9 @@ public class RegionManager implements AnimalMapView {
 		}
 
 	}
-	List <Animal> 
+	//List <Animal> 
 	
-	aimalLis
+	//aimalLis
 	
 	//dos doubles
 	

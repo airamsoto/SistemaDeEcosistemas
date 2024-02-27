@@ -1,6 +1,7 @@
 package simulator.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class Simulator implements JSONable {
 		this._regionManager.set_region(row, col, r);
 	}
 
-	void set_region(int row, int col, JSONObject r_json) {
+	public void set_region(int row, int col, JSONObject r_json) throws Exception {
 		// comprobar
 		this.set_region(row, col, this._regionFactory.create_instance(r_json));
 	}
@@ -40,7 +41,7 @@ public class Simulator implements JSONable {
 
 	}
 
-	public void add_animal(JSONObject a_json) {
+	public void add_animal(JSONObject a_json) throws Exception {
 		// comprobar
 		this.add_animal(this._animalFactory.create_instance(a_json));
 
@@ -51,7 +52,7 @@ public class Simulator implements JSONable {
 	}
 
 	public List<? extends AnimalInfo> get_animals() {
-		return null;
+		return 	Collections.unmodifiableList(this._animalList);
 		// Falta completar
 		// COMO QUE DEVUELVE LA LISTA INMODIFICABLE?
 	}

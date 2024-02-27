@@ -61,7 +61,7 @@ public class Main {
 	private static Double _delta = null;
 	private static String _in_file = null;
 	private static String _out_file = null;
-	private static SimpleObjectViewer _sv = null;
+	private static boolean _sv = false;
 	private static ExecMode _mode = ExecMode.BATCH;
 	private static Factory<Animal> _animalFactory;
 	private static Factory<Region> _regionFactory;
@@ -159,8 +159,7 @@ public class Main {
 	}
 	
 	private static void parse_sv_option(CommandLine line) throws ParseException {
-		//inicia la interfaz grafica
-		//si encuentra la palabra pone el atributo boolean que usamos abajo a true
+		if(line.hasOption("sv")) _sv = true;
 			
 	}
 
@@ -215,7 +214,7 @@ public class Main {
 		Simulator simer = new Simulator(width, height, rows, cols, _animalFactory, _regionFactory);
 		Controller cont = new Controller(simer);
 		cont.load_data(json);
-		cont.run(_default_time, _default_delta, false, outFile);
+		cont.run(_default_time, _default_delta, _sv, outFile);
 		outFile.close();
 
 	}

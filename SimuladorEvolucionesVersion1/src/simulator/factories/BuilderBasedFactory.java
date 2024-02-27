@@ -14,10 +14,10 @@ public class BuilderBasedFactory<T> implements Factory <T>{
 	private List<JSONObject> _builders_info;
 	
 	public BuilderBasedFactory() {
-		// Create a HashMap for _builders, and a LinkedList _builders_info
+		
 		this._builders = new HashMap();
 		this._builders_info = new LinkedList();
-		// …
+	
 		}
 
 	public BuilderBasedFactory(List<Builder<T>> builders) {
@@ -25,33 +25,29 @@ public class BuilderBasedFactory<T> implements Factory <T>{
 		for (Builder <T> builder : builders) {
 			this.add_builder(builder);
 		}
-		// call add_builder(b) for each builder b in builder
-		// …
+		
 		}
 		public void add_builder(Builder<T> b) {
 		// add an entry “b.getTag() |−> b” to _builders.
 		// ...
 		// add b.get_info() to _buildersInfo
 		// ..
-		this._builders_info.add(b.get_info());		}
+		this._builders_info.add(b.get_info());		
+		}
 	
 
 	@Override
-	public T create_instance(JSONObject info) {
+	public T create_instance(JSONObject info) throws Exception {
 		if(info == null) throw new IllegalArgumentException ("'info' cannot be null");
 		
 		if(this._builders.containsKey(info.getString("type"))) {
-			if(this.create_instance(info.has("data") ? info.getJSONObject("data") : new JSONObject()) != null) {
-				return null; //habria que retornar la instancia creada
-			} else {
-				//creo que aqui habria que lanzar la exception tb
+			Builder <T> builder = this._builders.get(info.getString("type"));
+			JSONObject data = info.has("data") ? info.getJSONObject("data") : new JSONObject();
+			T instance = builder.create_instance(data);
+			if( instance != null) {
+				return instance; 
 			}
-			
 		}
-		
-		
-		
-
 		throw new IllegalArgumentException ("Unrecognized 'info': " +  info.toString());
 	
 	}
