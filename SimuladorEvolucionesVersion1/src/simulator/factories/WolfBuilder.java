@@ -28,7 +28,7 @@ public class WolfBuilder extends Builder<Animal> {
 		if(data.has("hunt_strategy")) {
 			hunt = this.selectionFactory.create_instance(data);
 		}
-		Vector2D pos = null;//h
+		Vector2D pos = null;
 		if(data.has("pos")) {
 			JSONObject jPos = data.getJSONObject("pos");
 			JSONArray jX = jPos.getJSONArray ("x_range");

@@ -20,7 +20,7 @@ public class Controller {
 	}
 
 	public void load_data(JSONObject data) throws Exception {
-		if(data.has("regions")) { //mirar si habria que hacer un bucle para qe recorra todas las regiones
+		if(data.has("regions")) { //mirar si habria que hacer un bucle para que recorra todas las regiones
 			JSONObject jRegions = data.getJSONObject("regions");
 			JSONArray jRow = jRegions.getJSONArray ("row");
 			JSONArray jCol = jRegions.getJSONArray("col");
