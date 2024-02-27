@@ -160,7 +160,7 @@ public class Main {
 	
 	private static void parse_sv_option(CommandLine line) throws ParseException {
 		//inicia la interfaz grafica
-		_sv = new SimpleObjectViewer ("Ecosistema",800, 600, 15, 20);
+		//si encuentra la palabra pone el atributo boolean que usamos abajo a true
 			
 	}
 
