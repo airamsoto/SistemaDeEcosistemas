@@ -53,8 +53,7 @@ public class Simulator implements JSONable {
 
 	public List<? extends AnimalInfo> get_animals() {
 		return 	Collections.unmodifiableList(this._animalList);
-		// Falta completar
-		// COMO QUE DEVUELVE LA LISTA INMODIFICABLE?
+		
 	}
 
 	public double get_time() {
