@@ -26,22 +26,26 @@ public class BuilderBasedFactory<T> implements Factory <T>{
 			this.add_builder(builder);
 		}
 		
-		}
-		public void add_builder(Builder<T> b) {
+	}
+	
+	public void add_builder(Builder<T> b) {
 		// add an entry “b.getTag() |−> b” to _builders.
 		// ...
 		// add b.get_info() to _buildersInfo
 		// ..
-		this._builders_info.add(b.get_info());		
-		}
+		this._builders.put(b.get_type_tag(), b);
+		this._builders_info.add(b.get_info());
+		
+	}
 	
 
 	@Override
 	public T create_instance(JSONObject info) throws Exception {
-		if(info == null) throw new IllegalArgumentException ("'info' cannot be null");
 		
-		if(this._builders.containsKey(info.getString("type"))) {
-			Builder <T> builder = this._builders.get(info.getString("type"));
+		if(info == null) throw new IllegalArgumentException ("'info' cannot be null");
+		String js = info.getString("type");
+		if(this._builders.containsKey(js)) {
+			Builder <T> builder = this._builders.get(js);
 			JSONObject data = info.has("data") ? info.getJSONObject("data") : new JSONObject();
 			T instance = builder.create_instance(data);
 			if( instance != null) {

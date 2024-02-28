@@ -21,29 +21,33 @@ public class Controller {
 
 	public void load_data(JSONObject data) throws Exception {
 		if(data.has("regions")) { //mirar si habria que hacer un bucle para que recorra todas las regiones
-			JSONObject jRegions = data.getJSONObject("regions");
-			JSONArray jRow = jRegions.getJSONArray ("row");
-			JSONArray jCol = jRegions.getJSONArray("col");
-			//falta lo de spec
-			JSONObject jSpec = jRegions.getJSONObject("spec");
-			int rf = jRow.getInt(0);
-			int rt = jRow.getInt(1);
-			int cf = jCol.getInt(0);
-			int ct = jCol.getInt(1);
-			for(int r = rf; r <= rt; r++) {
-				for (int c = cf; c <= ct; c++) {
-					this._sim.set_region(r, c, jSpec);
+			JSONArray jRegions = data.getJSONArray("regions");
+			for (int i = 0; i < jRegions.length(); i++) {
+				JSONObject jRegion = jRegions.getJSONObject(i);
+				JSONArray jRow = jRegion.getJSONArray ("row");
+				JSONArray jCol = jRegion.getJSONArray("col");
+				JSONObject jSpec = jRegion.getJSONObject("spec");
+				int rf = jRow.getInt(0);
+				int rt = jRow.getInt(1);
+				int cf = jCol.getInt(0);
+				int ct = jCol.getInt(1);
+				for(int r = rf; r <= rt; r++) {
+					for (int c = cf; c <= ct; c++) {
+						this._sim.set_region(r, c, jSpec);
+						
+					}
 				}
 			}
-			JSONObject jAnimal = data.getJSONObject("animal");
-			int amount = jAnimal.getInt("amount");
-			JSONObject jSpecA = jAnimal.getJSONObject("spec");
-			for (int i = 0; i < amount; i++) {
-				this._sim.add_animal(jSpecA);
-			}
-		
 		}
-		 
+			JSONArray jAnimals = data.getJSONArray("animals");
+			for (int j = 0; j < jAnimals.length(); j++ ) {
+				JSONObject jAnimal = jAnimals.getJSONObject(j);
+				int amount = jAnimal.getInt("amount");
+				JSONObject jSpecA = jAnimal.getJSONObject("spec");
+				for (int i = 0; i < amount; i++) {
+					this._sim.add_animal(jSpecA);
+				}	
+			}
 	}
 
 	public void run(double t, double dt, boolean sv, OutputStream out) {

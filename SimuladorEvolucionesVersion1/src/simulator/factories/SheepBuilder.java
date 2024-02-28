@@ -11,12 +11,12 @@ public class SheepBuilder extends Builder<Animal> {
 	private Factory <SelectionStrategy> selectionFactory;
 
 	public SheepBuilder(Factory <SelectionStrategy> selectionStrategy) {
-		super("Sheep", "Genera Oveja");
-		//NO PONER LOS DOS PARAMTREOS POR DEFECTO
+		super("sheep", "Genera Oveja");
 	}
 
 	@Override
-	protected Sheep create_instance(JSONObject data) throws Exception {
+	protected Animal create_instance(JSONObject data) throws Exception {
+		
 		SelectionStrategy mate= new SelectFirst();
 		SelectionStrategy danger = new SelectFirst();
 		if(data.has("mate_strategy")) {

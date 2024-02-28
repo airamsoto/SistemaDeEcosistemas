@@ -24,6 +24,11 @@ public class RegionManager implements AnimalMapView {
 		this._width = width;
 		this._height = height;
 		this._regions = new Region[rows][cols];
+		for (int i = 0; i < this._rows; i++) {
+			for (int j = 0; j < this._cols; j++) {
+				this._regions[i][j] = new DefaultRegion();
+			}
+		}
 		this._animal_region = new HashMap<Animal, Region>();
 		this.widthcol = (this._width / this._cols);
 		this.heightrow = (this._height / this._rows);
@@ -41,20 +46,19 @@ public class RegionManager implements AnimalMapView {
 
 //COMPROBAR LO DE LA REGION DEL ANIMAL NO SE PUEDE USAR BUCLES
 	void register_animal(Animal a) {
-
-		int i = 0;
-		while (i < this._cols && a._pos.getX() < (i + 1) * this.widthcol) {
-
-			i++;
-		}
-		int j = 0;
-		while (j < this._rows && a._pos.getY() < (j + 1) * this.heightrow) {
-
-			j++;
-		}
-		this._animal_region.put(a, this._regions[i][j]);
-		this._regions[i][j].add_animal(a);
 		a.init(this);
+		int i = (int)Math.floor( a._pos.getX() / this.widthcol); //comprobar si es width o width col
+		int j = (int)Math.floor (a._pos.getY() / this.heightrow);
+		System.out.println(i + " " + j);	
+		if(i >= this._rows) {
+			i = this._rows -1;
+		} 
+		if(j >= this._cols) {
+			j = this._cols-1;
+		}
+		this._regions[i][j].add_animal(a);
+		this._animal_region.put(a, this._regions[i][j]);
+		
 
 	}
 
@@ -66,7 +70,7 @@ public class RegionManager implements AnimalMapView {
 	}
 
 	void update_animal_region(Animal a) {
-		int i = 0;
+	/*	int i = 0;
 		while (i < this._cols && a._pos.getX() < (i + 1) * this.widthcol) {
 
 			i++;
@@ -75,6 +79,14 @@ public class RegionManager implements AnimalMapView {
 		while (j < this._rows && a._pos.getY() < (j + 1) * this.heightrow) {
 
 			j++;
+		}*/
+		int i = (int)Math.floor( a._pos.getX() / this.widthcol); //comprobar si es width o width col
+		int j = (int)Math.floor (a._pos.getY() / this.heightrow);
+		if(i >= this._rows) {
+			i = this._rows -1;
+		} 
+		if(j >= this._cols) {
+			j = this._cols-1;
 		}
 		if (this._regions[i][j] != this._animal_region.get(a)) {
 			this._animal_region.get(a).remove_animal(a);
@@ -84,13 +96,7 @@ public class RegionManager implements AnimalMapView {
 		}
 
 	}
-	// List <Animal>
 
-	// aimalLis
-
-	// dos doubles
-
-	// x entre witdhtr y al reves
 
 	public double get_food(Animal a, double dt) {
 		return this._animal_region.get(a).get_food(a, dt);
@@ -99,6 +105,7 @@ public class RegionManager implements AnimalMapView {
 	void update_all_regions(double dt) {
 		for (int i = 0; i < this._rows; i++) {
 			for (int j = 0; j < this._cols; j++) {
+				if(this._regions[i][j] != null )
 				this._regions[i][j].update(dt);
 			}
 		}

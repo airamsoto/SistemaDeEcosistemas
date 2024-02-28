@@ -14,7 +14,7 @@ public class WolfBuilder extends Builder<Animal> {
 	private Factory <SelectionStrategy> selectionFactory;
 	
 	public WolfBuilder(Factory <SelectionStrategy> selectionStrategy) {
-		super("Wolf", "Genera Lobo");
+		super("wolf", "Genera Lobo");
 		// TODO Auto-generated constructor stub
 	}
 
