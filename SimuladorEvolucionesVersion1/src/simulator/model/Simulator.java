@@ -64,15 +64,15 @@ public class Simulator implements JSONable {
 
 		this._time += dt;
 
-		Iterator<Animal> iterator = _animalList.iterator();
-		while (iterator.hasNext()) {
-			Animal animal = iterator.next();
+		List<Animal> animals = new ArrayList<Animal>();
+		for (Animal animal : _animalList) {
 			if (animal.get_state() == State.DEAD) {
-				iterator.remove();
+		
+				animals.remove(animal);
 				this._regionManager.unregister_animal(animal);
 			}
 		}
-
+	
 		for (Animal animal : _animalList) {
 			animal.update(dt);
 			this._regionManager.update_animal_region(animal);
@@ -80,12 +80,13 @@ public class Simulator implements JSONable {
 
 		this._regionManager.update_all_regions(dt);
 
-		List<Animal> babys = new ArrayList<Animal>();
+		//List<Animal> babys = new ArrayList<Animal>();
 		for (Animal animal : _animalList) {
 			if (animal.is_pregnant()) {
-				babys.add(animal.deliver_baby());
+				//babys.add(animal.deliver_baby());
+				this._animalList.add(animal);
 			}
-			this._animalList.addAll(babys);
+			//this._animalList.addAll(babys);
 		}
 		/*
 		 * Quitar todos los animales con estado DEAD de la lista de animales y

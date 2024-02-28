@@ -88,6 +88,12 @@ public class RegionManager implements AnimalMapView {
 		if(j >= this._cols) {
 			j = this._cols-1;
 		}
+		if(i <= 0) {
+			i = 0;
+		} 
+		if(j <= 0) {
+			j = 0;
+		}
 		if (this._regions[i][j] != this._animal_region.get(a)) {
 			this._animal_region.get(a).remove_animal(a);
 			this._regions[i][j].add_animal(a);

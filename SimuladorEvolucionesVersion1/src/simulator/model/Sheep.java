@@ -43,7 +43,7 @@ public class Sheep extends Animal {
 	private void normalState(double dt) {
 		if (this._state == State.NORMAL) {
 			if (this._pos.distanceTo(this._dest) < 0.8) {
-				// creo que es elegir un destino random dentro del maa
+				
 			}
 			this.move(this._speed * dt * Math.exp((this._energy - 100.0) * 0.007));
 			this._age += dt;
