@@ -42,7 +42,7 @@ public class Sheep extends Animal {
 		}
 		if(this._energy == 0.0 || this._age == 8.0) this._state = State.DEAD;
 		if(this._state != State.DEAD) {
-			//pide comida al gestor 
+			//this._energy = this._region_mngr.get_food(this, dt);
 		}
 	}
 

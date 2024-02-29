@@ -62,7 +62,7 @@ public class RegionManager implements AnimalMapView {
 		if(j <= 0) {
 			j = 0;
 		}
-		System.out.println (i + " " + j);
+		
 		this._regions[j][i].add_animal(a);
 		this._animal_region.put(a, this._regions[j][i]);
 		
@@ -79,7 +79,18 @@ public class RegionManager implements AnimalMapView {
 	void update_animal_region(Animal a) {
 		int i = (int) ( a._pos.getX() / this.widthcol); 
 		int j = (int)(a._pos.getY() / this.heightrow);
-		
+		if(i >= this._rows) {
+			i = this._rows -1;
+		} 
+		if(j >= this._cols) {
+			j = this._cols-1;
+		}
+		if(i <= 0) {
+			i = 0;
+		} 
+		if(j <= 0) {
+			j = 0;
+		}
 		if (this._regions[j][i] != this._animal_region.get(a)) {
 			if(this._animal_region.get(a) == null) {
 				System.out.print("null");
@@ -131,7 +142,7 @@ public class RegionManager implements AnimalMapView {
 
 		for (int j = topR; j <= downR; j++) {
 			for (int i = leftR; i <= rightR; i++) {
-				for (Animal other : this._regions[j][i].getAnimals()) {
+				for (Animal other : this._regions[i][j].getAnimals()) {
 					if (other != a && filter.test(other)
 							&& a.get_position().distanceTo(other.get_position()) < a.get_sight_range()) {
 						al.add(other);
