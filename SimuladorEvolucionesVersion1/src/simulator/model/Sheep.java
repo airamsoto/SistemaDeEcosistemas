@@ -27,10 +27,8 @@ public class Sheep extends Animal {
 	public void update(double dt) {
 		if (this._state == State.DEAD) { // si esta muerto no hace nada
 
-		} else {
-			//ver que iria aqui
-		}
-		if (this._state == State.NORMAL) {
+		} 
+		else if (this._state == State.NORMAL) {
 			this.normalState(dt);
 		} else if (this._state == State.DANGER) {
 			this.dangerState(dt);
@@ -38,12 +36,20 @@ public class Sheep extends Animal {
 		else if (this._state == State.MATE) {
 			this.mateState(dt);
 		}
+		//comprobar que esta fuera del mapa
+		if(this.isOut()) {
+			this._pos.ajustar(this._region_mngr.get_height(), this._region_mngr.get_width());
+		}
+		if(this._energy == 0.0 || this._age == 8.0) this._state = State.DEAD;
+		if(this._state != State.DEAD) {
+			//pide comida al gestor 
+		}
 	}
 
 	private void normalState(double dt) {
 		if (this._state == State.NORMAL) {
 			if (this._pos.distanceTo(this._dest) < 0.8) {
-				
+				this._dest = this.getRandomVector();
 			}
 			this.move(this._speed * dt * Math.exp((this._energy - 100.0) * 0.007));
 			this._age += dt;
@@ -129,13 +135,7 @@ public class Sheep extends Animal {
 
 		if (this._danger_source == null || (this._pos.distanceTo(this._danger_source._pos) < this._sight_range)) {
 			this._danger_source = this._danger_strategy.select(this,
-					this._region_mngr.get_animals_in_range(this, e -> e._diet == Diet.CARNIVORE)); // no es asi pero
-																									// hay que
-																									// buscarle un
-																									// nuevo animal
-																									// que le peuda
-																									// poner el
-																									// peligro
+					this._region_mngr.get_animals_in_range(this, e -> e._diet == Diet.CARNIVORE)); 
 			if (this._danger_source == null) {
 				if (this._desire < 65)
 					this._state = State.NORMAL;

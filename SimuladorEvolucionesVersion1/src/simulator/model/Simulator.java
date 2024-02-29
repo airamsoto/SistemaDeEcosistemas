@@ -67,7 +67,6 @@ public class Simulator implements JSONable {
 		List<Animal> animals = new ArrayList<Animal>();
 		for (Animal animal : _animalList) {
 			if (animal.get_state() == State.DEAD) {
-		
 				animals.remove(animal);
 				this._regionManager.unregister_animal(animal);
 			}

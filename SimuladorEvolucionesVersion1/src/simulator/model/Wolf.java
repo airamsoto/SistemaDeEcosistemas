@@ -35,9 +35,9 @@ public class Wolf extends Animal {
 		}
 
 		//esto es la parte de encima de los estados del update
-		if (this._pos == null) { // cambiar lo de null por una posicion fuera del tablero
-			this._state = State.NORMAL;
-			// falta ajustar la posicion
+		if (this.isOut()) { // cambiar lo de null por una posicion fuera del tablero
+			this._state = State.NORMAL; //arreglar esta parte
+			this._pos.ajustar(this._region_mngr.get_height(), this._region_mngr.get_width());
 		}
 		if (this._energy == 0.0 || this._age > 14.0) {
 			this._state = State.DEAD;
@@ -54,7 +54,7 @@ public class Wolf extends Animal {
 
 	private void normalState(double dt) {
 		if (this._pos.distanceTo(_dest) < 0.8) {
-			//destino random dentro del mapa
+			this._dest = this.getRandomVector();
 		}
 		this.move(this._speed * dt * Math.exp((this._energy - 100.0) * 0.007));
 		this._age += dt;

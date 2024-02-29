@@ -1,6 +1,5 @@
 package simulator.model;
 
-
 import org.json.JSONObject;
 
 import simulator.misc.Utils;
@@ -77,14 +76,12 @@ public abstract class Animal implements Entity, AnimalInfo {
 			Vector2D v = new Vector2D(x, y);
 			this._pos = v;
 		} else {
-
 			this._pos.ajustar(reg_mngr.get_height(), reg_mngr.get_width());
 		}
 		double x = Utils._rand.nextDouble(800);
 		double y = Utils._rand.nextDouble(600);
 		Vector2D v = new Vector2D(x, y);
 		this._dest = v;
-		
 
 	}
 
@@ -96,18 +93,30 @@ public abstract class Animal implements Entity, AnimalInfo {
 	}
 
 	protected void move(double speed) {
-
+		
 		this._pos = _pos.plus(_dest.minus(_pos).direction().scale(speed));
+		if(this.isOut()) {
+			this._pos.ajustar(this._region_mngr.get_height(), this._region_mngr.get_width());
+		} 
+		
+			
+	
+		
 	}
 
 	public JSONObject as_JSON() {
 		// preguntar no llego a tenerlo del todo claro o mirar apuntes
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("pos", this._pos); 									
+		jsonObject.put("pos", this._pos);
 		jsonObject.put("gcode", this._genetic_code);
 		jsonObject.put("diet", this._diet);
 		jsonObject.put("state", this._state);
 		return jsonObject;
+	}
+
+	protected Vector2D getRandomVector() {
+		return new Vector2D(Utils._rand.nextDouble(_region_mngr.get_width()),
+				Utils._rand.nextDouble(_region_mngr.get_height()));
 	}
 
 	@Override
@@ -175,6 +184,9 @@ public abstract class Animal implements Entity, AnimalInfo {
 		// TODO Auto-generated method stub
 
 	}
-	//funcion is out
+	// funcion is out
+	protected boolean isOut() {
+		return (this._pos.getX() < 0 || this._pos.getY() < 0 || this._pos.getX() > this._region_mngr.get_region_width() || this._pos.getY() > this._region_mngr.get_region_height());		
+	}
 
 }
