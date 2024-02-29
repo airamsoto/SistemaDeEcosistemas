@@ -64,7 +64,7 @@ public class Simulator implements JSONable {
 
 		this._time += dt;
 
-		List<Animal> animals = new ArrayList<Animal>();
+		List<Animal> animals =  new ArrayList<Animal>();
 		for (Animal animal : _animalList) {
 			if (animal.get_state() == State.DEAD) {
 				animals.remove(animal);
@@ -75,7 +75,10 @@ public class Simulator implements JSONable {
 		for (Animal animal : _animalList) {
 			animal.update(dt);
 			this._regionManager.update_animal_region(animal);
-		}
+			}
+			
+			
+		
 
 		this._regionManager.update_all_regions(dt);
 

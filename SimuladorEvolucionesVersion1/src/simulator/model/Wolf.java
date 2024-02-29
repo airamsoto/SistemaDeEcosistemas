@@ -34,9 +34,9 @@ public class Wolf extends Animal {
 			this.mateState(dt);
 		}
 
-		//esto es la parte de encima de los estados del update
+		// esto es la parte de encima de los estados del update
 		if (this.isOut()) { // cambiar lo de null por una posicion fuera del tablero
-			this._state = State.NORMAL; //arreglar esta parte
+			this._state = State.NORMAL; // arreglar esta parte
 			this._pos.ajustar(this._region_mngr.get_height(), this._region_mngr.get_width());
 		}
 		if (this._energy == 0.0 || this._age > 14.0) {
@@ -45,8 +45,8 @@ public class Wolf extends Animal {
 		}
 		if (this._state != State.DEAD) {
 			// comprobar si es hunt targets
-			//la funcion de get food da error
-			//this._energy = this._region_mngr.get_food(this, dt); 
+			// la funcion de get food da error
+			// this._energy = this._region_mngr.get_food(this, dt);
 			this._energy = Utils.constrain_value_in_range(this._energy, 0.0, 100.0);
 			// llama a get food y la anyade a la su energy manteniendolo entre 0 y 100
 		}
@@ -96,7 +96,7 @@ public class Wolf extends Animal {
 			}
 		}
 	}
-	
+
 	private void mateState(double dt) {
 		if (this._mate_target != null && (this._mate_target._state == State.DEAD
 				|| (this._pos.distanceTo(this._hunt_target._pos) < this._sight_range))) {
@@ -104,7 +104,8 @@ public class Wolf extends Animal {
 		}
 		if (this._mate_target == null) {
 			// buscar un animal para emparejartse
-			this._mate_target = this._mate_strategy.select(this, this._region_mngr.get_animals_in_range(this, e -> e._genetic_code == this._genetic_code));
+			this._mate_target = this._mate_strategy.select(this,
+					this._region_mngr.get_animals_in_range(this, e -> e._genetic_code == this._genetic_code));
 			if (this._mate_target == null) {
 				// si no lo encuentra se mueve asi
 				this.move(3.0 * _speed * dt * Math.exp((_energy - 100.0) * 0.007));
@@ -122,12 +123,12 @@ public class Wolf extends Animal {
 					this._mate_target._desire = 0.0;
 					if (this._mate_target._baby == null) {
 						if (!this.is_pregnant()) {
-							if(Utils._rand.nextDouble() < 0.9) {
+							if (Utils._rand.nextDouble() < 0.9) {
 								this._baby = new Wolf(this, this._mate_target);
 							}
 						}
-						
-						this.deliver_baby(); //que es eso
+
+						this.deliver_baby(); // que es eso
 						this._energy -= 10.0;
 						this._energy = Utils.constrain_value_in_range(this._energy, 0.0, 100.0);
 						this._mate_target = null;
@@ -145,6 +146,5 @@ public class Wolf extends Animal {
 		}
 
 	}
-	
-	//cambios
+
 }

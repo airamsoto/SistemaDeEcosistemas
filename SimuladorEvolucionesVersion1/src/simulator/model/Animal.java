@@ -78,10 +78,7 @@ public abstract class Animal implements Entity, AnimalInfo {
 		} else {
 			this._pos.ajustar(reg_mngr.get_height(), reg_mngr.get_width());
 		}
-		double x = Utils._rand.nextDouble(800);
-		double y = Utils._rand.nextDouble(600);
-		Vector2D v = new Vector2D(x, y);
-		this._dest = v;
+		this._dest = getRandomVector();
 
 	}
 
@@ -186,7 +183,7 @@ public abstract class Animal implements Entity, AnimalInfo {
 	}
 	// funcion is out
 	protected boolean isOut() {
-		return (this._pos.getX() <= 0 || this._pos.getY() <= 0 || this._pos.getX() >= this._region_mngr.get_width() || this._pos.getY() >= this._region_mngr.get_height());		
+		return (this._pos.getX() < 0 || this._pos.getY() < 0 || this._pos.getX() >= this._region_mngr.get_width() || this._pos.getY() >= this._region_mngr.get_height());		
 	}
 
 }

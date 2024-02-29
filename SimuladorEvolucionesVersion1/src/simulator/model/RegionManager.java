@@ -64,6 +64,9 @@ public class RegionManager implements AnimalMapView {
 		}
 		
 		this._regions[j][i].add_animal(a);
+		if(this._regions[j][i] == null) {
+			System.out.println("hola");
+		}
 		this._animal_region.put(a, this._regions[j][i]);
 		
 
@@ -92,9 +95,6 @@ public class RegionManager implements AnimalMapView {
 			j = 0;
 		}
 		if (this._regions[j][i] != this._animal_region.get(a)) {
-			if(this._animal_region.get(a) == null) {
-				System.out.print("null");
-			}
 			this._animal_region.get(a).remove_animal(a);
 			this._regions[j][i].add_animal(a);
 			this._animal_region.put(a, this._regions[j][i]);
