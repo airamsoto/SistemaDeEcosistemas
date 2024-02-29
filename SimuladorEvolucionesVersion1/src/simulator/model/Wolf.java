@@ -45,7 +45,8 @@ public class Wolf extends Animal {
 		}
 		if (this._state != State.DEAD) {
 			// comprobar si es hunt targets
-			//this._energy = this._region_mngr.get_food(this, dt);
+			//la funcion de get food da error
+			//this._energy = this._region_mngr.get_food(this, dt); 
 			this._energy = Utils.constrain_value_in_range(this._energy, 0.0, 100.0);
 			// llama a get food y la anyade a la su energy manteniendolo entre 0 y 100
 		}
