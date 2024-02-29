@@ -186,7 +186,7 @@ public abstract class Animal implements Entity, AnimalInfo {
 	}
 	// funcion is out
 	protected boolean isOut() {
-		return (this._pos.getX() < 0 || this._pos.getY() < 0 || this._pos.getX() > this._region_mngr.get_region_width() || this._pos.getY() > this._region_mngr.get_region_height());		
+		return (this._pos.getX() <= 0 || this._pos.getY() <= 0 || this._pos.getX() >= this._region_mngr.get_width() || this._pos.getY() >= this._region_mngr.get_height());		
 	}
 
 }
