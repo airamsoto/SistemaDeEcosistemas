@@ -92,9 +92,7 @@ public abstract class Animal implements Entity, AnimalInfo {
 	protected void move(double speed) {
 		
 		this._pos = _pos.plus(_dest.minus(_pos).direction().scale(speed));
-		if(this.isOut()) {
-			this._pos.ajustar(this._region_mngr.get_height(), this._region_mngr.get_width());
-		} 
+		if(this.isOut()) this.setNormalState();
 		
 			
 	
@@ -118,72 +116,76 @@ public abstract class Animal implements Entity, AnimalInfo {
 
 	@Override
 	public State get_state() {
-		// TODO Auto-generated method stub
+		
 		return this._state;
 	}
 
 	@Override
 	public Vector2D get_position() {
-		// TODO Auto-generated method stub
+		
 		return this._pos;
 	}
 
 	@Override
 	public String get_genetic_code() {
-		// TODO Auto-generated method stub
+		
 		return this._genetic_code;
 	}
 
 	@Override
 	public Diet get_diet() {
-		// TODO Auto-generated method stub
+		
 		return this._diet;
 	}
 
 	@Override
 	public double get_speed() {
-		// TODO Auto-generated method stub
+		
 		return this._speed;
 	}
 
 	@Override
 	public double get_sight_range() {
-		// TODO Auto-generated method stub
+		
 		return this._sight_range;
 	}
 
 	@Override
 	public double get_energy() {
-		// TODO Auto-generated method stub
+		
 		return this._energy;
 	}
 
 	@Override
 	public double get_age() {
-		// TODO Auto-generated method stub
+		
 		return this._age;
 	}
 
 	@Override
 	public Vector2D get_destination() {
-		// TODO Auto-generated method stub
+		
 		return this._dest;
 	}
 
 	@Override
 	public boolean is_pregnant() {
-		// TODO Auto-generated method stub
-		return false;
+		
+		return this._baby != null;
 	}
 
 	@Override
 	public void update(double dt) {
-		// TODO Auto-generated method stub
+		
 
 	}
 	// funcion is out
 	protected boolean isOut() {
 		return (this._pos.getX() < 0 || this._pos.getY() < 0 || this._pos.getX() >= this._region_mngr.get_width() || this._pos.getY() >= this._region_mngr.get_height());		
+	}
+	
+	protected  void setNormalState() {
+		
 	}
 
 }

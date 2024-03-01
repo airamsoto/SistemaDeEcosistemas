@@ -40,7 +40,7 @@ public class SheepBuilder extends Builder<Animal> {
 	}
 	@Override 
 	public void fill_in_data(JSONObject o) {
-		o.accumulate("mate_strategy", null);
+		o.accumulate("mate_strategy", "");
 		o.accumulate("hunt_strategy", null);
 		o.accumulate("pos" + ":" + "[", 100.0);
 		

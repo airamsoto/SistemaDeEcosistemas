@@ -5,10 +5,12 @@ import simulator.misc.Vector2D;
 
 public class Wolf extends Animal {
 	private Animal _hunt_target;
-	private Animal _hunting_strategy;
+	private SelectionStrategy _hunting_strategy;
 
 	public Wolf(SelectionStrategy mate_strategy, SelectionStrategy hunting_strategy, Vector2D pos) throws Exception {
 		super("wolf", Diet.CARNIVORE, 50.0, 60.0, mate_strategy, pos);
+		this._hunt_target = null;
+		this._hunting_strategy = hunting_strategy;
 	}
 
 	protected Wolf(Wolf p1, Animal p2) {
@@ -35,9 +37,8 @@ public class Wolf extends Animal {
 		}
 
 		// esto es la parte de encima de los estados del update
-		if (this.isOut()) { // cambiar lo de null por una posicion fuera del tablero
-			this._state = State.NORMAL; // arreglar esta parte
-			this._pos.ajustar(this._region_mngr.get_height(), this._region_mngr.get_width());
+		if (this.isOut()) { 
+			this.setNormalState();
 		}
 		if (this._energy == 0.0 || this._age > 14.0) {
 			this._state = State.DEAD;
@@ -64,13 +65,15 @@ public class Wolf extends Animal {
 		if (this._energy < 50.0) {
 			this._state = State.HUNGER;
 		} else if (this._desire > 65.0) {
-			this._state = State.MATE;
+			this.setMateState();
 		}
 	}
 
 	private void hungerState(double dt) {
 		if (this._hunt_target == null || (this._hunt_target._state == State.DEAD
 				|| (this._pos.distanceTo(this._hunt_target._pos) < this._sight_range))) {
+			this._hunt_target = this._hunting_strategy.select(this,
+					this._region_mngr.get_animals_in_range(this, e -> e._genetic_code != this._genetic_code)); 
 		}
 		if (this._hunt_target == null) {
 			this.move(this._speed * dt * Math.exp((this._energy - 100.0) * 0.007));
@@ -90,9 +93,9 @@ public class Wolf extends Animal {
 		}
 		if (this._energy > 50.0) {
 			if (this._desire < 65.0) {
-				this._state = State.NORMAL;
+				this.setNormalState();
 			} else {
-				this._state = State.MATE;
+				this.setMateState();
 			}
 		}
 	}
@@ -125,10 +128,12 @@ public class Wolf extends Animal {
 						if (!this.is_pregnant()) {
 							if (Utils._rand.nextDouble() < 0.9) {
 								this._baby = new Wolf(this, this._mate_target);
+								//this._baby = this.deliver_baby();
+							
 							}
 						}
 
-						this.deliver_baby(); // que es eso
+						 // que es eso
 						this._energy -= 10.0;
 						this._energy = Utils.constrain_value_in_range(this._energy, 0.0, 100.0);
 						this._mate_target = null;
@@ -145,6 +150,24 @@ public class Wolf extends Animal {
 			this._state = State.NORMAL;
 		}
 
+	}
+	
+	@Override
+	protected void setNormalState() {
+		this._state = State.NORMAL; 
+		this._hunt_target = null;
+		this._mate_target = null;
+		this._pos.ajustar(this._region_mngr.get_height(), this._region_mngr.get_width());
+	}
+	private void setMateState() {
+		this._state = State.MATE;
+		this._hunt_target = null;
+		
+	}
+	
+	private void setDangerState() {
+		this._state = State.DANGER;
+		this._mate_target = null;
 	}
 
 }

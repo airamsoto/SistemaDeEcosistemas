@@ -44,7 +44,7 @@ public class Simulator implements JSONable {
 	public void add_animal(JSONObject a_json) throws Exception {
 		// comprobar
 		this.add_animal(this._animalFactory.create_instance(a_json));
-
+		
 	}
 
 	public MapInfo get_map_info() {
@@ -67,30 +67,30 @@ public class Simulator implements JSONable {
 		List<Animal> animals =  new ArrayList<Animal>();
 		for (Animal animal : _animalList) {
 			if (animal.get_state() == State.DEAD) {
-				animals.remove(animal);
+				animals.add(animal);
 				this._regionManager.unregister_animal(animal);
 			}
 		}
-	
+		_animalList.removeAll(animals);
 		for (Animal animal : _animalList) {
 			animal.update(dt);
 			this._regionManager.update_animal_region(animal);
-			}
-			
+		}
 			
 		
 
-		this._regionManager.update_all_regions(dt);
-
-		//List<Animal> babys = new ArrayList<Animal>();
+		List<Animal> babys = new ArrayList<Animal>();
 		for (Animal animal : _animalList) {
 			if (animal.is_pregnant()) {
-				//babys.add(animal.deliver_baby());
-				this._animalList.add(animal);
-			}
-			//this._animalList.addAll(babys);
+				babys.add(animal.deliver_baby());	
+			}	
 		}
+		
+		this._animalList.addAll(babys);
+		
+		this._regionManager.update_all_regions(dt);
 		/*
+		 * 
 		 * Quitar todos los animales con estado DEAD de la lista de animales y
 		 * eliminarlos del gestor de regiones. ○ Para cada animal: llama a su update(dt)
 		 * y pide al gestor de regiones que actualice su región. ○ Pedir al gestor de
