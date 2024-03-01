@@ -86,7 +86,12 @@ public class Simulator implements JSONable {
 			}	
 		}
 		
-		this._animalList.addAll(babys);
+		//this._animalList.addAll(babys);
+		for(Animal animal: babys) {
+			this._animalList.add(animal);
+			this._regionManager.register_animal(animal);
+			
+		}
 		
 		this._regionManager.update_all_regions(dt);
 		/*
