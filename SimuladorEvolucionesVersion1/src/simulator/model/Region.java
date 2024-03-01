@@ -5,6 +5,7 @@ import java.util.*;
 import java.util.List;
 
 import org.json.JSONObject;
+import org.json.JSONArray;
 
 public abstract class Region implements Entity, FoodSupplier, RegionInfo {
 	// atributo con la lista de animales que se encuentran en la region, haciendolo
@@ -24,15 +25,14 @@ public abstract class Region implements Entity, FoodSupplier, RegionInfo {
 	}
 
 	final List<Animal> getAnimals() {
-		return Collections.unmodifiableList(this.animalList); // preguntar si es asi
-		// devuelve una versión inmodificable de la lista de animales.
+		return Collections.unmodifiableList(this.animalList); 
 	}
 
 	public JSONObject as_JSON() {
 		JSONObject jsonObject = new JSONObject();
-		JSONObject jsonList = new JSONObject();
+		JSONArray jsonList = new JSONArray();
 		for (Animal animal : this.animalList) {
-			jsonList.put(null, animal.as_JSON());
+			jsonList.put(animal.as_JSON());
 		}
 		jsonObject.put("animal", jsonList);
 		// aqui haria falta devolver lo que le corresponda a cada animal

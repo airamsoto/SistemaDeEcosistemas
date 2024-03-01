@@ -1,43 +1,38 @@
 package simulator.model;
 
-public class DynamicSupplyRegion extends Region {
-	public DynamicSupplyRegion(double initialFood, double growhtFactor) {
+import simulator.misc.Utils;
 
+public class DynamicSupplyRegion extends Region {
+	private double _food;
+	private double _factor;
+
+	public DynamicSupplyRegion(double initialFood, double growhtFactor) {
+		this._food = initialFood;
+		this._factor = growhtFactor;
 	}
 
 	@Override
 	public double get_food(Animal a, double dt) {
-		if(a._diet == Diet.CARNIVORE) return 0.0;
-		/*
-		 * hace falta comprobar que se herviboro?
-		n es el numero de animales herviboros y food la cantidad de comida actual
-		 * return Math.min(_food(a, dt),60.0*Math.exp(-Math.max(0,n-5.0)*2.0)*dt);
-
-		 */
-		int _food;
+		if (a._diet == Diet.CARNIVORE)
+			return 0.0;
 		int n = 0;
-		for (int i = 0; i < this.animalList.size(); i++) {
-			if(this.getAnimals().get(i)._diet == Diet.HERBIVORE) {
-				
+		for (Animal animal : this.animalList) {
+			if (animal.get_diet() == Diet.HERBIVORE)
 				n++;
-			}
-			//no se si es this.getanimals o animal list
 		}
-		//return Math.min(this.d(a, dt),60.0*Math.exp(-Math.max(0,n-5.0)*2.0)*dt);
-		return 0.0;
-		
+		double ret = Math.min(_food, 60.0 * Math.exp(-Math.max(0, n - 5.0) * 2.0) * dt);
+		this._food -= ret;
+		return ret;
+
 	}
 
 	@Override
 	public void update(double dt) {
-		/*
-		 * Además quita el valor devuelto a la cantidad de comida _food que tiene la
-		 * región actualmente. Su método update incrementa, con probabilidad 0.5, la
-		 * cantidad de comida por dt*_factor donde _factor es el factor de crecimiento.
-		 * 
-		 * 
-		 */
-		
+
+		if (Utils._rand.nextDouble() < 0.5) {
+			this._food += dt * this._factor;
+
+		}
 
 	}
 

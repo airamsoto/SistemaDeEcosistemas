@@ -53,6 +53,7 @@ public abstract class Animal implements Entity, AnimalInfo {
 	protected Animal(Animal p1, Animal p2) {
 		this._dest = null;
 		this._baby = null;
+		this._mate_target = null;
 		this._mate_strategy = p2._mate_strategy;
 		this._region_mngr = null;
 		this._state = State.NORMAL;
@@ -76,7 +77,10 @@ public abstract class Animal implements Entity, AnimalInfo {
 			Vector2D v = new Vector2D(x, y);
 			this._pos = v;
 		} else {
-			this._pos.ajustar(reg_mngr.get_height(), reg_mngr.get_width());
+			if(this.isOut()) {
+				this._pos.ajustar(reg_mngr.get_height(), reg_mngr.get_width());
+			}
+			
 		}
 		this._dest = getRandomVector();
 
@@ -104,7 +108,6 @@ public abstract class Animal implements Entity, AnimalInfo {
 	}
 
 	public JSONObject as_JSON() {
-		// preguntar no llego a tenerlo del todo claro o mirar apuntes
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("pos", this._pos);
 		jsonObject.put("gcode", this._genetic_code);
@@ -190,6 +193,10 @@ public abstract class Animal implements Entity, AnimalInfo {
 	
 	protected  void setNormalState() {
 		
+	}
+	@Override
+	public boolean equals(Object o) {
+		return this == o;
 	}
 
 }

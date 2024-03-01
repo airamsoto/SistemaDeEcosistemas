@@ -23,7 +23,7 @@ public class Simulator implements JSONable {
 		this._animalFactory = animals_factory;
 		this._animalList = new ArrayList<Animal>();
 		this._regionManager = new RegionManager(cols, rows, width, height);
-		// iniciar lista vacia
+		
 	}
 
 	private void set_region(int row, int col, Region r) {
@@ -86,11 +86,9 @@ public class Simulator implements JSONable {
 			}	
 		}
 		
-		//this._animalList.addAll(babys);
+		
 		for(Animal animal: babys) {
-			this._animalList.add(animal);
-			this._regionManager.register_animal(animal);
-			
+			this.add_animal(animal);
 		}
 		
 		this._regionManager.update_all_regions(dt);
