@@ -4,11 +4,9 @@ import simulator.misc.Utils;
 import simulator.misc.Vector2D;
 
 public class Sheep extends Animal {
-
 	private SelectionStrategy _danger_strategy;
 	private Animal _danger_source;
 
-	// 1constructora
 	public Sheep(SelectionStrategy mate_strategy, SelectionStrategy danger_strategy, Vector2D pos) throws Exception {
 		super("Sheep", Diet.HERBIVORE, 40.0, 35.0, mate_strategy, pos);
 		this._danger_strategy = danger_strategy;
@@ -16,7 +14,7 @@ public class Sheep extends Animal {
 
 	}
 
-	// sheep born
+
 	protected Sheep(Sheep p1, Animal p2) {
 		super(p1, p2);
 		this._danger_strategy = p1._danger_strategy;
@@ -51,9 +49,6 @@ public class Sheep extends Animal {
 
 	private void normalState(double dt) {
 		if (this._state == State.NORMAL) {
-			if (this._dest == null) {
-				System.out.println("Hola");
-			}
 			if (this._pos.distanceTo(this._dest) < 0.8) {
 				this._dest = this.getRandomVector();
 			}
@@ -101,7 +96,6 @@ public class Sheep extends Animal {
 					if (!this.is_pregnant()) {
 						if (Utils._rand.nextDouble() < 0.9) {
 							this._baby = new Sheep(this, this._mate_target);
-
 						}
 					}
 					this._mate_target = null;
@@ -156,7 +150,7 @@ public class Sheep extends Animal {
 
 	@Override
 	protected void setNormalState() {
-		this._pos.ajustar(this._region_mngr.get_height(), this._region_mngr.get_width());
+		//this._pos.ajustar(this._region_mngr.get_height(), this._region_mngr.get_width());
 		this._state = State.NORMAL;
 		this._danger_source = null;
 

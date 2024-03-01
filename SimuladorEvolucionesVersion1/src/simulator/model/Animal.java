@@ -92,7 +92,11 @@ public abstract class Animal implements Entity, AnimalInfo {
 	protected void move(double speed) {
 		
 		this._pos = _pos.plus(_dest.minus(_pos).direction().scale(speed));
-		if(this.isOut()) this.setNormalState();
+		if(this.isOut()) {
+			this.setNormalState();
+			this._pos.ajustar(this._region_mngr.get_height(), this._region_mngr.get_width());
+		
+		}
 		
 			
 	
