@@ -67,9 +67,6 @@ public class RegionManager implements AnimalMapView {
 		}
 
 		this._regions[j][i].add_animal(a);
-		if (this._regions[j][i] == null) {
-			System.out.println("hola");
-		}
 		this._animal_region.put(a, this._regions[j][i]);
 
 	}
