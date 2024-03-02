@@ -129,7 +129,7 @@ public class Sheep extends Animal {
 		}
 		if (this._danger_source == null) {
 			if(_dest.distanceTo(_pos) < 8.0) {
-				 this._dest = new Vector2D(Utils._rand.nextDouble(_region_mngr.get_width()), Utils._rand.nextDouble(_region_mngr.get_height()));
+				 this._dest = this.getRandomVector();
 			}
 			
 			this.move(_speed * dt * Math.exp((_energy - 100.0) * 0.007));

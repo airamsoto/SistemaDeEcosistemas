@@ -36,8 +36,19 @@ public class RegionManager implements AnimalMapView {
 
 	void set_region(int row, int col, Region r) {
 		
-		
-		
+		//COMPROBAR QUE NO SE SALGA DEL ARRAY
+		if (row >= this._rows) {
+			row = this._rows - 1;
+		}
+		if (col >= this._cols) {
+			col = this._cols - 1;
+		}
+		if (row <= 0) {
+			row = 0;
+		}
+		if (col <= 0) {
+			col = 0;
+		}
 		for (Animal a : this._regions[col][row].animalList) {
 			r.add_animal(a);
 			this._animal_region.put(a, r);
