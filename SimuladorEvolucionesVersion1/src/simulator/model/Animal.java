@@ -20,7 +20,7 @@ public abstract class Animal implements Entity, AnimalInfo {
 	protected static final double desireToMate = 65.0;
 	protected static final double energyToDie = 0.0;
 	protected static final double plusEnergy = 1.2;
-			
+
 	protected String _genetic_code;
 	protected Diet _diet;
 	protected State _state;
@@ -86,10 +86,10 @@ public abstract class Animal implements Entity, AnimalInfo {
 			Vector2D v = new Vector2D(x, y);
 			this._pos = v;
 		} else {
-			if(this.isOut()) {
+			if (this.isOut()) {
 				this._pos.ajustar(reg_mngr.get_height(), reg_mngr.get_width());
 			}
-			
+
 		}
 		this._dest = getRandomVector();
 
@@ -103,17 +103,12 @@ public abstract class Animal implements Entity, AnimalInfo {
 	}
 
 	protected void move(double speed) {
-		
+
 		this._pos = _pos.plus(_dest.minus(_pos).direction().scale(speed));
-		if(this.isOut()) {
+		if (this.isOut()) {
 			this.setNormalState();
 			this._pos.ajustar(this._region_mngr.get_height(), this._region_mngr.get_width());
-		
 		}
-		
-			
-	
-		
 	}
 
 	public JSONObject as_JSON() {
@@ -128,66 +123,6 @@ public abstract class Animal implements Entity, AnimalInfo {
 	protected Vector2D getRandomVector() {
 		return new Vector2D(Utils._rand.nextDouble(_region_mngr.get_width()),
 				Utils._rand.nextDouble(_region_mngr.get_height()));
-	}
-
-	@Override
-	public State get_state() {
-		
-		return this._state;
-	}
-
-	@Override
-	public Vector2D get_position() {
-		
-		return this._pos;
-	}
-
-	@Override
-	public String get_genetic_code() {
-		
-		return this._genetic_code;
-	}
-
-	@Override
-	public Diet get_diet() {
-		
-		return this._diet;
-	}
-
-	@Override
-	public double get_speed() {
-		
-		return this._speed;
-	}
-
-	@Override
-	public double get_sight_range() {
-		
-		return this._sight_range;
-	}
-
-	@Override
-	public double get_energy() {
-		
-		return this._energy;
-	}
-
-	@Override
-	public double get_age() {
-		
-		return this._age;
-	}
-
-	@Override
-	public Vector2D get_destination() {
-		
-		return this._dest;
-	}
-
-	@Override
-	public boolean is_pregnant() {
-		
-		return this._baby != null;
 	}
 
 	@Override
@@ -207,7 +142,7 @@ public abstract class Animal implements Entity, AnimalInfo {
 			this._pos.ajustar(this._region_mngr.get_height(), this._region_mngr.get_width());
 			
 		}
-		if (this._energy == ENERGYTODIE || this._age == )
+		if (this.isDead())
 			this._state = State.DEAD;
 		if (this._state != State.DEAD) {
 			this._energy += this._region_mngr.get_food(this, dt);
@@ -218,34 +153,98 @@ public abstract class Animal implements Entity, AnimalInfo {
 	}
 
 	private boolean isOut() {
-		return (this._pos.getX() < 0 || this._pos.getY() < 0 || this._pos.getX() >= this._region_mngr.get_width() || this._pos.getY() >= this._region_mngr.get_height());		
+		return (this._pos.getX() < 0 || this._pos.getY() < 0 || this._pos.getX() >= this._region_mngr.get_width()
+				|| this._pos.getY() >= this._region_mngr.get_height());
 	}
-	
-	protected  void setNormalState() {
-		
+
+	protected void setNormalState() {
+
 	}
-	
+
 	protected void normalState(double dt) {
-		
+
 	}
-	protected void mateState (double dt) {
-		
+
+	protected void mateState(double dt) {
+
 	}
-	protected void hungerState (double dt) {
-		
+
+	protected void hungerState(double dt) {
+
 	}
-	
-	protected void dangerState (double dt) {
-		
+
+	protected void dangerState(double dt) {
+
 	}
-	protected void searchMate () {
+
+	protected void searchMate() {
 		this._mate_target = this._mate_strategy.select(this,
 				this._region_mngr.get_animals_in_range(this, e -> e._genetic_code == this._genetic_code));
 	}
-	
+
 	protected boolean isDead() {
 		return false;
-		
+
+	}
+
+	@Override
+	public State get_state() {
+
+		return this._state;
+	}
+
+	@Override
+	public Vector2D get_position() {
+
+		return this._pos;
+	}
+
+	@Override
+	public String get_genetic_code() {
+
+		return this._genetic_code;
+	}
+
+	@Override
+	public Diet get_diet() {
+
+		return this._diet;
+	}
+
+	@Override
+	public double get_speed() {
+
+		return this._speed;
+	}
+
+	@Override
+	public double get_sight_range() {
+
+		return this._sight_range;
+	}
+
+	@Override
+	public double get_energy() {
+
+		return this._energy;
+	}
+
+	@Override
+	public double get_age() {
+
+		return this._age;
+	}
+
+	@Override
+	public Vector2D get_destination() {
+
+		return this._dest;
+	}
+
+	@Override
+	public boolean is_pregnant() {
+
+		return this._baby != null;
 	}
 
 }

@@ -14,7 +14,7 @@ public class Sheep extends Animal {
 	private static final double mathDouble = 0.07;
 
 	public Sheep(SelectionStrategy mate_strategy, SelectionStrategy danger_strategy, Vector2D pos) throws Exception {
-		super("Sheep", Diet.HERBIVORE, init_campoVisual, init_speed, mate_strategy, pos);
+		super("sheep", Diet.HERBIVORE, init_campoVisual, init_speed, mate_strategy, pos);
 		this._danger_strategy = danger_strategy;
 		this._danger_source = null;
 
