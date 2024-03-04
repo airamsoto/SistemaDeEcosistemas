@@ -24,5 +24,11 @@ public class DinamicSupplyRegionBuilder extends Builder<Region> {
 		}
 		return new DynamicSupplyRegion(food, factor);
 	}
+	@Override 
+	protected void fill_in_data(JSONObject o) {
+		o.put("food", 2.5);
+		o.put("factor", 1250.0);
+		
+	}
 
 }

@@ -10,7 +10,7 @@
       "data" : { }
     }
   }, {
-    "amount" : 10,
+    "amount" : 1000,
     "spec" : {
       "type" : "wolf",
       "data" : { }
