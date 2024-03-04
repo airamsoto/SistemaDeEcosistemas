@@ -4,7 +4,7 @@
   "cols" : 20,
   "rows" : 15,
   "animals" : [ {
-    "amount" : 20,
+    "amount" : 200,
     "spec" : {
       "type" : "sheep",
       "data" : { }
