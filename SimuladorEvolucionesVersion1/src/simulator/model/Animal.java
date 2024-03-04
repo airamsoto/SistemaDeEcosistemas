@@ -12,6 +12,15 @@ public abstract class Animal implements Entity, AnimalInfo {
 	public static final double RANDOM_POS = 60.0;
 	public static final double RANDOM_SIGHT_RANGE = 0.2;
 	public static final double RANDOM_SPEED = 0.2;
+	protected static final double minimumDouble = 0.0;
+	protected static final double maximumDouble = 100.0;
+	protected static final double distanceToDest = 8.0;
+	protected static final double restEnergy = 18.0;
+	protected static final double plusDesire = 30.0;
+	protected static final double desireToMate = 65.0;
+	protected static final double energyToDie = 0.0;
+	protected static final double plusEnergy = 1.2;
+			
 	protected String _genetic_code;
 	protected Diet _diet;
 	protected State _state;
@@ -198,7 +207,7 @@ public abstract class Animal implements Entity, AnimalInfo {
 			this._pos.ajustar(this._region_mngr.get_height(), this._region_mngr.get_width());
 			
 		}
-		if (this._energy == 0.0 || this._age == 8.0)
+		if (this._energy == ENERGYTODIE || this._age == )
 			this._state = State.DEAD;
 		if (this._state != State.DEAD) {
 			this._energy += this._region_mngr.get_food(this, dt);
@@ -207,8 +216,8 @@ public abstract class Animal implements Entity, AnimalInfo {
 		
 
 	}
-	// funcion is out
-	protected boolean isOut() {
+
+	private boolean isOut() {
 		return (this._pos.getX() < 0 || this._pos.getY() < 0 || this._pos.getX() >= this._region_mngr.get_width() || this._pos.getY() >= this._region_mngr.get_height());		
 	}
 	
@@ -229,6 +238,14 @@ public abstract class Animal implements Entity, AnimalInfo {
 	protected void dangerState (double dt) {
 		
 	}
+	protected void searchMate () {
+		this._mate_target = this._mate_strategy.select(this,
+				this._region_mngr.get_animals_in_range(this, e -> e._genetic_code == this._genetic_code));
+	}
 	
+	protected boolean isDead() {
+		return false;
+		
+	}
 
 }
