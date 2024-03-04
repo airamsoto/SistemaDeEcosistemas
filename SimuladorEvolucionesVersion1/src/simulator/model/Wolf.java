@@ -6,9 +6,17 @@ import simulator.misc.Vector2D;
 public class Wolf extends Animal {
 	private Animal _hunt_target;
 	private SelectionStrategy _hunting_strategy;
-
+	private static final double init_campoVisual = 50.0;
+	private static final double init_speed = 60.0;
+	private static final double energyToDie = 0.0;
+	private static final double ageToDie = 14.0;
+	private static final double minimumDouble = 0.0;
+	private static final double maximumDouble = 100.0;
+	private static final double distanceToDest = 8.0;
+	private static final double restEnergy = 18.0;
+	
 	public Wolf(SelectionStrategy mate_strategy, SelectionStrategy hunting_strategy, Vector2D pos) throws Exception {
-		super("wolf", Diet.CARNIVORE, 50.0, 60.0, mate_strategy, pos);
+		super("wolf", Diet.CARNIVORE, init_campoVisual, init_speed, mate_strategy, pos);
 		this._hunt_target = null;
 		this._hunting_strategy = hunting_strategy;
 	}
@@ -41,27 +49,27 @@ public class Wolf extends Animal {
 			this._pos.ajustar(this._region_mngr.get_height(), this._region_mngr.get_width());
 		}
 
-		if (this._energy == 0.0 || this._age > 14.0) {
+		if (this._energy == energyToDie || this._age > ageToDie) {
 			this._state = State.DEAD;
 
 		}
 		if (this._state != State.DEAD) {
 			this._energy += this._region_mngr.get_food(this, dt);
-			this._energy = Utils.constrain_value_in_range(this._energy, 0.0, 100.0);
+			this._energy = Utils.constrain_value_in_range(this._energy, minimumDouble, maximumDouble);
 
 		}
 	}
 
 	private void normalState(double dt) {
-		if (this._pos.distanceTo(_dest) < 8.0) {
+		if (this._pos.distanceTo(_dest) < distanceToDest) {
 			this._dest = this.getRandomVector();
 		}
 		this.move(this._speed * dt * Math.exp((this._energy - 100.0) * 0.007));
 		this._age += dt;
 		this._energy -= 18.0 * dt;
-		this._energy = Utils.constrain_value_in_range(this._energy, 0.0, 100.0);
+		this._energy = Utils.constrain_value_in_range(this._energy,minimumDouble, maximumDouble);
 		this._desire += 30.0 * dt;
-		this._desire = Utils.constrain_value_in_range(this._desire, 0.0, 100.0);
+		this._desire = Utils.constrain_value_in_range(this._desire, minimumDouble, maximumDouble);
 		if (this._energy < 50.0) {
 			this.setHungerState();
 		} else if (this._desire > 65.0) {
@@ -79,25 +87,25 @@ public class Wolf extends Animal {
 			if (this._pos.distanceTo(_dest) < 8.0) {
 				this._dest = this.getRandomVector();
 			}
-			this.move(this._speed * dt * Math.exp((this._energy - 100.0) * 0.007));
+			this.move(this._speed * dt * Math.exp((this._energy - maximumDouble) * 0.007));
 			this._age += dt;
 			this._energy -= 18.0 * dt;
-			this._energy = Utils.constrain_value_in_range(this._energy, 0.0, 100.0);
+			this._energy = Utils.constrain_value_in_range(this._energy, minimumDouble, maximumDouble);
 			this._desire += 30.0 * dt;
-			this._desire = Utils.constrain_value_in_range(this._desire, 0.0, 100.0);
+			this._desire = Utils.constrain_value_in_range(this._desire, minimumDouble, maximumDouble);
 		} else {
 			this._dest = this._hunt_target.get_position();
-			this.move(3.0 * _speed * dt * Math.exp((_energy - 100.0) * 0.007));
+			this.move(3.0 * _speed * dt * Math.exp((_energy - maximumDouble) * 0.007));
 			this._age += dt;
 			this._energy -= 18.0 * 1.2 * dt;
-			this._energy = Utils.constrain_value_in_range(this._energy, 0.0, 100.0);
+			this._energy = Utils.constrain_value_in_range(this._energy, minimumDouble, maximumDouble);
 			this._desire += 30.0 * dt;
-			this._desire = Utils.constrain_value_in_range(this._desire, 0.0, 100.0);
-			if (this._pos.distanceTo(this._hunt_target._pos) < 8.0) {
+			this._desire = Utils.constrain_value_in_range(this._desire, minimumDouble, maximumDouble);
+			if (this._pos.distanceTo(this._hunt_target._pos) < distanceToDest) {
 				this._hunt_target._state = State.DEAD;
 				this._hunt_target = null;
 				this._energy += 50.0;
-				this._energy = Utils.constrain_value_in_range(this._energy, 0.0, 100.0);
+				this._energy = Utils.constrain_value_in_range(this._energy, minimumDouble, maximumDouble);
 			}
 
 		}
@@ -118,26 +126,30 @@ public class Wolf extends Animal {
 		if (this._mate_target == null) {
 			this._mate_target = this._mate_strategy.select(this,
 					this._region_mngr.get_animals_in_range(this, e -> e._genetic_code == this._genetic_code));
+			if(this._mate_target == null) {
+				System.out.println("null");
+			}
+			else System.out.println("SI");
 		}
 		if (this._mate_target == null) {
 			if (this._pos.distanceTo(_dest) < 8.0) {
 				this._dest = this.getRandomVector();
 			}
-			this.move(this._speed * dt * Math.exp((this._energy - 100.0) * 0.007));
+			this.move(this._speed * dt * Math.exp((this._energy - maximumDouble) * 0.007));
 			this._age += dt;
 			this._energy -= 18.0 * dt;
-			this._energy = Utils.constrain_value_in_range(this._energy, 0.0, 100.0);
+			this._energy = Utils.constrain_value_in_range(this._energy,minimumDouble, maximumDouble);
 			this._desire += 30.0 * dt;
-			this._desire = Utils.constrain_value_in_range(this._desire, 0.0, 100.0);
+			this._desire = Utils.constrain_value_in_range(this._desire, minimumDouble, maximumDouble);
 		} else {
 			this._dest = this._mate_target.get_position();
-			this.move(3.0 * _speed * dt * Math.exp((_energy - 100.0) * 0.007));
+			this.move(3.0 * _speed * dt * Math.exp((_energy - maximumDouble) * 0.007));
 			this._age += dt;
 			this._energy -= 18.0 * 1.2 * dt;
-			this._energy = Utils.constrain_value_in_range(this._energy, 0.0, 100.0);
+			this._energy = Utils.constrain_value_in_range(this._energy, minimumDouble, maximumDouble);
 			this._desire += 30.0 * dt;
-			this._desire = Utils.constrain_value_in_range(this._desire, 0.0, 100.0);
-			if (this._pos.distanceTo(this._mate_target._pos) < 8.0) {
+			this._desire = Utils.constrain_value_in_range(this._desire, minimumDouble, maximumDouble);
+			if (this._pos.distanceTo(this._mate_target._pos) < distanceToDest) {
 				this._desire = 0.0;
 				this._mate_target._desire = 0.0;
 
@@ -146,7 +158,7 @@ public class Wolf extends Animal {
 				}
 
 				this._energy -= 10.0;
-				this._energy = Utils.constrain_value_in_range(this._energy, 0.0, 100.0);
+				this._energy = Utils.constrain_value_in_range(this._energy, minimumDouble, maximumDouble);
 				this._mate_target = null;
 
 			}
