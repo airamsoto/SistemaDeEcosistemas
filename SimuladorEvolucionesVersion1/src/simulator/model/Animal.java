@@ -183,6 +183,27 @@ public abstract class Animal implements Entity, AnimalInfo {
 
 	@Override
 	public void update(double dt) {
+		if(this._state == State.DEAD) return;
+		else if(this._state == State.NORMAL) {
+			this.normalState(dt);
+		} else if(this._state == State.MATE) {
+			this.mateState(dt);
+		} else if(this._state == State.HUNGER) {
+			this.hungerState(dt);
+		} else if(this._state == State.DANGER) {
+			this.dangerState(dt);
+		}
+		if (this.isOut()) {
+			this.setNormalState();
+			this._pos.ajustar(this._region_mngr.get_height(), this._region_mngr.get_width());
+			
+		}
+		if (this._energy == 0.0 || this._age == 8.0)
+			this._state = State.DEAD;
+		if (this._state != State.DEAD) {
+			this._energy += this._region_mngr.get_food(this, dt);
+			this._energy = Utils.constrain_value_in_range(this._energy, 0.0, 100.0);
+		}
 		
 
 	}
@@ -194,9 +215,20 @@ public abstract class Animal implements Entity, AnimalInfo {
 	protected  void setNormalState() {
 		
 	}
-	@Override
-	public boolean equals(Object o) {
-		return this == o;
+	
+	protected void normalState(double dt) {
+		
 	}
+	protected void mateState (double dt) {
+		
+	}
+	protected void hungerState (double dt) {
+		
+	}
+	
+	protected void dangerState (double dt) {
+		
+	}
+	
 
 }

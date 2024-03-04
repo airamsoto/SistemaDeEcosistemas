@@ -14,7 +14,9 @@ public class Wolf extends Animal {
 	private static final double maximumDouble = 100.0;
 	private static final double distanceToDest = 8.0;
 	private static final double restEnergy = 18.0;
-	
+	private static final double energyToHunger = 50.0;
+	private static final double desireToMate = 65.0;
+
 	public Wolf(SelectionStrategy mate_strategy, SelectionStrategy hunting_strategy, Vector2D pos) throws Exception {
 		super("wolf", Diet.CARNIVORE, init_campoVisual, init_speed, mate_strategy, pos);
 		this._hunt_target = null;
@@ -28,76 +30,44 @@ public class Wolf extends Animal {
 
 	}
 
-	@Override
-	public void update(double dt) {
-		if (this._state == State.DEAD) {
-			return;
-		}
+	
+	
 
-		else if (this._state == State.NORMAL) {
-			this.normalState(dt);
-
-		} else if (this._state == State.HUNGER) {
-			this.hungerState(dt);
-
-		} else if (this._state == State.MATE) {
-			this.mateState(dt);
-		}
-
-		if (this.isOut()) {
-			this.setNormalState();
-			this._pos.ajustar(this._region_mngr.get_height(), this._region_mngr.get_width());
-		}
-
-		if (this._energy == energyToDie || this._age > ageToDie) {
-			this._state = State.DEAD;
-
-		}
-		if (this._state != State.DEAD) {
-			this._energy += this._region_mngr.get_food(this, dt);
-			this._energy = Utils.constrain_value_in_range(this._energy, minimumDouble, maximumDouble);
-
-		}
+	private void normalAdvanve(double dt) {
+		this.move(this._speed * dt * Math.exp((this._energy - 100.0) * 0.007));
+		this._age += dt;
+		this._energy -= restEnergy * dt;
+		this._energy = Utils.constrain_value_in_range(this._energy, minimumDouble, maximumDouble);
+		this._desire += 30.0 * dt;
+		this._desire = Utils.constrain_value_in_range(this._desire, minimumDouble, maximumDouble);
 	}
-
-	private void normalState(double dt) {
+	
+	@Override
+	protected void normalState(double dt) {
 		if (this._pos.distanceTo(_dest) < distanceToDest) {
 			this._dest = this.getRandomVector();
 		}
-		this.move(this._speed * dt * Math.exp((this._energy - 100.0) * 0.007));
-		this._age += dt;
-		this._energy -= 18.0 * dt;
-		this._energy = Utils.constrain_value_in_range(this._energy,minimumDouble, maximumDouble);
-		this._desire += 30.0 * dt;
-		this._desire = Utils.constrain_value_in_range(this._desire, minimumDouble, maximumDouble);
-		if (this._energy < 50.0) {
+		this.normalAdvanve(dt);
+		if (energyToHunger < 50.0) {
 			this.setHungerState();
-		} else if (this._desire > 65.0) {
+		} else if (desireToMate > 65.0) {
 			this.setMateState();
 		}
 	}
-
-	private void hungerState(double dt) {
+	@Override
+	protected void hungerState(double dt) {
 		if (this._hunt_target == null || (this._hunt_target._state == State.DEAD
 				|| (this._pos.distanceTo(this._hunt_target._pos) > this._sight_range))) {
 			this._hunt_target = this._hunting_strategy.select(this,
 					this._region_mngr.get_animals_in_range(this, e -> e.get_diet() == Diet.HERBIVORE));
 		}
 		if (this._hunt_target == null) {
-			if (this._pos.distanceTo(_dest) < 8.0) {
-				this._dest = this.getRandomVector();
-			}
-			this.move(this._speed * dt * Math.exp((this._energy - maximumDouble) * 0.007));
-			this._age += dt;
-			this._energy -= 18.0 * dt;
-			this._energy = Utils.constrain_value_in_range(this._energy, minimumDouble, maximumDouble);
-			this._desire += 30.0 * dt;
-			this._desire = Utils.constrain_value_in_range(this._desire, minimumDouble, maximumDouble);
+			this.normalAdvanve(dt);
 		} else {
 			this._dest = this._hunt_target.get_position();
 			this.move(3.0 * _speed * dt * Math.exp((_energy - maximumDouble) * 0.007));
 			this._age += dt;
-			this._energy -= 18.0 * 1.2 * dt;
+			this._energy -= restEnergy * 1.2 * dt;
 			this._energy = Utils.constrain_value_in_range(this._energy, minimumDouble, maximumDouble);
 			this._desire += 30.0 * dt;
 			this._desire = Utils.constrain_value_in_range(this._desire, minimumDouble, maximumDouble);
@@ -117,8 +87,8 @@ public class Wolf extends Animal {
 			}
 		}
 	}
-
-	private void mateState(double dt) {
+	@Override
+	protected void mateState(double dt) {
 		if (this._mate_target != null && (this._mate_target._state == State.DEAD
 				|| (this._pos.distanceTo(this._mate_target._pos) > this._sight_range))) {
 			this._mate_target = null;
@@ -126,26 +96,15 @@ public class Wolf extends Animal {
 		if (this._mate_target == null) {
 			this._mate_target = this._mate_strategy.select(this,
 					this._region_mngr.get_animals_in_range(this, e -> e._genetic_code == this._genetic_code));
-			if(this._mate_target == null) {
-				System.out.println("null");
-			}
-			else System.out.println("SI");
+
 		}
 		if (this._mate_target == null) {
-			if (this._pos.distanceTo(_dest) < 8.0) {
-				this._dest = this.getRandomVector();
-			}
-			this.move(this._speed * dt * Math.exp((this._energy - maximumDouble) * 0.007));
-			this._age += dt;
-			this._energy -= 18.0 * dt;
-			this._energy = Utils.constrain_value_in_range(this._energy,minimumDouble, maximumDouble);
-			this._desire += 30.0 * dt;
-			this._desire = Utils.constrain_value_in_range(this._desire, minimumDouble, maximumDouble);
+			this.normalAdvanve(dt);
 		} else {
 			this._dest = this._mate_target.get_position();
 			this.move(3.0 * _speed * dt * Math.exp((_energy - maximumDouble) * 0.007));
 			this._age += dt;
-			this._energy -= 18.0 * 1.2 * dt;
+			this._energy -= restEnergy * 1.2 * dt;
 			this._energy = Utils.constrain_value_in_range(this._energy, minimumDouble, maximumDouble);
 			this._desire += 30.0 * dt;
 			this._desire = Utils.constrain_value_in_range(this._desire, minimumDouble, maximumDouble);
@@ -163,9 +122,9 @@ public class Wolf extends Animal {
 
 			}
 		}
-		if (this._energy < 50.0) {
+		if (energyToHunger < 50.0) {
 			this.setHungerState();
-		} else if (this._desire < 65.0) {
+		} else if (desireToMate < 65.0) {
 			this.setNormalState();
 		}
 

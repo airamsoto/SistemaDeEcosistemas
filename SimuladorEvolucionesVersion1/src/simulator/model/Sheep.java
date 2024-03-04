@@ -23,34 +23,9 @@ public class Sheep extends Animal {
 		this._danger_source = null;
 	}
 
+	
 	@Override
-	public void update(double dt) {
-		if (this._state == State.DEAD) {
-			// si esta muerto no hace nada
-			return;
-
-		} else if (this._state == State.NORMAL) {
-			this.normalState(dt);
-		} else if (this._state == State.DANGER) {
-			this.dangerState(dt);
-		} else if (this._state == State.MATE) {
-			this.mateState(dt);
-		}
-		// comprobar que esta fuera del mapa
-		if (this.isOut()) {
-			this.setNormalState();
-			this._pos.ajustar(this._region_mngr.get_height(), this._region_mngr.get_width());
-			
-		}
-		if (this._energy == 0.0 || this._age == 8.0)
-			this._state = State.DEAD;
-		if (this._state != State.DEAD) {
-			this._energy += this._region_mngr.get_food(this, dt);
-			this._energy = Utils.constrain_value_in_range(this._energy, 0.0, 100.0);
-		}
-	}
-
-	private void normalState(double dt) {
+	protected void normalState(double dt) {
 
 		if (this._pos.distanceTo(this._dest) < 8.0) {
 			this._dest = this.getRandomVector();
@@ -72,8 +47,8 @@ public class Sheep extends Animal {
 		}
 
 	}
-
-	private void mateState(double dt) {
+	@Override
+	protected void mateState(double dt) {
 		if (this._mate_target != null && (this._mate_target._state == State.DEAD
 				|| this._pos.distanceTo(this._mate_target._pos) > this._sight_range)) {
 			this._mate_target = null;
@@ -125,8 +100,8 @@ public class Sheep extends Animal {
 			// this._state = State.NORMAL;
 		}
 	}
-
-	private void dangerState(double dt) {
+	@Override
+	protected void dangerState(double dt) {
 		if (this._danger_source != null && this._danger_source._state == State.DEAD) {
 			this._danger_source = null;
 		}
