@@ -11,7 +11,9 @@ public class Wolf extends Animal {
 	private static final double energyToHunger = 50.0;
 	private static final double ageToDie = 14.0;
 	private static final double plusSpeed = 3.0;
-	private static final double mathDouble = 0.07;
+	private static final double mathDouble = 0.007;
+	private static final double restEnergy = 18.0;
+	private static final double plusDesire = 30.0;
 
 	public Wolf(SelectionStrategy mate_strategy, SelectionStrategy hunting_strategy, Vector2D pos) throws Exception {
 		super("wolf", Diet.CARNIVORE, init_campoVisual, init_speed, mate_strategy, pos);
@@ -25,11 +27,10 @@ public class Wolf extends Animal {
 		this._hunt_target = null;
 
 	}
-
-	
-	
-
-	private void normalAdvanve(double dt) {
+	private void normalAdvance(double dt) {
+		if (this._pos.distanceTo(_dest) < 8.0) {
+			this._dest = this.getRandomVector();
+		}
 		this.move(this._speed * dt * Math.exp((this._energy - maximumDouble) * mathDouble));
 		this._age += dt;
 		this._energy -= restEnergy * dt;
@@ -38,40 +39,38 @@ public class Wolf extends Animal {
 		this._desire = Utils.constrain_value_in_range(this._desire, minimumDouble, maximumDouble);
 	}
 	
-	private void rareAdvance (double dt) {
-		this.move(plusSpeed * _speed * dt * Math.exp((_energy - maximumDouble) * mathDouble));
+	private void plusAdvance (double dt) {
+		this.move(plusSpeed * _speed * dt * Math.exp((_energy - 100.0) * mathDouble));
 		this._age += dt;
-		this._energy -= restEnergy * plusEnergy * dt;
+		this._energy -= restEnergy * 1.2 * dt;
 		this._energy = Utils.constrain_value_in_range(this._energy, minimumDouble, maximumDouble);
 		this._desire += plusDesire * dt;
-		this._desire = Utils.constrain_value_in_range(this._desire, minimumDouble, maximumDouble);
+		this._desire = Utils.constrain_value_in_range(this._desire,minimumDouble, maximumDouble);
+		
 	}
+
 	
 	
-	
-	@Override
+
 	protected void normalState(double dt) {
-		if (this._pos.distanceTo(_dest) < distanceToDest) {
-			this._dest = this.getRandomVector();
-		}
-		this.normalAdvanve(dt);
+		this.normalAdvance(dt);
 		if (this._energy < energyToHunger) {
 			this.setHungerState();
 		} else if (this._desire > desireToMate) {
 			this.setMateState();
 		}
 	}
-	@Override
+
 	protected void hungerState(double dt) {
 		if (this._hunt_target == null || (this._hunt_target._state == State.DEAD
 				|| (this._pos.distanceTo(this._hunt_target._pos) > this._sight_range))) {
-		this.searchHunger();
+			this.searchHunger();
 		}
 		if (this._hunt_target == null) {
-			this.normalAdvanve(dt);
+			this.normalAdvance(dt);
 		} else {
 			this._dest = this._hunt_target.get_position();
-			this.rareAdvance(dt);
+			this.plusAdvance(dt);
 			if (this._pos.distanceTo(this._hunt_target._pos) < distanceToDest) {
 				this._hunt_target._state = State.DEAD;
 				this._hunt_target = null;
@@ -88,26 +87,25 @@ public class Wolf extends Animal {
 			}
 		}
 	}
-	@Override
+
 	protected void mateState(double dt) {
 		if (this._mate_target != null && (this._mate_target._state == State.DEAD
 				|| (this._pos.distanceTo(this._mate_target._pos) > this._sight_range))) {
 			this._mate_target = null;
 		}
 		if (this._mate_target == null) {
-			searchMate();
-
+			this.searchMate();
 		}
 		if (this._mate_target == null) {
-			this.normalAdvanve(dt);
+			this.normalAdvance(dt);
 		} else {
 			this._dest = this._mate_target.get_position();
-			this.rareAdvance(dt);
+			this.plusAdvance(dt);
 			if (this._pos.distanceTo(this._mate_target._pos) < distanceToDest) {
 				this._desire = 0.0;
 				this._mate_target._desire = 0.0;
 
-				if (!this.is_pregnant() && Utils._rand.nextDouble() < 0.9) {
+				if (!this.is_pregnant() && Utils._rand.nextDouble() < babyProbability) {
 					this._baby = new Wolf(this, this._mate_target);
 				}
 
@@ -142,13 +140,14 @@ public class Wolf extends Animal {
 		this._state = State.HUNGER;
 		this._mate_target = null;
 	}
-	private void searchHunger () {
+	private void searchHunger() {
 		this._hunt_target = this._hunting_strategy.select(this,
 				this._region_mngr.get_animals_in_range(this, e -> e.get_diet() == Diet.HERBIVORE));
 	}
 	@Override
 	protected boolean isDead() {
-		return this._energy == energyToDie || this._age == ageToDie;
+		return this._energy == energyToDie || this._age > ageToDie;
+
 	}
 
 }

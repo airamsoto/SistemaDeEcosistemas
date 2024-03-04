@@ -12,15 +12,17 @@ public abstract class Animal implements Entity, AnimalInfo {
 	public static final double RANDOM_POS = 60.0;
 	public static final double RANDOM_SIGHT_RANGE = 0.2;
 	public static final double RANDOM_SPEED = 0.2;
+	
+	//son protected
 	protected static final double minimumDouble = 0.0;
 	protected static final double maximumDouble = 100.0;
 	protected static final double distanceToDest = 8.0;
-	protected static final double restEnergy = 18.0;
-	protected static final double plusDesire = 30.0;
+	protected static final double mathDouble = 0.007;
 	protected static final double desireToMate = 65.0;
 	protected static final double energyToDie = 0.0;
 	protected static final double plusEnergy = 1.2;
-
+	protected static final double babyProbability = 0.9;
+	
 	protected String _genetic_code;
 	protected Diet _diet;
 	protected State _state;
@@ -121,38 +123,45 @@ public abstract class Animal implements Entity, AnimalInfo {
 	}
 
 	protected Vector2D getRandomVector() {
-		return new Vector2D(Utils._rand.nextDouble(_region_mngr.get_width()),
-				Utils._rand.nextDouble(_region_mngr.get_height()));
+		return new Vector2D(Utils._rand.nextDouble(_region_mngr.get_height()),
+				Utils._rand.nextDouble(_region_mngr.get_width()));
 	}
 
 	@Override
 	public void update(double dt) {
-		if(this._state == State.DEAD) return;
-		else if(this._state == State.NORMAL) {
+		if (this._state == State.DEAD) {
+			return;
+		}
+
+		else if (this._state == State.NORMAL) {
 			this.normalState(dt);
-		} else if(this._state == State.MATE) {
-			this.mateState(dt);
-		} else if(this._state == State.HUNGER) {
+
+		} else if (this._state == State.HUNGER) {
 			this.hungerState(dt);
-		} else if(this._state == State.DANGER) {
+
+		} else if (this._state == State.MATE) {
+			this.mateState(dt);
+		} else if (this._state == State.DANGER) {
 			this.dangerState(dt);
 		}
+
 		if (this.isOut()) {
 			this.setNormalState();
 			this._pos.ajustar(this._region_mngr.get_height(), this._region_mngr.get_width());
-			
 		}
-		if (this.isDead())
+
+		if (this.isDead()) {
 			this._state = State.DEAD;
+
+		}
 		if (this._state != State.DEAD) {
 			this._energy += this._region_mngr.get_food(this, dt);
 			this._energy = Utils.constrain_value_in_range(this._energy, 0.0, 100.0);
-		}
-		
 
+		}
 	}
 
-	private boolean isOut() {
+	protected boolean isOut() {
 		return (this._pos.getX() < 0 || this._pos.getY() < 0 || this._pos.getX() >= this._region_mngr.get_width()
 				|| this._pos.getY() >= this._region_mngr.get_height());
 	}

@@ -11,7 +11,8 @@ public class Sheep extends Animal {
 	private static final double plusSpeed = 2.0;
 	private static final double ageToDie = 8.0;
 	private static final double energyToDie = 0.0;
-	private static final double mathDouble = 0.07;
+	private static final double restEnergy = 18.0;
+	private static final double plusDesire = 30.0;
 
 	public Sheep(SelectionStrategy mate_strategy, SelectionStrategy danger_strategy, Vector2D pos) throws Exception {
 		super("sheep", Diet.HERBIVORE, init_campoVisual, init_speed, mate_strategy, pos);
@@ -78,7 +79,7 @@ public class Sheep extends Animal {
 			if (this._pos.distanceTo(this._mate_target._pos) < distanceToDest) {
 				this._desire = 0.0;
 				this._mate_target._desire = 0.0;
-				if (!this.is_pregnant() && Utils._rand.nextDouble() < 0.9) {
+				if (!this.is_pregnant() && Utils._rand.nextDouble() < babyProbability) {
 					this._baby = new Sheep(this, this._mate_target);
 				}
 				this._mate_target = null;
@@ -149,6 +150,6 @@ public class Sheep extends Animal {
 
 	@Override
 	protected boolean isDead() {
-		return this._energy == energyToDie || this._age == ageToDie;
+		return this._energy == energyToDie || this._age > ageToDie;
 	}
 }
