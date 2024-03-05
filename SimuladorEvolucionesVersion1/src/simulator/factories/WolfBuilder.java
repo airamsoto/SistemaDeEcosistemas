@@ -45,8 +45,7 @@ public class WolfBuilder extends Builder<Animal> {
 	
 	@Override 
 	protected void fill_in_data(JSONObject o) {
-		//Sobreescriben hijos
-		//lo llamo desde el getInfo con objeto 
+		o.put("pos", "cual");
 		
 	}
 
