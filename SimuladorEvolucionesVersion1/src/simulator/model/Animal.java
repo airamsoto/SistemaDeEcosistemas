@@ -13,7 +13,7 @@ public abstract class Animal implements Entity, AnimalInfo {
 	public static final double RANDOM_SIGHT_RANGE = 0.2;
 	public static final double RANDOM_SPEED = 0.2;
 	
-	//son protected
+	//son protected o publicas
 	protected static final double minimumDouble = 0.0;
 	protected static final double maximumDouble = 100.0;
 	protected static final double distanceToDest = 8.0;
