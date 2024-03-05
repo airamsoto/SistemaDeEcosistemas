@@ -12,8 +12,8 @@ public abstract class Animal implements Entity, AnimalInfo {
 	public static final double RANDOM_POS = 60.0;
 	public static final double RANDOM_SIGHT_RANGE = 0.2;
 	public static final double RANDOM_SPEED = 0.2;
-	
-	//son protected o publicas
+
+	// son protected o publicas
 	protected static final double MINIMUM_DOUBLE = 0.0;
 	protected static final double MAXIMUM_DOUBLE = 100.0;
 	protected static final double DISTANCE_TO_DEST = 8.0;
@@ -22,6 +22,7 @@ public abstract class Animal implements Entity, AnimalInfo {
 	protected static final double ENERGY_TO_DIE = 0.0;
 	protected static final double PLUS_ENERGY = 1.2;
 	protected static final double BABY_PROBABILITY = 0.9;
+	protected static final double maximumDouble = 100.0;
 	
 	protected String _genetic_code;
 	protected Diet _diet;

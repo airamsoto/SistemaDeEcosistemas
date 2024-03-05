@@ -31,21 +31,21 @@ public class Wolf extends Animal {
 		if (this._pos.distanceTo(_dest) < 8.0) {
 			this._dest = this.getRandomVector();
 		}
-		this.move(this._speed * dt * Math.exp((this._energy - maximumDouble) * MATH_DOUBLE));
+		this.move(this._speed * dt * Math.exp((this._energy - MAXIMUM_DOUBLE) * MATH_DOUBLE));
 		this._age += dt;
 		this._energy -= REST_ENERGY * dt;
-		this._energy = Utils.constrain_value_in_range(this._energy, MINIMUM_DOUBLE, maximumDouble);
+		this._energy = Utils.constrain_value_in_range(this._energy, MINIMUM_DOUBLE, MAXIMUM_DOUBLE);
 		this._desire += PLUS_DESIRE * dt;
-		this._desire = Utils.constrain_value_in_range(this._desire, MINIMUM_DOUBLE, maximumDouble);
+		this._desire = Utils.constrain_value_in_range(this._desire, MINIMUM_DOUBLE, MAXIMUM_DOUBLE);
 	}
 	
 	private void plusAdvance (double dt) {
 		this.move(PLUS_SPEED * _speed * dt * Math.exp((_energy - 100.0) * MATH_DOUBLE));
 		this._age += dt;
 		this._energy -= REST_ENERGY * 1.2 * dt;
-		this._energy = Utils.constrain_value_in_range(this._energy, MINIMUM_DOUBLE, maximumDouble);
+		this._energy = Utils.constrain_value_in_range(this._energy, MINIMUM_DOUBLE, MAXIMUM_DOUBLE);
 		this._desire += PLUS_DESIRE * dt;
-		this._desire = Utils.constrain_value_in_range(this._desire,MINIMUM_DOUBLE, maximumDouble);
+		this._desire = Utils.constrain_value_in_range(this._desire,MINIMUM_DOUBLE, MAXIMUM_DOUBLE);
 		
 	}
 
@@ -75,7 +75,7 @@ public class Wolf extends Animal {
 				this._hunt_target._state = State.DEAD;
 				this._hunt_target = null;
 				this._energy += 50.0;
-				this._energy = Utils.constrain_value_in_range(this._energy, MINIMUM_DOUBLE, maximumDouble);
+				this._energy = Utils.constrain_value_in_range(this._energy, MINIMUM_DOUBLE, MAXIMUM_DOUBLE);
 			}
 
 		}
@@ -110,7 +110,7 @@ public class Wolf extends Animal {
 				}
 
 				this._energy -= 10.0;
-				this._energy = Utils.constrain_value_in_range(this._energy, MINIMUM_DOUBLE, maximumDouble);
+				this._energy = Utils.constrain_value_in_range(this._energy, MINIMUM_DOUBLE, MAXIMUM_DOUBLE);
 				this._mate_target = null;
 
 			}

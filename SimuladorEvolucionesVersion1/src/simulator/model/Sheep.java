@@ -32,21 +32,21 @@ public class Sheep extends Animal {
 		if (this._pos.distanceTo(this._dest) < DISTANCE_TO_DEST) {
 			this._dest = this.getRandomVector();
 		}
-		this.move(this._speed * dt * Math.exp((this._energy - maximumDouble) * MATH_DOUBLE));
+		this.move(this._speed * dt * Math.exp((this._energy - MAXIMUM_DOUBLE) * MATH_DOUBLE));
 		this._age += dt;
 		this._energy -= REST_ENERGY * dt;
-		this._energy = Utils.constrain_value_in_range(this._energy, MINIMUM_DOUBLE, maximumDouble);
+		this._energy = Utils.constrain_value_in_range(this._energy, MINIMUM_DOUBLE, MAXIMUM_DOUBLE);
 		this._desire += PLUS_DESIRE * dt;
-		this._desire = Utils.constrain_value_in_range(this._desire, MINIMUM_DOUBLE, maximumDouble);
+		this._desire = Utils.constrain_value_in_range(this._desire, MINIMUM_DOUBLE, MAXIMUM_DOUBLE);
 	}
 
 	private void rareAdvance(double dt) {
-		this.move(PLUS_SPEED * _speed * dt * Math.exp((_energy - maximumDouble) * MATH_DOUBLE));
+		this.move(PLUS_SPEED * _speed * dt * Math.exp((_energy - MAXIMUM_DOUBLE) * MATH_DOUBLE));
 		this._age += dt;
 		this._energy -= REST_ENERGY * PLUS_ENERGY * dt;
-		this._energy = Utils.constrain_value_in_range(this._energy, MINIMUM_DOUBLE, maximumDouble);
+		this._energy = Utils.constrain_value_in_range(this._energy, MINIMUM_DOUBLE, MAXIMUM_DOUBLE);
 		this._desire += PLUS_DESIRE * dt;
-		this._desire = Utils.constrain_value_in_range(this._desire, MINIMUM_DOUBLE, maximumDouble);
+		this._desire = Utils.constrain_value_in_range(this._desire, MINIMUM_DOUBLE, MAXIMUM_DOUBLE);
 	}
 
 	@Override
