@@ -14,14 +14,14 @@ public abstract class Animal implements Entity, AnimalInfo {
 	public static final double RANDOM_SPEED = 0.2;
 	
 	//son protected o publicas
-	protected static final double minimumDouble = 0.0;
-	protected static final double maximumDouble = 100.0;
-	protected static final double distanceToDest = 8.0;
-	protected static final double mathDouble = 0.007;
-	protected static final double desireToMate = 65.0;
-	protected static final double energyToDie = 0.0;
-	protected static final double plusEnergy = 1.2;
-	protected static final double babyProbability = 0.9;
+	protected static final double MINIMUM_DOUBLE = 0.0;
+	protected static final double MAXIMUM_DOUBLE = 100.0;
+	protected static final double DISTANCE_TO_DEST = 8.0;
+	protected static final double MATH_DOUBLE = 0.007;
+	protected static final double DESIRE_TO_MATE = 65.0;
+	protected static final double ENERGY_TO_DIE = 0.0;
+	protected static final double PLUS_ENERGY = 1.2;
+	protected static final double BABY_PROBABILITY = 0.9;
 	
 	protected String _genetic_code;
 	protected Diet _diet;
