@@ -23,10 +23,10 @@ public class RegionManager implements AnimalMapView {
 		this._rows = rows;
 		this._width = width;
 		this._height = height;
-		this._regions = new Region[cols][rows];
+		this._regions = new Region[rows][cols];
 		for (int i = 0; i < this._rows; i++) {
 			for (int j = 0; j < this._cols; j++) {
-				this._regions[j][i] = new DefaultRegion();
+				this._regions[i][j] = new DefaultRegion();
 			}
 		}
 		this._animal_region = new HashMap<Animal, Region>();
@@ -49,12 +49,12 @@ public class RegionManager implements AnimalMapView {
 		if (col <= 0) {
 			col = 0;
 		}
-		for (Animal a : this._regions[col][row].animalList) {
+		for (Animal a : this._regions[row][col].animalList) {
 			r.add_animal(a);
 			this._animal_region.put(a, r);
 		}
 	
-		this._regions[col][row] = r;
+		this._regions[row][col] = r;
 
 	}
 
@@ -64,19 +64,20 @@ public class RegionManager implements AnimalMapView {
 		int i = (int) (a._pos.getX() / this.widthcol); 
 		int j = (int) (a._pos.getY() / this.heightrow);
 
-		if (i >= this._rows) {
-			i = this._rows - 1;
+		if (i >= this._cols) {
+			i = this._cols - 1;
 		}
-		if (j >= this._cols) {
-			j = this._cols - 1;
+		if (j >= this._rows) {  	
+			j = this._rows - 1;
 		}
+		
 		if (i <= 0) {
 			i = 0;
 		}
 		if (j <= 0) {
 			j = 0;
 		}
-
+	
 		this._regions[j][i].add_animal(a);
 		this._animal_region.put(a, this._regions[j][i]);
 
@@ -88,16 +89,18 @@ public class RegionManager implements AnimalMapView {
 		this._animal_region.remove(a);
 
 	}
-
+	
 	void update_animal_region(Animal a) {
 		int i = (int) (a._pos.getX() / this.widthcol);
 		int j = (int) (a._pos.getY() / this.heightrow);
-		if (i >= this._rows) {
-			i = this._rows - 1;
+	
+		if (i >= this._cols) {
+			i = this._cols - 1;
 		}
-		if (j >= this._cols) {
-			j = this._cols - 1;
+		if (j >= this._rows) { 	
+			j = this._rows - 1;
 		}
+		
 		if (i <= 0) {
 			i = 0;
 		}
@@ -120,8 +123,8 @@ public class RegionManager implements AnimalMapView {
 	void update_all_regions(double dt) {
 		for (int i = 0; i < this._rows; i++) {
 			for (int j = 0; j < this._cols; j++) {
-				if (this._regions[j][i] != null)
-					this._regions[j][i].update(dt);
+				if (this._regions[i][j] != null)
+					this._regions[i][j].update(dt);
 			}
 		}
 
@@ -149,8 +152,8 @@ public class RegionManager implements AnimalMapView {
 		downR = (downR > this._rows - 1) ? this._rows - 1 : downR;
 		rightR = (rightR > this._cols - 1) ? this._cols - 1 : rightR;
 
-		for (int j = topR; j <= downR; j++) {
-			for (int i = leftR; i <= rightR; i++) {
+		for (int i = topR; i <= downR; i++) {
+			for (int j = leftR; j <= rightR; j++) {
 				for (Animal other : this._regions[i][j].getAnimals()) {
 					if (other != a && filter.test(other)
 							&& a.get_position().distanceTo(other.get_position()) < a.get_sight_range()) {
@@ -171,7 +174,7 @@ public class RegionManager implements AnimalMapView {
 			for (int j = 0; j < this._cols; j++) {
 				json.put("row", i);
 				json.put("col", j);
-				json.put("data", this._regions[j][i].as_JSON());
+				json.put("data", this._regions[i][j].as_JSON());
 				jlist.put(json);
 			}
 		}
