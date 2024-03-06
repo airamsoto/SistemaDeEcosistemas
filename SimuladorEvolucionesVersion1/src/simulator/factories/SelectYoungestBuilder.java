@@ -14,9 +14,9 @@ public class SelectYoungestBuilder extends Builder<SelectionStrategy> {
 
 	@Override
 	protected SelectionStrategy create_instance(JSONObject data) {
+		// if(data == null) throw new IllegalArgumentException ("'info' cannot be
+		// null");
 		return new SelectYoungest();
 	}
-
-	
 
 }

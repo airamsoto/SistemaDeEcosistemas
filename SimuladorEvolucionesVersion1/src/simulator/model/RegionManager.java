@@ -35,8 +35,8 @@ public class RegionManager implements AnimalMapView {
 	}
 
 	void set_region(int row, int col, Region r) {
-		
-		//COMPROBAR QUE NO SE SALGA DEL ARRAY
+
+		// COMPROBAR QUE NO SE SALGA DEL ARRAY
 		if (row >= this._rows) {
 			row = this._rows - 1;
 		}
@@ -53,31 +53,30 @@ public class RegionManager implements AnimalMapView {
 			r.add_animal(a);
 			this._animal_region.put(a, r);
 		}
-	
+
 		this._regions[row][col] = r;
 
 	}
 
-
 	void register_animal(Animal a) {
 		a.init(this);
-		int i = (int) (a._pos.getX() / this.widthcol); 
+		int i = (int) (a._pos.getX() / this.widthcol);
 		int j = (int) (a._pos.getY() / this.heightrow);
 
 		if (i >= this._cols) {
 			i = this._cols - 1;
 		}
-		if (j >= this._rows) {  	
+		if (j >= this._rows) {
 			j = this._rows - 1;
 		}
-		
+
 		if (i <= 0) {
 			i = 0;
 		}
 		if (j <= 0) {
 			j = 0;
 		}
-	
+
 		this._regions[j][i].add_animal(a);
 		this._animal_region.put(a, this._regions[j][i]);
 
@@ -89,18 +88,18 @@ public class RegionManager implements AnimalMapView {
 		this._animal_region.remove(a);
 
 	}
-	
+
 	void update_animal_region(Animal a) {
 		int i = (int) (a._pos.getX() / this.widthcol);
 		int j = (int) (a._pos.getY() / this.heightrow);
-	
+
 		if (i >= this._cols) {
 			i = this._cols - 1;
 		}
-		if (j >= this._rows) { 	
+		if (j >= this._rows) {
 			j = this._rows - 1;
 		}
-		
+
 		if (i <= 0) {
 			i = 0;
 		}

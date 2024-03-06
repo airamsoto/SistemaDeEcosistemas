@@ -11,9 +11,9 @@ import simulator.model.SelectionStrategy;
 import simulator.model.Wolf;
 
 public class WolfBuilder extends Builder<Animal> {
-	private Factory <SelectionStrategy> selectionFactory;
-	
-	public WolfBuilder(Factory <SelectionStrategy> selectionStrategy) {
+	private Factory<SelectionStrategy> selectionFactory;
+
+	public WolfBuilder(Factory<SelectionStrategy> selectionStrategy) {
 		super("wolf", "Genera Lobo");
 		// TODO Auto-generated constructor stub
 	}
@@ -22,31 +22,35 @@ public class WolfBuilder extends Builder<Animal> {
 	protected Wolf create_instance(JSONObject data) throws Exception {
 		SelectionStrategy mate = new SelectFirst();
 		SelectionStrategy hunt = new SelectFirst();
-		if(data.has("mate_strategy")) {
+		if (data.has("mate_strategy")) {
 			mate = this.selectionFactory.create_instance(data);
 		}
-		if(data.has("hunt_strategy")) {
+		if (data.has("hunt_strategy")) {
 			hunt = this.selectionFactory.create_instance(data);
 		}
 		Vector2D pos = null;
-		if(data.has("pos")) {
+		if (data.has("pos")) {
 			JSONObject jPos = data.getJSONObject("pos");
-			JSONArray jX = jPos.getJSONArray ("x_range");
-			JSONArray jY = jPos.getJSONArray ("y_range");
+			JSONArray jX = jPos.getJSONArray("x_range");
+			JSONArray jY = jPos.getJSONArray("y_range");
 			double pedro1 = jX.getDouble(0);
 			double pedro2 = jX.getDouble(1);
 			double sara1 = jY.getDouble(0);
 			double sara2 = jY.getDouble(1);
 			pos = new Vector2D(Utils._rand.nextDouble(pedro1, pedro2), Utils._rand.nextDouble(sara1, sara2));
 		}
-	
-		return new Wolf (mate, hunt, pos);
+		// Igual que en sheepbuilder se usa pos == null?? como lo gestiona animal
+		if (pos != null) {
+			return new Wolf(mate, hunt, pos);
+		}
+
+		throw new IllegalArgumentException("Unrecognized 'info': " + data.toString());
 	}
-	
-	@Override 
+
+	@Override
 	protected void fill_in_data(JSONObject o) {
 		o.put("pos", "cual");
-		
+
 	}
 
 }

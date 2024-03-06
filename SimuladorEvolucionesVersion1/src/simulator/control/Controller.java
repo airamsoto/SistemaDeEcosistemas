@@ -20,34 +20,35 @@ public class Controller {
 	}
 
 	public void load_data(JSONObject data) throws Exception {
-		if(data.has("regions")) { //mirar si habria que hacer un bucle para que recorra todas las regiones
+		if (data.has("regions")) { // mirar si habria que hacer un bucle para que recorra todas las regiones
+			// hay que cambiar ESTO????
 			JSONArray jRegions = data.getJSONArray("regions");
 			for (int i = 0; i < jRegions.length(); i++) {
 				JSONObject jRegion = jRegions.getJSONObject(i);
-				JSONArray jRow = jRegion.getJSONArray ("row");
+				JSONArray jRow = jRegion.getJSONArray("row");
 				JSONArray jCol = jRegion.getJSONArray("col");
 				JSONObject jSpec = jRegion.getJSONObject("spec");
 				int rf = jRow.getInt(0);
 				int rt = jRow.getInt(1);
 				int cf = jCol.getInt(0);
 				int ct = jCol.getInt(1);
-				for(int r = rf; r <= rt; r++) {
+				for (int r = rf; r <= rt; r++) {
 					for (int c = cf; c <= ct; c++) {
 						this._sim.set_region(r, c, jSpec);
-						
+
 					}
 				}
 			}
 		}
-			JSONArray jAnimals = data.getJSONArray("animals");
-			for (int j = 0; j < jAnimals.length(); j++ ) {
-				JSONObject jAnimal = jAnimals.getJSONObject(j);
-				int amount = jAnimal.getInt("amount");
-				JSONObject jSpecA = jAnimal.getJSONObject("spec");
-				for (int i = 0; i < amount; i++) {
-					this._sim.add_animal(jSpecA);
-				}	
+		JSONArray jAnimals = data.getJSONArray("animals");
+		for (int j = 0; j < jAnimals.length(); j++) {
+			JSONObject jAnimal = jAnimals.getJSONObject(j);
+			int amount = jAnimal.getInt("amount");
+			JSONObject jSpecA = jAnimal.getJSONObject("spec");
+			for (int i = 0; i < amount; i++) {
+				this._sim.add_animal(jSpecA);
 			}
+		}
 	}
 
 	public void run(double t, double dt, boolean sv, OutputStream out) {
@@ -55,7 +56,7 @@ public class Controller {
 		SimpleObjectViewer view = null;
 		if (sv) {
 			MapInfo m = _sim.get_map_info();
-			view = new SimpleObjectViewer("[ECOSYSTEM]",  m.get_width(), m.get_height(), m.get_cols(), m.get_rows());
+			view = new SimpleObjectViewer("[ECOSYSTEM]", m.get_width(), m.get_height(), m.get_cols(), m.get_rows());
 			view.update(to_animals_info(_sim.get_animals()), _sim.get_time(), dt);
 		}
 
@@ -73,7 +74,8 @@ public class Controller {
 		return_state.put("out:", final_state);
 
 		// NO SE SI ES ASI, MIRAR BIEN EL VISOR DE OBJETOS
-		if (sv) view.close();
+		if (sv)
+			view.close();
 	}
 
 	private List<ObjInfo> to_animals_info(List<? extends AnimalInfo> animals) {

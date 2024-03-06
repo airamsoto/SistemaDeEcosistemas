@@ -23,7 +23,7 @@ public class Simulator implements JSONable {
 		this._animalFactory = animals_factory;
 		this._animalList = new ArrayList<Animal>();
 		this._regionManager = new RegionManager(cols, rows, width, height);
-		
+
 	}
 
 	private void set_region(int row, int col, Region r) {
@@ -44,7 +44,7 @@ public class Simulator implements JSONable {
 	public void add_animal(JSONObject a_json) throws Exception {
 		// comprobar
 		this.add_animal(this._animalFactory.create_instance(a_json));
-		
+
 	}
 
 	public MapInfo get_map_info() {
@@ -64,7 +64,7 @@ public class Simulator implements JSONable {
 
 		this._time += dt;
 
-		List<Animal> animals =  new ArrayList<Animal>();
+		List<Animal> animals = new ArrayList<Animal>();
 		for (Animal animal : _animalList) {
 			if (animal.get_state() == State.DEAD) {
 				animals.add(animal);
@@ -76,21 +76,18 @@ public class Simulator implements JSONable {
 			animal.update(dt);
 			this._regionManager.update_animal_region(animal);
 		}
-			
-		
 
 		List<Animal> babys = new ArrayList<Animal>();
 		for (Animal animal : _animalList) {
 			if (animal.is_pregnant()) {
-				babys.add(animal.deliver_baby());	
-			}	
+				babys.add(animal.deliver_baby());
+			}
 		}
-		
-		
-		for(Animal animal: babys) {
+
+		for (Animal animal : babys) {
 			this.add_animal(animal);
 		}
-		
+
 		this._regionManager.update_all_regions(dt);
 		/*
 		 * 

@@ -83,7 +83,7 @@ public class Main {
 			parse_delta_option(line);
 			parse_output_option(line);
 			parse_sv_option(line);
-		
+
 			// if there are some remaining arguments, then something wrong is
 			// provided in the command line!
 			//
@@ -126,8 +126,8 @@ public class Main {
 		cmdLineOptions.addOption(Option.builder("o").longOpt("output <arg>").hasArg()
 				.desc("Output file, where output is written.\n").build());
 		// sv
-		cmdLineOptions.addOption(Option.builder("sv").longOpt("simple-viewer")
-				.desc("Show the viewer window in console mode.").build());
+		cmdLineOptions.addOption(
+				Option.builder("sv").longOpt("simple-viewer").desc("Show the viewer window in console mode.").build());
 
 		return cmdLineOptions;
 	}
@@ -149,18 +149,19 @@ public class Main {
 			throw new ParseException("Invalid value for time: " + dt);
 		}
 	}
-	
+
 	private static void parse_output_option(CommandLine line) throws ParseException {
 		_out_file = line.getOptionValue("o");
 		if (_mode == ExecMode.BATCH && _out_file == null) {
 			throw new ParseException("In batch mode an output configuration file is required");
 		}
-		
+
 	}
-	
+
 	private static void parse_sv_option(CommandLine line) throws ParseException {
-		if(line.hasOption("sv")) _sv = true;
-			
+		if (line.hasOption("sv"))
+			_sv = true;
+
 	}
 
 	private static void parse_time_option(CommandLine line) throws ParseException {
@@ -172,6 +173,7 @@ public class Main {
 			throw new ParseException("Invalid value for time: " + t);
 		}
 	}
+
 	private static void parse_in_file_option(CommandLine line) throws ParseException {
 		_in_file = line.getOptionValue("i");
 		if (_mode == ExecMode.BATCH && _in_file == null) {
@@ -194,9 +196,7 @@ public class Main {
 		region_builders.add(new DefaultRegionBuilder());
 		region_builders.add(new DinamicSupplyRegionBuilder());
 		_regionFactory = new BuilderBasedFactory<Region>(region_builders);
-		
-		
-	
+
 	}
 
 	private static JSONObject load_JSON_file(InputStream in) {
@@ -211,7 +211,7 @@ public class Main {
 		int height = json.getInt("height");
 		int rows = json.getInt("rows");
 		int cols = json.getInt("cols");
-		Simulator simer = new Simulator(rows, cols,width, height, _animalFactory, _regionFactory);
+		Simulator simer = new Simulator(rows, cols, width, height, _animalFactory, _regionFactory);
 		Controller cont = new Controller(simer);
 		cont.load_data(json);
 		cont.run(_default_time, _default_delta, _sv, outFile);

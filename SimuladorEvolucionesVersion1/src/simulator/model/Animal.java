@@ -13,7 +13,7 @@ public abstract class Animal implements Entity, AnimalInfo {
 	public static final double RANDOM_SIGHT_RANGE = 0.2;
 	public static final double RANDOM_SPEED = 0.2;
 
-	// son protected o publicas
+	// son protected o publicas. Atributos finales alguna vez son public en java?
 	protected static final double MINIMUM_DOUBLE = 0.0;
 	protected static final double MAXIMUM_DOUBLE = 100.0;
 	protected static final double DISTANCE_TO_DEST = 8.0;
@@ -23,7 +23,7 @@ public abstract class Animal implements Entity, AnimalInfo {
 	protected static final double PLUS_ENERGY = 1.2;
 	protected static final double BABY_PROBABILITY = 0.9;
 	protected static final double maximumDouble = 100.0;
-	
+
 	protected String _genetic_code;
 	protected Diet _diet;
 	protected State _state;
@@ -40,13 +40,13 @@ public abstract class Animal implements Entity, AnimalInfo {
 	protected SelectionStrategy _mate_strategy;
 
 	protected Animal(String genetic_code, Diet diet, double sight_range, double init_speed,
-			SelectionStrategy mate_strategy, Vector2D pos) throws Exception {
+			SelectionStrategy mate_strategy, Vector2D pos) throws IllegalArgumentException {
 		if (sight_range <= 0 || init_speed <= 0)
-			throw new Exception("no puede ser negativo");
+			throw new IllegalArgumentException("Invalid negative sight/speed");
 		else if (mate_strategy == null)
-			throw new Exception("no puede ser null");
+			throw new IllegalArgumentException("Invalid strategy");
 		else if (genetic_code.length() == 0)
-			throw new Exception("no puede ser una cadena vacia");
+			throw new IllegalArgumentException("Invalid generic code");
 		this._genetic_code = genetic_code;
 		this._diet = diet;
 		this._sight_range = sight_range;

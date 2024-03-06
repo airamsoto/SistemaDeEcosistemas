@@ -14,7 +14,6 @@ public class Wolf extends Animal {
 	private Animal _hunt_target;
 	private SelectionStrategy _hunting_strategy;
 
-
 	public Wolf(SelectionStrategy mate_strategy, SelectionStrategy hunting_strategy, Vector2D pos) throws Exception {
 		super("wolf", Diet.CARNIVORE, INIT_CAMPOVISUAL, INIT_SPEED, mate_strategy, pos);
 		this._hunt_target = null;
@@ -27,6 +26,7 @@ public class Wolf extends Animal {
 		this._hunt_target = null;
 
 	}
+
 	private void normalAdvance(double dt) {
 		if (this._pos.distanceTo(_dest) < 8.0) {
 			this._dest = this.getRandomVector();
@@ -38,19 +38,16 @@ public class Wolf extends Animal {
 		this._desire += PLUS_DESIRE * dt;
 		this._desire = Utils.constrain_value_in_range(this._desire, MINIMUM_DOUBLE, MAXIMUM_DOUBLE);
 	}
-	
-	private void plusAdvance (double dt) {
+
+	private void plusAdvance(double dt) {
 		this.move(PLUS_SPEED * _speed * dt * Math.exp((_energy - 100.0) * MATH_DOUBLE));
 		this._age += dt;
 		this._energy -= REST_ENERGY * 1.2 * dt;
 		this._energy = Utils.constrain_value_in_range(this._energy, MINIMUM_DOUBLE, MAXIMUM_DOUBLE);
 		this._desire += PLUS_DESIRE * dt;
-		this._desire = Utils.constrain_value_in_range(this._desire,MINIMUM_DOUBLE, MAXIMUM_DOUBLE);
-		
-	}
+		this._desire = Utils.constrain_value_in_range(this._desire, MINIMUM_DOUBLE, MAXIMUM_DOUBLE);
 
-	
-	
+	}
 
 	protected void normalState(double dt) {
 		this.normalAdvance(dt);
@@ -140,10 +137,12 @@ public class Wolf extends Animal {
 		this._state = State.HUNGER;
 		this._mate_target = null;
 	}
+
 	private void searchHunger() {
 		this._hunt_target = this._hunting_strategy.select(this,
 				this._region_mngr.get_animals_in_range(this, e -> e.get_diet() == Diet.HERBIVORE));
 	}
+
 	@Override
 	protected boolean isDead() {
 		return this._energy == ENERGY_TO_DIE || this._age > AGE_TO_DIE;
