@@ -4,7 +4,6 @@ import org.json.JSONObject;
 
 import simulator.misc.Utils;
 import simulator.misc.Vector2D;
-import simulator.model.*;
 
 public abstract class Animal implements Entity, AnimalInfo {
 	protected static final int INITIAL_ENERGY = 100;

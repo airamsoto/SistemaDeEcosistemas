@@ -28,17 +28,21 @@ public class SheepBuilder extends Builder<Animal> {
 		if (data.has("danger_strategy")) {
 			danger = this.selectionFactory.create_instance(data.getJSONObject("danger_strategy"));
 		}
-		// mirar pos expeciones
+
 		Vector2D pos = null;
 		if (data.has("pos")) {
 			JSONObject jPos = data.getJSONObject("pos");
 			JSONArray jX = jPos.getJSONArray("x_range");
 			JSONArray jY = jPos.getJSONArray("y_range");
-			double pedro1 = jX.getDouble(0);
-			double pedro2 = jX.getDouble(1);
-			double sara1 = jY.getDouble(0);
-			double sara2 = jY.getDouble(1);
-			pos = new Vector2D(Utils._rand.nextDouble(pedro1, pedro2), Utils._rand.nextDouble(sara1, sara2));
+			try {
+				double x1 = jX.getDouble(0);
+				double x2 = jX.getDouble(1);
+				double y1 = jY.getDouble(0);
+				double y2 = jY.getDouble(1);
+				pos = new Vector2D(Utils._rand.nextDouble(x1, x2), Utils._rand.nextDouble(y1, y2));
+			} catch (Exception e) {
+				throw new IllegalArgumentException ("Invalid argument pos");
+			}	
 		}
 		return new Sheep(mate, danger, pos);
 	}
