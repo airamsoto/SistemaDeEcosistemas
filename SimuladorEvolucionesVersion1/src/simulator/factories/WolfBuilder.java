@@ -15,19 +15,19 @@ public class WolfBuilder extends Builder<Animal> {
 
 	public WolfBuilder(Factory<SelectionStrategy> selectionStrategy) {
 		super("wolf", "Genera Lobo");
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	protected Wolf create_instance(JSONObject data) throws Exception {
+	protected Wolf create_instance(JSONObject data) throws IllegalArgumentException {
 		SelectionStrategy mate = new SelectFirst();
 		SelectionStrategy hunt = new SelectFirst();
 		if (data.has("mate_strategy")) {
-			mate = this.selectionFactory.create_instance(data);
+			mate = this.selectionFactory.create_instance(data.getJSONObject("mate_strategy"));
 		}
 		if (data.has("hunt_strategy")) {
-			hunt = this.selectionFactory.create_instance(data);
+			hunt = this.selectionFactory.create_instance(data.getJSONObject("hunt_strategy"));
 		}
+		// falta mirar excepciones por ejemplo tres daros para la posicion
 		Vector2D pos = null;
 		if (data.has("pos")) {
 			JSONObject jPos = data.getJSONObject("pos");
@@ -39,17 +39,29 @@ public class WolfBuilder extends Builder<Animal> {
 			double sara2 = jY.getDouble(1);
 			pos = new Vector2D(Utils._rand.nextDouble(pedro1, pedro2), Utils._rand.nextDouble(sara1, sara2));
 		}
-		// Igual que en sheepbuilder se usa pos == null?? como lo gestiona animal
-		if (pos != null) {
-			return new Wolf(mate, hunt, pos);
-		}
 
-		throw new IllegalArgumentException("Unrecognized 'info': " + data.toString());
+		return new Wolf(mate, hunt, pos);
+
+		// throw new IllegalArgumentException("Unrecognized 'info': " +
+		// data.toString());
 	}
 
 	@Override
 	protected void fill_in_data(JSONObject o) {
-		o.put("pos", "cual");
+		JSONObject jpos = new JSONObject();
+		JSONArray jAx = new JSONArray();
+		JSONArray jAy = new JSONArray();
+		jAx.put(100.0);
+		jAx.put(200.0);
+		jAy.put(100.0);
+		jAy.put(200.0);
+		jpos.put("x_range", jAx);
+		jpos.put("y_range", jAy);
+
+		JSONObject j = new JSONObject();
+		o.put("mate_strategy", j);
+		o.put("danger_strategy", j);
+		o.put("pos", jpos);
 
 	}
 

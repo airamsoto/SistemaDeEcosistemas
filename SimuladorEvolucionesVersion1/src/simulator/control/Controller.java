@@ -19,9 +19,8 @@ public class Controller {
 		this._sim = sim;
 	}
 
-	public void load_data(JSONObject data) throws Exception {
-		if (data.has("regions")) { // mirar si habria que hacer un bucle para que recorra todas las regiones
-			// hay que cambiar ESTO????
+	public void load_data(JSONObject data) {
+		if (data.has("regions")) {
 			JSONArray jRegions = data.getJSONArray("regions");
 			for (int i = 0; i < jRegions.length(); i++) {
 				JSONObject jRegion = jRegions.getJSONObject(i);
@@ -73,7 +72,6 @@ public class Controller {
 		return_state.put("in:", init_state);
 		return_state.put("out:", final_state);
 
-		// NO SE SI ES ASI, MIRAR BIEN EL VISOR DE OBJETOS
 		if (sv)
 			view.close();
 	}

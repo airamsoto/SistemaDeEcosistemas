@@ -121,8 +121,7 @@ public class Main {
 				"A double representing actual time, in seconds, per simulation step. Default value:" + _default_delta)
 				.build());
 
-		// o es opcional, si esta puerta recibe un archivo de salida, si no esta puesta
-		// se escribe en consola
+		// 0
 		cmdLineOptions.addOption(Option.builder("o").longOpt("output <arg>").hasArg()
 				.desc("Output file, where output is written.\n").build());
 		// sv

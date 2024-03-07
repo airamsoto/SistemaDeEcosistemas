@@ -36,7 +36,6 @@ public class RegionManager implements AnimalMapView {
 
 	void set_region(int row, int col, Region r) {
 
-		// COMPROBAR QUE NO SE SALGA DEL ARRAY
 		if (row >= this._rows) {
 			row = this._rows - 1;
 		}

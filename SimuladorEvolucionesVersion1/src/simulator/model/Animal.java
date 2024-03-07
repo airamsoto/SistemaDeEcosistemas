@@ -84,8 +84,8 @@ public abstract class Animal implements Entity, AnimalInfo {
 	void init(AnimalMapView reg_mngr) {
 		this._region_mngr = reg_mngr;
 		if (this._pos == null) {
-			double x = Utils._rand.nextDouble(800);
-			double y = Utils._rand.nextDouble(600);
+			double x = Utils._rand.nextDouble(reg_mngr.get_width());
+			double y = Utils._rand.nextDouble(reg_mngr.get_height());
 			Vector2D v = new Vector2D(x, y);
 			this._pos = v;
 		} else {

@@ -29,17 +29,13 @@ public class BuilderBasedFactory<T> implements Factory<T> {
 	}
 
 	public void add_builder(Builder<T> b) {
-		// add an entry “b.getTag() |−> b” to _builders.
-		// ...
-		// add b.get_info() to _buildersInfo
-		// ..
 		this._builders.put(b.get_type_tag(), b);
 		this._builders_info.add(b.get_info());
 
 	}
 
 	@Override
-	public T create_instance(JSONObject info) throws Exception {
+	public T create_instance(JSONObject info) throws IllegalArgumentException {
 
 		if (info == null)
 			throw new IllegalArgumentException("'info' cannot be null");

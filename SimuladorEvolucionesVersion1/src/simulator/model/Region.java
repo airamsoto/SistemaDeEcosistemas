@@ -8,8 +8,7 @@ import org.json.JSONObject;
 import org.json.JSONArray;
 
 public abstract class Region implements Entity, FoodSupplier, RegionInfo {
-	// atributo con la lista de animales que se encuentran en la region, haciendolo
-	// protected
+
 	protected List<Animal> animalList;
 
 	public Region() {
@@ -35,9 +34,6 @@ public abstract class Region implements Entity, FoodSupplier, RegionInfo {
 			jsonList.put(animal.as_JSON());
 		}
 		jsonObject.put("animal", jsonList);
-		// aqui haria falta devolver lo que le corresponda a cada animal
-		// no se si lo que tengo del bucle esta bien, preguntar profe
-
 		return jsonObject;
 	}
 

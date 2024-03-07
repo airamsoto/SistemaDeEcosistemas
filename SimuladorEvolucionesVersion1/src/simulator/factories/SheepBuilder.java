@@ -16,16 +16,18 @@ public class SheepBuilder extends Builder<Animal> {
 	}
 
 	@Override
-	protected Animal create_instance(JSONObject data) throws Exception {
+	protected Animal create_instance(JSONObject data) throws IllegalArgumentException {
 
 		SelectionStrategy mate = new SelectFirst();
 		SelectionStrategy danger = new SelectFirst();
+
 		if (data.has("mate_strategy")) {
 			mate = this.selectionFactory.create_instance(data.getJSONObject("mate_strategy"));
 		}
 		if (data.has("danger_strategy")) {
-			danger = this.selectionFactory.create_instance(data);
+			danger = this.selectionFactory.create_instance(data.getJSONObject("danger_strategy"));
 		}
+		// mirar pos expeciones
 		Vector2D pos = null;
 		if (data.has("pos")) {
 			JSONObject jPos = data.getJSONObject("pos");
@@ -37,19 +39,27 @@ public class SheepBuilder extends Builder<Animal> {
 			double sara2 = jY.getDouble(1);
 			pos = new Vector2D(Utils._rand.nextDouble(pedro1, pedro2), Utils._rand.nextDouble(sara1, sara2));
 		}
-		// enunciado: La clave "pos" es opcional, si no existe usamos null si no se usa
-		// la excepcion aqui habria que usarla en animal comprobando pos
-		if (pos != null) {
-			return new Sheep(mate, danger, pos);
-		}
-		throw new IllegalArgumentException("Unrecognized 'info': " + data.toString());
+		return new Sheep(mate, danger, pos);
+		// throw new IllegalArgumentException("Unrecognized 'info': " +
+		// data.toString());
 	}
 
 	@Override
 	public void fill_in_data(JSONObject o) {
-		o.accumulate("mate_strategy", "");
-		o.accumulate("hunt_strategy", null);
-		o.accumulate("pos" + ":" + "[", 100.0);
+		JSONObject jpos = new JSONObject();
+		JSONArray jAx = new JSONArray();
+		JSONArray jAy = new JSONArray();
+		jAx.put(100.0);
+		jAx.put(200.0);
+		jAy.put(100.0);
+		jAy.put(200.0);
+		jpos.put("x_range", jAx);
+		jpos.put("y_range", jAy);
+
+		JSONObject j = new JSONObject();
+		o.put("mate_strategy", j);
+		o.put("danger_strategy", j);
+		o.put("pos", jpos);
 
 	}
 

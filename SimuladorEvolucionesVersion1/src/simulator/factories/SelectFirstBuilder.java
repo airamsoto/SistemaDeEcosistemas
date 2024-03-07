@@ -8,14 +8,12 @@ import simulator.model.SelectionStrategy;
 public class SelectFirstBuilder extends Builder<SelectionStrategy> {
 
 	public SelectFirstBuilder() {
-		super("hola", "hola");
-		// TODO Auto-generated constructor stubS
+		super("first", "Genera selectFirstStrategy");
+
 	}
 
 	@Override
 	protected SelectionStrategy create_instance(JSONObject data) {
-		// if(data == null) throw new IllegalArgumentException ("'info' cannot be
-		// null");
 		return new SelectFirst();
 	}
 

@@ -8,14 +8,12 @@ import simulator.model.SelectionStrategy;
 public class SelectYoungestBuilder extends Builder<SelectionStrategy> {
 
 	public SelectYoungestBuilder() {
-		super("SelectYoungest", "Genera SelectYoungest");
-		// TODO Auto-generated constructor stub
+		super("youngest", "Genera SelectYoungest");
 	}
 
 	@Override
 	protected SelectionStrategy create_instance(JSONObject data) {
-		// if(data == null) throw new IllegalArgumentException ("'info' cannot be
-		// null");
+
 		return new SelectYoungest();
 	}
 
