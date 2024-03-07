@@ -13,6 +13,7 @@ public class SheepBuilder extends Builder<Animal> {
 
 	public SheepBuilder(Factory<SelectionStrategy> selectionStrategy) {
 		super("sheep", "Genera Oveja");
+		this.selectionFactory = selectionStrategy; 
 	}
 
 	@Override
@@ -22,7 +23,7 @@ public class SheepBuilder extends Builder<Animal> {
 		SelectionStrategy danger = new SelectFirst();
 
 		if (data.has("mate_strategy")) {
-			mate = this.selectionFactory.create_instance(data.getJSONObject("mate_strategy"));
+			mate = this.selectionFactory.create_instance(data.getJSONObject("mate_strategy"));	
 		}
 		if (data.has("danger_strategy")) {
 			danger = this.selectionFactory.create_instance(data.getJSONObject("danger_strategy"));
@@ -40,8 +41,6 @@ public class SheepBuilder extends Builder<Animal> {
 			pos = new Vector2D(Utils._rand.nextDouble(pedro1, pedro2), Utils._rand.nextDouble(sara1, sara2));
 		}
 		return new Sheep(mate, danger, pos);
-		// throw new IllegalArgumentException("Unrecognized 'info': " +
-		// data.toString());
 	}
 
 	@Override

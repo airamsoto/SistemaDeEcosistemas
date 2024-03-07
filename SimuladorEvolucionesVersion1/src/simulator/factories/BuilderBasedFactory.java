@@ -36,7 +36,7 @@ public class BuilderBasedFactory<T> implements Factory<T> {
 
 	@Override
 	public T create_instance(JSONObject info) throws IllegalArgumentException {
-
+		
 		if (info == null)
 			throw new IllegalArgumentException("'info' cannot be null");
 		String js = info.getString("type");

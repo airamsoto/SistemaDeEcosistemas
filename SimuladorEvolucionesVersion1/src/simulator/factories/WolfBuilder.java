@@ -15,6 +15,7 @@ public class WolfBuilder extends Builder<Animal> {
 
 	public WolfBuilder(Factory<SelectionStrategy> selectionStrategy) {
 		super("wolf", "Genera Lobo");
+		this.selectionFactory = selectionStrategy;
 	}
 
 	@Override
@@ -41,9 +42,6 @@ public class WolfBuilder extends Builder<Animal> {
 		}
 
 		return new Wolf(mate, hunt, pos);
-
-		// throw new IllegalArgumentException("Unrecognized 'info': " +
-		// data.toString());
 	}
 
 	@Override

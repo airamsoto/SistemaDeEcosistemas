@@ -7,13 +7,11 @@ import simulator.misc.Vector2D;
 import simulator.model.*;
 
 public abstract class Animal implements Entity, AnimalInfo {
-	public static final int INITIAL_ENERGY = 100;
-	public static final double INITIAL_SPEED = 0.1;
-	public static final double RANDOM_POS = 60.0;
-	public static final double RANDOM_SIGHT_RANGE = 0.2;
-	public static final double RANDOM_SPEED = 0.2;
-
-	// son protected o publicas. Atributos finales alguna vez son public en java?
+	protected static final int INITIAL_ENERGY = 100;
+	protected static final double INITIAL_SPEED = 0.1;
+	protected static final double RANDOM_POS = 60.0;
+	protected static final double RANDOM_SIGHT_RANGE = 0.2;
+	protected static final double RANDOM_SPEED = 0.2;
 	protected static final double MINIMUM_DOUBLE = 0.0;
 	protected static final double MAXIMUM_DOUBLE = 100.0;
 	protected static final double DISTANCE_TO_DEST = 8.0;
