@@ -1,6 +1,7 @@
 package simulator.factories;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import simulator.misc.Utils;
@@ -39,7 +40,7 @@ public class WolfBuilder extends Builder<Animal> {
 				double y1 = jY.getDouble(0);
 				double y2 = jY.getDouble(1);
 				pos = new Vector2D(Utils._rand.nextDouble(x1, x2), Utils._rand.nextDouble(y1, y2));
-			} catch (Exception e) {
+			} catch (JSONException e) {
 				throw new IllegalArgumentException ("Invalid argument pos");
 			}	
 		}

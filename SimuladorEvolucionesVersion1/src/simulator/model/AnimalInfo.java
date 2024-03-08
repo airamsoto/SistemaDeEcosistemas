@@ -15,6 +15,8 @@ public interface AnimalInfo extends JSONable {
 
 	public double get_sight_range();
 
+	public double get_desire();
+
 	public double get_energy();
 
 	public double get_age();

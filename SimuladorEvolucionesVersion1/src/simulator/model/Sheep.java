@@ -65,8 +65,8 @@ public class Sheep extends Animal {
 
 	@Override
 	protected void mateState(double dt) {
-		if (this._mate_target != null && (this._mate_target._state == State.DEAD
-				|| this._pos.distanceTo(this._mate_target._pos) > this._sight_range)) {
+		if (this._mate_target != null && (this._mate_target.get_state() == State.DEAD
+				|| this._pos.distanceTo(this._mate_target.get_position()) > this._sight_range)) {
 			this._mate_target = null;
 		}
 		if (this._mate_target == null) {
@@ -76,9 +76,9 @@ public class Sheep extends Animal {
 		if (this._mate_target != null) {
 			this._dest = this._mate_target.get_position();
 			this.rareAdvance(dt);
-			if (this._pos.distanceTo(this._mate_target._pos) < DISTANCE_TO_DEST) {
+			if (this._pos.distanceTo(this._mate_target.get_position()) < DISTANCE_TO_DEST) {
 				this._desire = 0.0;
-				this._mate_target._desire = 0.0;
+				this._mate_target.get_desire() = 0.0;
 				if (!this.is_pregnant() && Utils._rand.nextDouble() < BABY_PROBABILITY) {
 					this._baby = new Sheep(this, this._mate_target);
 				}
@@ -103,7 +103,7 @@ public class Sheep extends Animal {
 
 	@Override
 	protected void dangerState(double dt) {
-		if (this._danger_source != null && this._danger_source._state == State.DEAD) {
+		if (this._danger_source != null && this._danger_source.get_state() == State.DEAD) {
 			this._danger_source = null;
 		}
 		if (this._danger_source == null) {
@@ -113,7 +113,7 @@ public class Sheep extends Animal {
 			this.rareAdvance(dt);
 		}
 
-		if (this._danger_source == null || (this._pos.distanceTo(this._danger_source._pos) > this._sight_range)) {
+		if (this._danger_source == null || (this._pos.distanceTo(this._danger_source.get_position()) > this._sight_range)) {
 
 			this.searchDanger();
 			if (this._danger_source == null) {

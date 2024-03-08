@@ -229,6 +229,11 @@ public abstract class Animal implements Entity, AnimalInfo {
 
 		return this._sight_range;
 	}
+	@Override
+	public double get_desire() {
+
+		return this._desire;
+	}
 
 	@Override
 	public double get_energy() {
