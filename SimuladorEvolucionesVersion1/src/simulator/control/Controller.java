@@ -12,7 +12,7 @@ import simulator.model.MapInfo;
 import simulator.model.Simulator;
 import simulator.view.SimpleObjectViewer;
 import simulator.view.SimpleObjectViewer.ObjInfo;
-//
+
 public class Controller {
 	private Simulator _sim;
 
