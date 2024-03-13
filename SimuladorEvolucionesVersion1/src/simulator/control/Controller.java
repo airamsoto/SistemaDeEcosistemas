@@ -86,5 +86,4 @@ public class Controller {
 					(int) Math.round(a.get_age()) + 2));
 		return ol;
 	}
-
 }
