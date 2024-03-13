@@ -1,6 +1,7 @@
 package simulator.control;
 
 import java.io.OutputStream;
+import java.io.PrintStream;
 import org.json.JSONArray;
 import java.util.List;
 import java.util.*;
@@ -11,7 +12,7 @@ import simulator.model.MapInfo;
 import simulator.model.Simulator;
 import simulator.view.SimpleObjectViewer;
 import simulator.view.SimpleObjectViewer.ObjInfo;
-
+//
 public class Controller {
 	private Simulator _sim;
 
@@ -53,6 +54,7 @@ public class Controller {
 	public void run(double t, double dt, boolean sv, OutputStream out) {
 
 		SimpleObjectViewer view = null;
+		PrintStream printer = new PrintStream(out);
 		if (sv) {
 			MapInfo m = _sim.get_map_info();
 			view = new SimpleObjectViewer("[ECOSYSTEM]", m.get_width(), m.get_height(), m.get_cols(), m.get_rows());
@@ -71,6 +73,7 @@ public class Controller {
 		final_state = this._sim.as_JSON();
 		return_state.put("in:", init_state);
 		return_state.put("out:", final_state);
+		printer.println(return_state);
 
 		if (sv)
 			view.close();

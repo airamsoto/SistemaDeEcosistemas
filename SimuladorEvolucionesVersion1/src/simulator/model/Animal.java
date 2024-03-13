@@ -258,5 +258,8 @@ public abstract class Animal implements Entity, AnimalInfo {
 
 		return this._baby != null;
 	}
+	protected void set_desire(double desire) {
+		this._desire = desire;
+	}
 
 }

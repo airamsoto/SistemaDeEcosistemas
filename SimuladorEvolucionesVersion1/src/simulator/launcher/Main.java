@@ -213,7 +213,7 @@ public class Main {
 		Simulator simer = new Simulator(rows, cols, width, height, _animalFactory, _regionFactory);
 		Controller cont = new Controller(simer);
 		cont.load_data(json);
-		cont.run(_default_time, _default_delta, _sv, outFile);
+		cont.run(_time, _delta, _sv, outFile);
 		outFile.close();
 
 	}

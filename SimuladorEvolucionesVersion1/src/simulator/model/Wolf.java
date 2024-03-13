@@ -99,7 +99,7 @@ public class Wolf extends Animal {
 		} else {
 			this._dest = this._mate_target.get_position();
 			this.plusAdvance(dt);
-			if (this._pos.distanceTo(this._mate_target.get_position()t) < DISTANCE_TO_DEST) {
+			if (this._pos.distanceTo(this._mate_target.get_position()) < DISTANCE_TO_DEST) {
 				this._desire = 0.0;
 				this._mate_target._desire = 0.0;
 

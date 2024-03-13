@@ -78,7 +78,7 @@ public class Sheep extends Animal {
 			this.rareAdvance(dt);
 			if (this._pos.distanceTo(this._mate_target.get_position()) < DISTANCE_TO_DEST) {
 				this._desire = 0.0;
-				this._mate_target.get_desire() = 0.0;
+				this._mate_target.set_desire(0.0);
 				if (!this.is_pregnant() && Utils._rand.nextDouble() < BABY_PROBABILITY) {
 					this._baby = new Sheep(this, this._mate_target);
 				}
