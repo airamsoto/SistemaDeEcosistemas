@@ -241,7 +241,7 @@ public abstract class Animal implements Entity, AnimalInfo {
 		return this._energy;
 	}
 
-	@Override
+	@Override 
 	public double get_age() {
 
 		return this._age;

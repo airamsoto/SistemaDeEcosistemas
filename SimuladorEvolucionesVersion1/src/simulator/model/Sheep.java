@@ -71,9 +71,10 @@ public class Sheep extends Animal {
 		}
 		if (this._mate_target == null) {
 			searchMate();
-
+			if(this._mate_target == null)
+				this.normalAdvance(dt);
 		}
-		if (this._mate_target != null) {
+		else  {
 			this._dest = this._mate_target.get_position();
 			this.rareAdvance(dt);
 			if (this._pos.distanceTo(this._mate_target.get_position()) < DISTANCE_TO_DEST) {
@@ -84,10 +85,10 @@ public class Sheep extends Animal {
 				}
 				this._mate_target = null;
 			}
-		} else {
-			this.normalAdvance(dt);
+		} 
 
-		}
+
+
 		if (this._danger_source == null) {
 
 			this.searchDanger();
