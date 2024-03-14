@@ -76,7 +76,7 @@ public class Simulator implements JSONable {
 		}
 
 		this._regionManager.update_all_regions(dt);
-		
+
 		List<Animal> babys = new ArrayList<Animal>();
 		for (Animal animal : _animalList) {
 			if (animal.is_pregnant()) {
@@ -88,7 +88,6 @@ public class Simulator implements JSONable {
 			this.add_animal(animal);
 		}
 
-		
 	}
 
 	public JSONObject as_JSON() {
@@ -96,6 +95,13 @@ public class Simulator implements JSONable {
 		JSONreturn.put("time: ", this._time);
 		JSONreturn.put("state: ", this._regionManager.as_JSON());
 		return JSONreturn;
+	}
+
+	public void reset(int cols, int rows, int width, int height) {
+		this._animalList.clear(); //o crear una lista nueva
+		this._regionManager = new RegionManager(cols, rows, width, height);
+		this._time = 0.0;
+
 	}
 
 }
