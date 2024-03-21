@@ -1,7 +1,5 @@
 package simulator.model;
 
-import java.util.List;
-import java.util.Map;
 import java.util.function.Predicate;
 import java.util.*;
 
@@ -211,6 +209,13 @@ public class RegionManager implements AnimalMapView {
 	@Override
 	public int get_region_height() {
 		return this.heightrow;
+	}
+
+	@Override
+	public Iterator<RegionData> iterator() {
+		//METODO QUE RECORRE LAS FILAS DE IZQ A DER DE CADA REGION Y DEVUELVE UNA INSTANCIA DE REGION DATA
+		//PARA CADA REGION
+		return null;
 	}
 
 }

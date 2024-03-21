@@ -8,6 +8,7 @@ import java.util.*;
 import org.json.JSONObject;
 
 import simulator.model.AnimalInfo;
+import simulator.model.EcoSysObserver;
 import simulator.model.MapInfo;
 import simulator.model.Simulator;
 import simulator.view.SimpleObjectViewer;
@@ -86,4 +87,23 @@ public class Controller {
 					(int) Math.round(a.get_age()) + 2));
 		return ol;
 	}
+	public void reset(int cols, int rows, int width, int height) {
+		this._sim.reset(cols, rows, width, height);
+	}
+	public void set_regions(JSONObject rs) {
+		//: suponiendo que rs es una estructura JSON que incluye la clave “regions” (como en la primera práctica), modifica las regiones correspondientes usando
+		//set_regions del simulador. Hay que hacer refactorización del código del load_data para que no haya
+		//duplicación de código (porque load_data ya hacía algo parecido).
+	}
+	
+	public void advance(double dt) {
+		this._sim.advance(dt);
+	}
+	public void addObserver(EcoSysObserver o) {
+		this._sim.addObserver(o);
+	}
+	public void removeObserver(EcoSysObserver o) {
+		this._sim.removeObserver(o);
+	}
+
 }

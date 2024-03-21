@@ -9,12 +9,13 @@ import org.json.JSONObject;
 
 import simulator.factories.Factory;
 
-public class Simulator implements JSONable {
+public class Simulator implements JSONable, Observable<EcoSysObserver> {
 	private Factory<Animal> _animalFactory;
 	private Factory<Region> _regionFactory;
 	private double _time;
 	private RegionManager _regionManager;
 	private List<Animal> _animalList;
+	private List<EcoSysObserver> _observableList;
 
 	public Simulator(int cols, int rows, int width, int height, Factory<Animal> animals_factory,
 			Factory<Region> regions_factory) {
@@ -28,7 +29,9 @@ public class Simulator implements JSONable {
 
 	private void set_region(int row, int col, Region r) {
 		this._regionManager.set_region(row, col, r);
+		this.notify_on_setRegion(_time);
 	}
+
 
 	public void set_region(int row, int col, JSONObject r_json) {
 		this.set_region(row, col, this._regionFactory.create_instance(r_json));
@@ -37,6 +40,8 @@ public class Simulator implements JSONable {
 	private void add_animal(Animal a) {
 		this._animalList.add(a);
 		this._regionManager.register_animal(a);
+		//SE LE PASA TIME O DT??
+		this.notify_on_addAnimal(_time);
 
 	}
 
@@ -87,6 +92,8 @@ public class Simulator implements JSONable {
 		for (Animal animal : babys) {
 			this.add_animal(animal);
 		}
+		//SE LE PASA TIME O DT??
+		this.notify_on_advanced(_time);
 
 	}
 
@@ -98,10 +105,46 @@ public class Simulator implements JSONable {
 	}
 
 	public void reset(int cols, int rows, int width, int height) {
-		this._animalList.clear(); //o crear una lista nueva
+		this._animalList.clear(); // o crear una lista nueva
 		this._regionManager = new RegionManager(cols, rows, width, height);
 		this._time = 0.0;
+		this.notify_on_reset(_time);
 
+	}
+
+	public void addObserver(EcoSysObserver o) {
+		this._observableList.add(o);
+		o.onRegister(_time, _regionManager, Collections.unmodifiableList(this._animalList));
+	}
+
+	public void removeObserver(EcoSysObserver o) {
+		this._observableList.remove(o);
+	}
+
+	private void notify_on_advanced(double dt) {
+		List<AnimalInfo> animals = new ArrayList<>(this._animalList);
+
+		for (EcoSysObserver o : this._observableList) {
+			o.onAvanced(dt, _regionManager, animals, dt);
+		}
+	}
+	private void notify_on_reset (double dt) {
+		for (EcoSysObserver o : this._observableList) {
+			o.onReset(_time, _regionManager, Collections.unmodifiableList(this._animalList));
+		}
+		
+	}
+	private void notify_on_addAnimal (double dt) {
+		//FALTA PONER LO DE ANIMAL INFO DONDE VA NULL
+		for (EcoSysObserver o : this._observableList) {
+			o.onAnimalAdded(dt, _regionManager, Collections.unmodifiableList(this._animalList), null);
+		}
+	}
+	private void notify_on_setRegion (double dt) {
+		//REVISAR EL NULL DEL ARGUMENTO
+		for (EcoSysObserver o : this._observableList) {
+			o.onRegionSet(_regionManager.get_rows(), _regionManager.get_cols(), _regionManager, null);
+		}
 	}
 
 }
