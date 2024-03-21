@@ -93,9 +93,10 @@ public class Wolf extends Animal {
 		}
 		if (this._mate_target == null) {
 			this.searchMate();
-		}
-		if (this._mate_target == null) {
-			this.normalAdvance(dt);
+			if(this._mate_target == null) {
+				this.normalAdvance(dt);
+			}
+		
 		} else {
 			this._dest = this._mate_target.get_position();
 			this.plusAdvance(dt);

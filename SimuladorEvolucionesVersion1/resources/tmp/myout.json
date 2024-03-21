@@ -1,0 +1,4 @@
+<<<<<<< HEAD
+=======
+{"in:":{"state: ":{"col":14,"data":{"animal":[{"pos":"[762.5138729787378,585.2171149981972]","diet":"HERBIVORE","state":"NORMAL","gcode":"sheep"}]},"row":19},"time: ":0},"out:":{"state: ":{"col":14,"data":{"animal":[]},"row":19},"time: ":10.019999999999978}}
+>>>>>>> branch 'master' of https://github.com/airamsoto/SistemaDeEcosistemas.git
