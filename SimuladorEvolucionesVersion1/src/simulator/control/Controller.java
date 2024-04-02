@@ -103,7 +103,7 @@ public class Controller {
 		this._sim.addObserver(o);
 	}
 	public void removeObserver(EcoSysObserver o) {
-		this._sim.removeObserver(o);
+		this._sim.removeObserver(o);	
 	}
 
 }

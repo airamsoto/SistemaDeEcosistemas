@@ -125,21 +125,24 @@ public class Simulator implements JSONable, Observable<EcoSysObserver> {
 		List<AnimalInfo> animals = new ArrayList<>(this._animalList);
 
 		for (EcoSysObserver o : this._observableList) {
-			o.onAvanced(dt, _regionManager, animals, dt);
+			o.onAvanced(this._time, _regionManager, animals, dt);
 		}
 	}
+	//VER DT PARA QUE LO USARIAMOS?
 	private void notify_on_reset (double dt) {
 		for (EcoSysObserver o : this._observableList) {
 			o.onReset(_time, _regionManager, Collections.unmodifiableList(this._animalList));
 		}
 		
 	}
+	//VER DT PARA QUE LO USARIAMOS?
 	private void notify_on_addAnimal (double dt) {
 		//FALTA PONER LO DE ANIMAL INFO DONDE VA NULL
 		for (EcoSysObserver o : this._observableList) {
 			o.onAnimalAdded(dt, _regionManager, Collections.unmodifiableList(this._animalList), null);
 		}
 	}
+	//VER DT PARA QUE LO USARIAMOS?
 	private void notify_on_setRegion (double dt) {
 		//REVISAR EL NULL DEL ARGUMENTO
 		for (EcoSysObserver o : this._observableList) {

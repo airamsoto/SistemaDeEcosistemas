@@ -58,13 +58,13 @@ public class Main {
 	// some attributes to stores values corresponding to command-line parameters
 	//
 	private static Double _time = null;
-	private static Double _delta = null;
+	public static Double _delta = null;
 	private static String _in_file = null;
 	private static String _out_file = null;
 	private static boolean _sv = false;
 	private static ExecMode _mode = ExecMode.BATCH;
-	private static Factory<Animal> _animalFactory;
-	private static Factory<Region> _regionFactory;
+	public static Factory<Animal> _animalFactory;
+	public static Factory<Region> _regionFactory;
 
 	private static void parse_args(String[] args) {
 
