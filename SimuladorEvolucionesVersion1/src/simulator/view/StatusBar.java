@@ -2,7 +2,8 @@ package simulator.view;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.lang.ModuleLayer.Controller;
+import javax.swing.JLabel;
+import simulator.control.*;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -49,11 +50,20 @@ public class StatusBar extends JPanel implements EcoSysObserver {
 	StatusBar(Controller ctrl) {
 		initGUI();
 		// TODO registrar this como observador
+		ctrl.addObserver(this); //REVISAR
 	}
+
+	
 
 	private void initGUI() {
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		this.setBorder(BorderFactory.createBevelBorder(1));
+		JLabel time = new JLabel ("Time");
+		JLabel animals = new JLabel ("Total Animals");
+		JLabel dimension = new JLabel ("Dimension");
+		this.add(time);
+		this.add(animals);
+		this.add(dimension);
 		// TODO Crear varios JLabel para el tiempo, el número de animales, y la
 		// dimensión y añadirlos al panel. Puedes utilizar el siguiente código
 		// para añadir un separador vertical:

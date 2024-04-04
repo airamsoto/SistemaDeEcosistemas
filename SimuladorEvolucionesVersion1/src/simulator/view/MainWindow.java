@@ -34,7 +34,7 @@ public class MainWindow extends JFrame {
 	
 	// TODO crear StatusBar y añadirlo en PAGE_END de mainPanel
 	
-	StatusBar statusBar = new StatusBar (_ctrl);
+	StatusBar statusBar = new StatusBar (this._ctrl);
 	mainPanel.add(statusBar, BorderLayout.PAGE_END);
 	
 	// Definición del panel de tablas (usa un BoxLayout vertical)
@@ -54,7 +54,13 @@ public class MainWindow extends JFrame {
 	contentPanel.add(regionsTable).setPreferredSize(new Dimension(500, 250));
 	
 	// TODO llama a ViewUtils.quit(MainWindow.this) en el método windowClosing
-	//addWindowListener();
+	//addWindowListener();ç
+	
+	//AL ACABAR INFO TABLE
+	mainPanel.add(new InfoTable("Species", new SpeciesTableModel(_ctrl)));
+	mainPanel.add(new InfoTable("Regions", new RegionsTableModel(_ctrl)));
+	//new InfoTable("Species", new SpeciesTableModel(_ctrl));
+	//new InfoTable("Regions", new RegionsTableModel(_ctrl));R
 	
 	setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	pack();
