@@ -24,6 +24,11 @@ public class Simulator implements JSONable, Observable<EcoSysObserver> {
 		this._animalFactory = animals_factory;
 		this._animalList = new ArrayList<Animal>();
 		this._regionManager = new RegionManager(cols, rows, width, height);
+		
+		
+		
+		//REVISAR
+		this._observableList = new ArrayList<>();
 
 	}
 

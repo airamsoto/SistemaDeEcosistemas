@@ -2,7 +2,7 @@ package simulator.misc;
 
 import java.util.Random;
 
-import simulator.view.ControlPanel;
+
 
 public class Utils {
 	public static final Random _rand = new Random();
@@ -22,10 +22,11 @@ public class Utils {
 		
 	}
 
-	public static void quit(ControlPanel controlPanel) {
+	/*public static void quit(ControlPanel controlPanel) {
 		// TODO Auto-generated method stub
-		
 	}
+		
+*/
 	public static void viewer () {
 		
 	}

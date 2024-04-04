@@ -2,10 +2,12 @@ package simulator.view;
 
 import simulator.control.*;
 import java.util.List;
+import java.util.*;
 import java.util.Map;
 
 import javax.swing.table.AbstractTableModel;
 
+import simulator.model.Animal;
 import simulator.model.AnimalInfo;
 import simulator.model.EcoSysObserver;
 import simulator.model.MapInfo;
@@ -14,11 +16,14 @@ import simulator.model.RegionInfo;
 public class SpeciesTableModel extends AbstractTableModel implements EcoSysObserver {
 	// TODO definir atributos necesarios
 	private Controller _ctrl;
-	private Map<String, Integer> _animals;
+	//private Map<String, Integer> _animals;
+	//probar a hacerlos con listas para cada cosa
+	private List <String> hola;
 	
 	private String species;
 	SpeciesTableModel(Controller ctrl) {
 		//usar State.Values();
+		hola = new ArrayList<>();
 		this._ctrl = ctrl;
 		this._ctrl.addObserver(this);
 	}

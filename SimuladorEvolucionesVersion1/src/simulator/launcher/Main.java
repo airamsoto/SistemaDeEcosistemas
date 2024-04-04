@@ -62,7 +62,7 @@ public class Main {
 	private static String _in_file = null;
 	private static String _out_file = null;
 	private static boolean _sv = false;
-	private static ExecMode _mode = ExecMode.BATCH;
+	private static ExecMode _mode = ExecMode.GUI;
 	public static Factory<Animal> _animalFactory;
 	public static Factory<Region> _regionFactory;
 
@@ -83,6 +83,7 @@ public class Main {
 			parse_delta_option(line);
 			parse_output_option(line);
 			parse_sv_option(line);
+			parse_m_option(line);	
 
 			// if there are some remaining arguments, then something wrong is
 			// provided in the command line!
@@ -128,6 +129,12 @@ public class Main {
 		cmdLineOptions.addOption(
 				Option.builder("sv").longOpt("simple-viewer").desc("Show the viewer window in console mode.").build());
 
+		// m
+		cmdLineOptions
+				.addOption(Option.builder("m").longOpt("-m,--mode <arg>").hasArg()
+						.desc("Execution Mode. Possible values: 'batch' (Batch\r\n"
+								+ "mode), 'gui' (Graphical User Interface mode).\r\n" + "Default value: 'gui'")
+						.build());
 		return cmdLineOptions;
 	}
 
@@ -178,6 +185,13 @@ public class Main {
 		if (_mode == ExecMode.BATCH && _in_file == null) {
 			throw new ParseException("In batch mode an input configuration file is required");
 		}
+	}
+
+	private static void parse_m_option(CommandLine line) throws ParseException {
+		if(line.hasOption("m") && line.getOptionValue("m") == "batch") {
+			_mode = ExecMode.BATCH;
+		}
+
 	}
 
 	private static void init_factories() {
