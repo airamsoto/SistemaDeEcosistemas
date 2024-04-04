@@ -38,7 +38,7 @@ public class Main {
 		private String _desc;
 
 		private ExecMode(String modeTag, String modeDesc) {
-			_tag = modeTag;
+			 _tag = modeTag;
 			_desc = modeDesc;
 		}
 
