@@ -1,20 +1,40 @@
 package simulator.view;
 
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.lang.ModuleLayer.Controller;
 import java.util.List;
 
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
+import javax.swing.table.AbstractTableModel;
 
 import simulator.model.AnimalInfo;
 import simulator.model.EcoSysObserver;
 import simulator.model.MapInfo;
 import simulator.model.RegionInfo;
 
-public class StatusBar extends JPanel implements EcoSysObserver {
+class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
+	// TODO definir atributos necesarios
+	RegionsTableModel(Controller ctrl) {
+		// TODO inicializar estructuras de datos correspondientes
+		// TODO registrar this como observador
+	}
+	// TODO el resto de métodos van aquí…
+
+	@Override
+	public int getRowCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getColumnCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Object getValueAt(int rowIndex, int columnIndex) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public void onRegister(double time, MapInfo map, List<AnimalInfo> animals) {
@@ -45,23 +65,4 @@ public class StatusBar extends JPanel implements EcoSysObserver {
 		// TODO Auto-generated method stub
 
 	}
-
-	StatusBar(Controller ctrl) {
-		initGUI();
-		// TODO registrar this como observador
-	}
-
-	private void initGUI() {
-		this.setLayout(new FlowLayout(FlowLayout.LEFT));
-		this.setBorder(BorderFactory.createBevelBorder(1));
-		// TODO Crear varios JLabel para el tiempo, el número de animales, y la
-		// dimensión y añadirlos al panel. Puedes utilizar el siguiente código
-		// para añadir un separador vertical:
-		//
-		JSeparator s = new JSeparator(JSeparator.VERTICAL);
-		s.setPreferredSize(new Dimension(10, 20));
-		this.add(s);
-	}
-	// TODO el resto de métodos van aquí…
-
 }
