@@ -20,6 +20,7 @@ import org.json.JSONTokener;
 
 import simulator.misc.Utils;
 import simulator.model.Simulator;
+import simulator.view.MainWindow;
 import simulator.view.SimpleObjectViewer;
 import simulator.model.*;
 import simulator.factories.*;
@@ -28,6 +29,8 @@ import simulator.factories.SelectFirstBuilder;
 import simulator.control.*;
 
 import java.util.*;
+
+import javax.swing.SwingUtilities;
 
 public class Main {
 
@@ -233,7 +236,17 @@ public class Main {
 	}
 
 	private static void start_GUI_mode() throws Exception {
-		throw new UnsupportedOperationException("GUI mode is not ready yet ...");
+		InputStream is = new FileInputStream(new File(_in_file));
+		JSONObject json = load_JSON_file(is);
+		int width = json.getInt("width");
+		int height = json.getInt("height");
+		int rows = json.getInt("rows");
+		int cols = json.getInt("cols");
+		Simulator simer = new Simulator(rows, cols, width, height, _animalFactory, _regionFactory);
+		Controller cont = new Controller(simer);
+		cont.load_data(json);
+		SwingUtilities.invokeAndWait(() -> new MainWindow(cont));
+		
 	}
 
 	private static void start(String[] args) throws Exception {

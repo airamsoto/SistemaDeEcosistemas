@@ -55,7 +55,7 @@ class ControlPanel extends JPanel {
 		_quitButton = new JButton();
 		_quitButton.setToolTipText("Quit");
 		_quitButton.setIcon(new ImageIcon("resources/icons/exit.png"));
-		_quitButton.addActionListener((e) -> Utils.quit(this));
+		//_quitButton.addActionListener((e) -> Utils.quit(this));
 		_toolaBar.add(_quitButton);
 
 		_toolaBar.addSeparator();
