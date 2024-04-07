@@ -8,21 +8,13 @@ import java.util.List;
 import simulator.model.*;
 import javax.swing.table.AbstractTableModel;
 
-import simulator.model.AnimalInfo;
-import simulator.model.EcoSysObserver;
-import simulator.model.MapInfo;
-import simulator.model.RegionInfo;
-
 class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 	// TODO definir atributos necesarios
 	private Controller _ctrl;
 	private List<MapInfo.RegionData> _region;
-//	private  {"rpñ"};
 	
 	RegionsTableModel(Controller ctrl) {
-		// TODO inicializar estructuras de datos correspondientes
-		// TODO registrar this como 
-		Diet.values();
+
 		this._region = new ArrayList<>();
 		this._ctrl = ctrl;
 		this._ctrl.addObserver(this);
@@ -32,17 +24,35 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 	@Override
 	public int getRowCount() {
 		// TODO Auto-generated method stub
-		return 0;
+		return this._region.size();
 	}
 
 	@Override
 	public int getColumnCount() {
 		// TODO Auto-generated method stub
-		return 0;
+		return Diet.values().length + 3;
 	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
+		
+		if(rowIndex == 0) {
+		
+			switch (columnIndex) {
+			case 0:
+				return "Row";
+			case 1:
+				return "Col";
+			case 2:
+				return "Desc.";
+			default:
+				return Diet.values()[columnIndex -3].toString();
+				
+			}
+		} else {
+			
+		}
+		
 		// TODO Auto-generated method stub
 		return null;
 	}

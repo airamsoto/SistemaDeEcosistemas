@@ -21,8 +21,6 @@ public class SpeciesTableModel extends AbstractTableModel implements EcoSysObser
 	private Map<String, Map <String, Integer>> _animals;
 	
 	SpeciesTableModel(Controller ctrl) {
-		//usar State.Values();
-	
 		this._ctrl = ctrl;
 		this._animals = new HashMap<>();
 		for (State state : State.values()) {
@@ -30,26 +28,30 @@ public class SpeciesTableModel extends AbstractTableModel implements EcoSysObser
 		}
 		this._ctrl.addObserver(this);
 	}
-	// TODO el resto de métodos van aquí …
 
 	@Override
 	public int getRowCount() {
 		// TODO Auto-generated method stub
-		return 0;
+		return this._animals.size();
 	}
 
 	@Override
 	public int getColumnCount() {
 		// TODO Auto-generated method stub
-		return 0;
+		return State.values().length +1;
 	}
-
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		// TODO Auto-generated method stub
-		return null;
+		if(rowIndex == 0) {
+			if(columnIndex == 0) return "Species";
+			else return State.values()[columnIndex -1].toString();
+		} else {
+	
+			}
+			
+		return "";
 	}
-
 	@Override
 	public void onRegister(double time, MapInfo map, List<AnimalInfo> animals) {
 		// TODO Auto-generated method stub
@@ -79,4 +81,5 @@ public class SpeciesTableModel extends AbstractTableModel implements EcoSysObser
 		// TODO Auto-generated method stub
 		
 	}
+	
 }
