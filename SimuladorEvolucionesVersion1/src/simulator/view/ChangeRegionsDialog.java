@@ -2,7 +2,7 @@ package simulator.view;
 
 import java.awt.Dimension;
 import java.awt.Frame;
-import java.lang.ModuleLayer.Controller;
+import simulator.control.*;
 import java.util.List;
 
 import javax.swing.BoxLayout;

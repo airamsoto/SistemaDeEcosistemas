@@ -12,19 +12,22 @@ import simulator.model.AnimalInfo;
 import simulator.model.EcoSysObserver;
 import simulator.model.MapInfo;
 import simulator.model.RegionInfo;
+import simulator.model.State;
 
 public class SpeciesTableModel extends AbstractTableModel implements EcoSysObserver {
 	// TODO definir atributos necesarios
 	private Controller _ctrl;
-	//private Map<String, Integer> _animals;
-	//probar a hacerlos con listas para cada cosa
-	private List <String> hola;
 	
-	private String species;
+	private Map<String, Map <String, Integer>> _animals;
+	
 	SpeciesTableModel(Controller ctrl) {
 		//usar State.Values();
-		hola = new ArrayList<>();
+	
 		this._ctrl = ctrl;
+		this._animals = new HashMap<>();
+		for (State state : State.values()) {
+			this._animals.put(state.toString(), new HashMap<>());
+		}
 		this._ctrl.addObserver(this);
 	}
 	// TODO el resto de métodos van aquí …

@@ -14,7 +14,7 @@ import javax.swing.SwingUtilities;
 import simulator.control.Controller;
 import simulator.misc.Utils;
 
-class ControlPanel extends JPanel {
+public class ControlPanel extends JPanel {
 	/**
 	 * 
 	 */
@@ -48,25 +48,12 @@ class ControlPanel extends JPanel {
 		// _toolaBar.addSeparator() para añadir la línea de separación vertical
 		// entre las componentes que lo necesiten.
 
-		_toolaBar.add(Box.createGlue()); // this aligns the button to the right
-		_toolaBar.addSeparator();
-
-		// Quit Button
-		_quitButton = new JButton();
-		_quitButton.setToolTipText("Quit");
-		_quitButton.setIcon(new ImageIcon("resources/icons/exit.png"));
-		//_quitButton.addActionListener((e) -> Utils.quit(this));
-		_toolaBar.add(_quitButton);
-
-		_toolaBar.addSeparator();
-
 		// LOAD FILE BUTTON
 		this._openButton = new JButton();
 		this._openButton.setToolTipText("load");
 		this._openButton.setIcon(new ImageIcon("resources/icons/open.png"));
 		this._openButton.addActionListener((e) -> Utils.loadFile());
 		this._toolaBar.add(this._openButton);
-
 		_toolaBar.addSeparator();
 
 		// MAP BUTTON
@@ -75,33 +62,71 @@ class ControlPanel extends JPanel {
 		this._viewerButton.setIcon(new ImageIcon("resources/icons/viewer.png"));
 		this._viewerButton.addActionListener((e) -> Utils.viewer());
 		this._toolaBar.add(this._viewerButton);
-
 		_toolaBar.addSeparator();
 
 		// REGION BUTTON
 		this._regionButton = new JButton();
 		this._regionButton.setToolTipText("change region");
 		this._regionButton.setIcon(new ImageIcon("resources/icons/regions.png"));
-		// this._regionButton.addActionListener((e)->
-		// _changeRegionsDialog.open(ViewUtils.getWindow(this)));
+		this._regionButton.addActionListener((e)->
+		_changeRegionsDialog.open(ViewUtils.getWindow(this)));
 		this._toolaBar.add(this._regionButton);
-
 		_toolaBar.addSeparator();
 
 		// RUN BUTTON
 		this._runButton = new JButton();
 		this._runButton.setToolTipText("run");
 		this._runButton.setIcon(new ImageIcon("resources/icons/run.png"));
-		this._runButton.addActionListener((e) -> Utils.run());
+		this._runButton.addActionListener((e) -> {
+			this._openButton.setEnabled(false);
+			this._viewerButton.setEnabled(false);
+			this._regionButton.setEnabled(false);
+			this._runButton.setEnabled(false);
+			this._quitButton.setEnabled(false);
+			this._stopped = true; // es asi?
+			/*
+			 * obtener valores de delta y el numero de paso del jspinner
+			 */
+			int steps = 0, dt = 0;
+			this.run_sim(steps, dt);
+			});
 		this._toolaBar.add(this._runButton);
+		_toolaBar.addSeparator();
+		
+		//STOP BUTTON
+		this._stopButton = new JButton();
+		this._stopButton.setToolTipText("Stop");
+		this._stopButton.setIcon(new ImageIcon("resources/icons/stop.png"));
+		this._stopButton.addActionListener((e) -> {
+			this._openButton.setEnabled(true);
+			this._viewerButton.setEnabled(true);
+			this._regionButton.setEnabled(true);
+			this._runButton.setEnabled(true);
+			this._quitButton.setEnabled(true);
+			this._stopped = true;
+		});
+		this._toolaBar.add(this._stopButton);
+		this._toolaBar.addSeparator();
+		
+		
+		// Quit Button
+		// _toolaBar.add(Box.createGlue()); // this aligns the button to the right
+		_quitButton = new JButton();
+		_quitButton.setToolTipText("Quit");
+		_quitButton.setIcon(new ImageIcon("resources/icons/exit.png"));
+		_quitButton.addActionListener((e) -> Utils.quit(this));
+		_toolaBar.add(_quitButton);
+
+		_toolaBar.addSeparator();
 
 		// TODO Inicializar _fc con una instancia de JFileChooser. Para que siempre
 		// abre en la carpeta de ejemplos puedes usar:
-		this._fc = new JFileChooser();
-		_fc.setCurrentDirectory(new File(System.getProperty("user.dir") + "/resources/examples"));
+	//	this._fc = new JFileChooser();
+	//	_fc.setCurrentDirectory(new File(System.getProperty("user.dir") + "/resources/examples"));
 		// TODO Inicializar _changeRegionsDialog con instancias del diálogo de cambio de
 		// regiones
 		// this._changeRegionsDialog = new ChangeRegionDialog();
+	//this._changeRegionsDialog = new ChangeRegionsDialog(this._ctrl);
 	}
 
 	// TODO el resto de métodos van aquí…

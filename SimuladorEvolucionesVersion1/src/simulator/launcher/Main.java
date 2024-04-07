@@ -236,16 +236,21 @@ public class Main {
 	}
 
 	private static void start_GUI_mode() throws Exception {
-		InputStream is = new FileInputStream(new File(_in_file));
-		JSONObject json = load_JSON_file(is);
-		int width = json.getInt("width");
-		int height = json.getInt("height");
-		int rows = json.getInt("rows");
-		int cols = json.getInt("cols");
-		Simulator simer = new Simulator(rows, cols, width, height, _animalFactory, _regionFactory);
-		Controller cont = new Controller(simer);
-		cont.load_data(json);
-		SwingUtilities.invokeAndWait(() -> new MainWindow(cont));
+		if (_in_file != null) {
+			InputStream is = new FileInputStream(new File(_in_file));
+			
+			JSONObject json = load_JSON_file(is);
+			int width = json.getInt("width");
+			int height = json.getInt("height");
+			int rows = json.getInt("rows");
+			int cols = json.getInt("cols");
+			Simulator simer = new Simulator(rows, cols, width, height, _animalFactory, _regionFactory);
+			Controller cont = new Controller(simer);
+			cont.load_data(json);
+			SwingUtilities.invokeAndWait(() -> new MainWindow(cont));
+			
+		}
+		
 		
 	}
 

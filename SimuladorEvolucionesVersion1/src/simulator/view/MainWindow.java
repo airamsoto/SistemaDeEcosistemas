@@ -18,6 +18,7 @@ public class MainWindow extends JFrame {
 	private Controller _ctrl;
 
 	public MainWindow(Controller ctrl) {
+		
 		super("[ECOSYSTEM SIMULATOR]");
 		_ctrl = ctrl;
 		initGUI();
@@ -43,24 +44,20 @@ public class MainWindow extends JFrame {
 	mainPanel.add(contentPanel, BorderLayout.CENTER);
 	
 	// TODO crear la tabla de especies y añadirla a contentPanel.
-	// Usa setPreferredSize(new Dimension(500, 250)) para fijar su tamaño
-	JTable speciesTable = new JTable();
-	contentPanel.add(speciesTable).setPreferredSize(new Dimension(500, 250));
+	
+
+	contentPanel.add(new InfoTable("Species", new SpeciesTableModel(_ctrl))).setPreferredSize(new Dimension(500, 250));
 	
 	
-	// TODO crear la tabla de regiones.
-	// Usa setPreferredSize(new Dimension(500, 250)) para fijar su tamaño
-	JTable regionsTable = new JTable();
-	contentPanel.add(regionsTable).setPreferredSize(new Dimension(500, 250));
+	// crear la tabla de regiones.
+
+	contentPanel.add(new InfoTable("Regions", new RegionsTableModel(_ctrl))).setPreferredSize(new Dimension(500, 250));
 	
 	// TODO llama a ViewUtils.quit(MainWindow.this) en el método windowClosing
 	//addWindowListener();ç
 	
-	//AL ACABAR INFO TABLE
-	mainPanel.add(new InfoTable("Species", new SpeciesTableModel(_ctrl)));
-	mainPanel.add(new InfoTable("Regions", new RegionsTableModel(_ctrl)));
-	//new InfoTable("Species", new SpeciesTableModel(_ctrl));
-	//new InfoTable("Regions", new RegionsTableModel(_ctrl));R
+
+
 	
 	setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	pack();

@@ -49,8 +49,7 @@ public class StatusBar extends JPanel implements EcoSysObserver {
 
 	StatusBar(Controller ctrl) {
 		initGUI();
-		// TODO registrar this como observador
-		ctrl.addObserver(this); //REVISAR
+		ctrl.addObserver(this);
 	}
 
 	
@@ -59,19 +58,23 @@ public class StatusBar extends JPanel implements EcoSysObserver {
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		this.setBorder(BorderFactory.createBevelBorder(1));
 		JLabel time = new JLabel ("Time");
-		JLabel animals = new JLabel ("Total Animals");
-		JLabel dimension = new JLabel ("Dimension");
 		this.add(time);
+		JSeparator s1 = new JSeparator(JSeparator.VERTICAL);
+		s1.setPreferredSize(new Dimension(10, 20));
+		this.add(s1);
+		JLabel animals = new JLabel ("Total Animals");
 		this.add(animals);
+		JSeparator s2 = new JSeparator(JSeparator.VERTICAL);
+		s2.setPreferredSize(new Dimension(10, 20));
+		this.add(s2);
+		JLabel dimension = new JLabel ("Dimension");
 		this.add(dimension);
 		// TODO Crear varios JLabel para el tiempo, el número de animales, y la
 		// dimensión y añadirlos al panel. Puedes utilizar el siguiente código
-		// para añadir un separador vertical:
+		// para añadir un separador vertical
 		//
-		JSeparator s = new JSeparator(JSeparator.VERTICAL);
-		s.setPreferredSize(new Dimension(10, 20));
-		this.add(s);
 	}
+	
 	// TODO el resto de métodos van aquí…
 
 }
