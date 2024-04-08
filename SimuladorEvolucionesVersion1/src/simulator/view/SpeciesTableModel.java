@@ -42,15 +42,13 @@ public class SpeciesTableModel extends AbstractTableModel implements EcoSysObser
 	}
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
-		if(rowIndex == 0) {
-			if(columnIndex == 0) return "Species";
-			else return State.values()[columnIndex -1].toString();
-		} else {
-	
-			}
-			
+ //COMPLETAR
 		return "";
+	}
+	@Override
+	public String getColumnName(int column) {
+		if(column == 0) return "Species";
+		else return State.values()[column -1].toString();	
 	}
 	@Override
 	public void onRegister(double time, MapInfo map, List<AnimalInfo> animals) {
