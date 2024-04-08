@@ -77,7 +77,7 @@ public class MapViewer extends AbstractMapViewer {
 					repaint();
 					break;
 				case 's':
-					
+					changeState();
 					// TODO Cambiar _currState al siguiente (de manera circular). Después de null
 					// viene el primero de Animal.State.values() y después del último viene null.
 					repaint();
@@ -108,6 +108,9 @@ public class MapViewer extends AbstractMapViewer {
 			this._currState = State.values()[0];
 		} else {
 			int indice = this._currState.ordinal();
+			//MIRAR
+			 int siguiente = (indice + 1) % (State.values().length + 1); // Siguiente estado (circular)
+	            this._currState = siguiente == 0 ? null : State.values()[siguiente - 1];	
 			//int siguiente = 
 		}
 	}
@@ -148,7 +151,18 @@ public class MapViewer extends AbstractMapViewer {
 
 	private void drawObjects(Graphics2D g, Collection<AnimalInfo> animals, Double time) {
 
-		// TODO Dibujar el grid de regiones
+		this._rwidth = this._width / this._cols;
+		this._rheight = this._height / this._rows;
+		for (int i = 0; i <= this._cols; i++) {
+			int x  = i * this._rwidth;
+			g.drawLine(x, 0, x, this._height);
+			
+		}
+		for (int j = 0; j <= this._rows; j++) {
+			int y  = j * this._rheight;
+			g.drawLine( 0, y, this._width,y);
+			
+		}
 
 		// Dibujar los animales
 		for (AnimalInfo a : animals) {
@@ -162,24 +176,55 @@ public class MapViewer extends AbstractMapViewer {
 
 			// TODO Si esp_info es null, añade una entrada correspondiente al mapa. Para el
 			// color usa ViewUtils.get_color(a.get_genetic_code())
+			if(esp_info == null) {
+				
+				Color color = ViewUtils.get_color(a.get_genetic_code());
+				esp_info =  new SpeciesInfo(color);
+				this._kindsInfo.put(a.get_genetic_code(), esp_info);
+			}
 
 			// TODO Incrementar el contador de la especie (es decir el contador dentro de
 			// tag_info)
+			esp_info._count++;
 
 			// TODO Dibijar el animal en la posicion correspondiente, usando el color
 			// tag_info._color. Su tamaño tiene que ser relativo a su edad, por ejemplo
 			// edad/2+2. Se puede dibujar usando fillRoundRect, fillRect o fillOval.
-
+			Color colorA = esp_info._color;
+			int tamanio = (int) (a.get_age() / 2+2);
+			int posx = (int) a.get_position().getX();
+			int posy = (int) a.get_position().getY();
+			g.setColor(colorA);
+			g.fillOval(posx, posy, tamanio, tamanio);
 		}
 
 		// TODO Dibujar la etiqueta del estado visible, sin no es null.
+		if(this._currState != null) {
+			g.setColor(Color.PINK); //revisar esto del color
+			g.drawString("visible state: " + this._currState.toString(), 10,20); 
+		}
 
 		// TODO Dibujar la etiqueta del tiempo. Para escribir solo 3 decimales puede
 		// usar String.format("%.3f", time)
+		g.drawString("Time "+ String.format("%.3f", time), 10,40);
 
 		// TODO Dibujar la información de todas la especies. Al final de cada iteración
 		// poner el contador de la especie correspondiente a 0 (para resetear el cuento)
+		
+		
+		
+		//CAMBIAR ESTO 
+		
+		
+		
+		int yPos = 60; // Posición vertical inicial para dibujar la información de las especies
 		for (Entry<String, SpeciesInfo> e : _kindsInfo.entrySet()) {
+		    String speciesName = e.getKey();
+		    SpeciesInfo speciesInfo = e.getValue();
+		    g.setColor(speciesInfo._color);
+		    g.drawString(speciesName + ": " + speciesInfo._count, 10, yPos);
+		    yPos += 20; // Incrementar la posición vertical para la próxima especie
+		    speciesInfo._count = 0; // Reiniciar el contador de la especie
 		}
 	}
 
@@ -192,6 +237,9 @@ public class MapViewer extends AbstractMapViewer {
 
 	@Override
 	public void update(List<AnimalInfo> objs, Double time) {
+		this._objs = objs;
+		this._time = time;
+		this.repaint();
 		// TODO Almacenar objs y time en los atributos correspondientes y llamar a
 		// repaint() para redibujar el componente.
 	}
@@ -199,6 +247,10 @@ public class MapViewer extends AbstractMapViewer {
 	@Override
 	public void reset(double time, MapInfo map, List<AnimalInfo> animals) {
 		// TODO Actualizar los atributos _width, _height, _cols, _rows, etc.
+		this._width = map.get_width();
+		this._height = map.get_height();
+		this._cols = map.get_cols();
+		this._rows = map.get_rows();
 
 		// Esto cambia el tamaño del componente, y así cambia el tamaño de la ventana
 		// porque en MapWindow llamamos a pack() después de llamar a reset

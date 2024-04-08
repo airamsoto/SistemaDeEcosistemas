@@ -1,14 +1,19 @@
 package simulator.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.io.File;
 
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
 import javax.swing.JToolBar;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 
 import simulator.control.Controller;
@@ -33,10 +38,13 @@ public class ControlPanel extends JPanel {
 	private JButton _regionButton;
 	private JButton _runButton;
 	private JButton _stopButton;
+	private JTextField _dt;
+	private JSpinner _stepsSpinner;
 
 	ControlPanel(Controller ctrl) {
 		_ctrl = ctrl;
 		initGUI();
+		this._changeRegionsDialog = new ChangeRegionsDialog(this._ctrl);
 	}
 
 	private void initGUI() {
@@ -56,12 +64,10 @@ public class ControlPanel extends JPanel {
 			this._fc = new JFileChooser();
 			_fc.setCurrentDirectory(new File(System.getProperty("user.dir") + "/resources/examples"));
 			_fc.showOpenDialog(ViewUtils.getWindow(this));
-			//resetar con los parametros correspondientes
+			// resetar con los parametros correspondientes
 			this._ctrl.reset(ALLBITS, ABORT, WIDTH, HEIGHT);
 			this._ctrl.load_data(null);
-			
-			
-			
+
 		});
 		this._toolaBar.add(this._openButton);
 		_toolaBar.addSeparator();
@@ -71,21 +77,17 @@ public class ControlPanel extends JPanel {
 		this._viewerButton.setToolTipText("map");
 		this._viewerButton.setIcon(new ImageIcon("resources/icons/viewer.png"));
 		this._viewerButton.addActionListener((e) -> {
-			MapWindow map = new MapWindow(null, this._ctrl); //REVISAR NULL
-			
-			
-			
-			
+			MapWindow map = new MapWindow(null, this._ctrl); // REVISAR NULL
+
 		});
 		this._toolaBar.add(this._viewerButton);
-		_toolaBar.addSeparator();
+		// _toolaBar.addSeparator();
 
 		// REGION BUTTON
 		this._regionButton = new JButton();
 		this._regionButton.setToolTipText("change region");
 		this._regionButton.setIcon(new ImageIcon("resources/icons/regions.png"));
-		this._regionButton.addActionListener((e)->
-		_changeRegionsDialog.open(ViewUtils.getWindow(this)));
+		this._regionButton.addActionListener((e) -> _changeRegionsDialog.open(ViewUtils.getWindow(this)));
 		this._toolaBar.add(this._regionButton);
 		_toolaBar.addSeparator();
 
@@ -99,17 +101,19 @@ public class ControlPanel extends JPanel {
 			this._regionButton.setEnabled(false);
 			this._runButton.setEnabled(false);
 			this._quitButton.setEnabled(false);
-			this._stopped = true; // es asi?
+			this._stopped = false; // es asi?
+
 			/*
 			 * obtener valores de delta y el numero de paso del jspinner
 			 */
-			int steps = 0, dt = 0;
+			
+			int steps = this._stepsSpinner.getComponentCount();
+			double dt = Integer.parseInt(this._dt.getText());
 			this.run_sim(steps, dt);
-			});
+		});
 		this._toolaBar.add(this._runButton);
-		_toolaBar.addSeparator();
-		
-		//STOP BUTTON
+	
+		// STOP BUTTON
 		this._stopButton = new JButton();
 		this._stopButton.setToolTipText("Stop");
 		this._stopButton.setIcon(new ImageIcon("resources/icons/stop.png"));
@@ -122,38 +126,41 @@ public class ControlPanel extends JPanel {
 			this._stopped = true;
 		});
 		this._toolaBar.add(this._stopButton);
+		
+
+		_toolaBar.add(new JLabel(" Steps: "));
+
+		_stepsSpinner = new JSpinner(new SpinnerNumberModel(5000, 1, 10000, 100));
+		_stepsSpinner.setToolTipText("Simulation steps to run: 1-10000");
+		_stepsSpinner.setMaximumSize(new Dimension(80, 40));
+		_stepsSpinner.setMinimumSize(new Dimension(80, 40));
+		_stepsSpinner.setPreferredSize(new Dimension(80, 40));
+		_toolaBar.add(_stepsSpinner);
+		
+		_toolaBar.add(new JLabel(" DELTA-TIME: "));
+		this._dt = new JTextField();
+		this._dt.setMaximumSize(new Dimension(80, 40));
+		this._dt.setMinimumSize(new Dimension(80, 40));
+		this._dt.setPreferredSize(new Dimension(80, 40));
+		this._toolaBar.add(this._dt);
+		
 		this._toolaBar.addSeparator();
-		
-		
 		// Quit Button
-		// _toolaBar.add(Box.createGlue()); // this aligns the button to the right
+		_toolaBar.add(Box.createGlue()); // this aligns the button to the right
 		_quitButton = new JButton();
 		_quitButton.setToolTipText("Quit");
 		_quitButton.setIcon(new ImageIcon("resources/icons/exit.png"));
 		_quitButton.addActionListener((e) -> ViewUtils.quit(this));
 		_toolaBar.add(_quitButton);
 
-		_toolaBar.addSeparator();
+	
 
-		// TODO Inicializar _fc con una instancia de JFileChooser. Para que siempre
-		// abre en la carpeta de ejemplos puedes usar:
-	//	this._fc = new JFileChooser();
-	//	_fc.setCurrentDirectory(new File(System.getProperty("user.dir") + "/resources/examples"));
 		// TODO Inicializar _changeRegionsDialog con instancias del diálogo de cambio de
-		// regiones
-		// this._changeRegionsDialog = new ChangeRegionDialog();
-	//this._changeRegionsDialog = new ChangeRegionsDialog(this._ctrl);
+		// regiones. Acabado pero revisar en que momento deberiamos meter esa
+		// inicilizacion
+
 	}
 
-	// TODO el resto de métodos van aquí…
-
-	/*
-	 * Fíjate que el método run_sim tal y como está definido garantiza que el
-	 * interfaz no se quedará bloqueado. Para entender este comportamiento modifica
-	 * run_sim para incluir solo for(int i=0;i<n;i++) _ctrl.advance(dt) — ahora, al
-	 * comenzar la simulación, no verás los pasos intermedios, únicamente el estado
-	 * final, además de que la interfaz estará completamente bloqueada.
-	 */
 	private void run_sim(int n, double dt) {
 		if (n > 0 && !_stopped) {
 			try {
