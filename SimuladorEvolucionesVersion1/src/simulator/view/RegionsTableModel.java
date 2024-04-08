@@ -32,13 +32,11 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 		// TODO Auto-generated method stub
 		return Diet.values().length + 3;
 	}
-
 	@Override
-	public Object getValueAt(int rowIndex, int columnIndex) {
+	public String getColumnName(int column) {
 		
-		if(rowIndex == 0) {
-		
-			switch (columnIndex) {
+			
+			switch (column) {
 			case 0:
 				return "Row";
 			case 1:
@@ -46,13 +44,16 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 			case 2:
 				return "Desc.";
 			default:
-				return Diet.values()[columnIndex -3].toString();
-				
+				return Diet.values()[column -3].toString();
 			}
-		} else {
-			
-		}
+				
 		
+	}
+
+	@Override
+	public Object getValueAt(int rowIndex, int columnIndex) {
+		
+	
 		// TODO Auto-generated method stub
 		return null;
 	}
