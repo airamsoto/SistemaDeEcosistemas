@@ -44,17 +44,13 @@ public class ControlPanel extends JPanel {
 	ControlPanel(Controller ctrl) {
 		_ctrl = ctrl;
 		initGUI();
-		this._changeRegionsDialog = new ChangeRegionsDialog(this._ctrl);
+		this._changeRegionsDialog = new ChangeRegionsDialog(this._ctrl); // SE INICIA AQUI?
 	}
 
 	private void initGUI() {
 		setLayout(new BorderLayout());
 		_toolaBar = new JToolBar();
 		add(_toolaBar, BorderLayout.PAGE_START);
-		// TODO crear los diferentes botones/atributos y añadirlos a _toolaBar.
-		// Todos ellos han de tener su correspondiente tooltip. Puedes utilizar
-		// _toolaBar.addSeparator() para añadir la línea de separación vertical
-		// entre las componentes que lo necesiten.
 
 		// OPEN FILE BUTTON
 		this._openButton = new JButton();
@@ -81,7 +77,6 @@ public class ControlPanel extends JPanel {
 
 		});
 		this._toolaBar.add(this._viewerButton);
-		// _toolaBar.addSeparator();
 
 		// REGION BUTTON
 		this._regionButton = new JButton();
@@ -101,18 +96,17 @@ public class ControlPanel extends JPanel {
 			this._regionButton.setEnabled(false);
 			this._runButton.setEnabled(false);
 			this._quitButton.setEnabled(false);
-			this._stopped = false; // es asi?
+			this._stopped = false;
 
-			/*
-			 * obtener valores de delta y el numero de paso del jspinner
-			 */
-			
-			int steps = this._stepsSpinner.getComponentCount();
-			double dt = Integer.parseInt(this._dt.getText());
+		/*	int steps = (int) this._stepsSpinner.getValue();
+			double dt = Double.parseDouble(this._dt.getText());
+		*/
+			int steps = 10;
+			double dt = 0.03;
 			this.run_sim(steps, dt);
 		});
 		this._toolaBar.add(this._runButton);
-	
+
 		// STOP BUTTON
 		this._stopButton = new JButton();
 		this._stopButton.setToolTipText("Stop");
@@ -126,7 +120,6 @@ public class ControlPanel extends JPanel {
 			this._stopped = true;
 		});
 		this._toolaBar.add(this._stopButton);
-		
 
 		_toolaBar.add(new JLabel(" Steps: "));
 
@@ -136,31 +129,25 @@ public class ControlPanel extends JPanel {
 		_stepsSpinner.setMinimumSize(new Dimension(80, 40));
 		_stepsSpinner.setPreferredSize(new Dimension(80, 40));
 		_toolaBar.add(_stepsSpinner);
-		
+
 		_toolaBar.add(new JLabel(" DELTA-TIME: "));
 		this._dt = new JTextField();
 		this._dt.setMaximumSize(new Dimension(80, 40));
 		this._dt.setMinimumSize(new Dimension(80, 40));
 		this._dt.setPreferredSize(new Dimension(80, 40));
 		this._toolaBar.add(this._dt);
-		
+
 		this._toolaBar.addSeparator();
 		// Quit Button
-		_toolaBar.add(Box.createGlue()); // this aligns the button to the right
+		_toolaBar.add(Box.createGlue());
 		_quitButton = new JButton();
 		_quitButton.setToolTipText("Quit");
 		_quitButton.setIcon(new ImageIcon("resources/icons/exit.png"));
 		_quitButton.addActionListener((e) -> ViewUtils.quit(this));
 		_toolaBar.add(_quitButton);
 
-	
-
-		// TODO Inicializar _changeRegionsDialog con instancias del diálogo de cambio de
-		// regiones. Acabado pero revisar en que momento deberiamos meter esa
-		// inicilizacion
-
 	}
-
+//CAMBIO EN EL TIPO DE N
 	private void run_sim(int n, double dt) {
 		if (n > 0 && !_stopped) {
 			try {
