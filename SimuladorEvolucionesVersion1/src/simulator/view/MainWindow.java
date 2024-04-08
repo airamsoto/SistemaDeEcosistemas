@@ -10,10 +10,7 @@ import simulator.control.Controller;
 import javax.swing.JTable;
 
 public class MainWindow extends JFrame {
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private Controller _ctrl;
 

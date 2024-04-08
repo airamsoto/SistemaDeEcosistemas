@@ -52,7 +52,15 @@ public class ControlPanel extends JPanel {
 		this._openButton = new JButton();
 		this._openButton.setToolTipText("load");
 		this._openButton.setIcon(new ImageIcon("resources/icons/open.png"));
-		this._openButton.addActionListener((e) -> Utils.loadFile());
+		this._openButton.addActionListener((e) -> {
+			_fc.showOpenDialog(ViewUtils.getWindow(this));
+			//resetar con los parametros correspondientes
+			this._ctrl.reset(ALLBITS, ABORT, WIDTH, HEIGHT);
+			this._ctrl.load_data(null);
+			
+			
+			
+		});
 		this._toolaBar.add(this._openButton);
 		_toolaBar.addSeparator();
 
@@ -60,7 +68,13 @@ public class ControlPanel extends JPanel {
 		this._viewerButton = new JButton();
 		this._viewerButton.setToolTipText("map");
 		this._viewerButton.setIcon(new ImageIcon("resources/icons/viewer.png"));
-		this._viewerButton.addActionListener((e) -> Utils.viewer());
+		this._viewerButton.addActionListener((e) -> {
+			MapWindow map = new MapWindow(null, this._ctrl); //REVISAR NULL
+			
+			
+			
+			
+		});
 		this._toolaBar.add(this._viewerButton);
 		_toolaBar.addSeparator();
 
@@ -114,7 +128,7 @@ public class ControlPanel extends JPanel {
 		_quitButton = new JButton();
 		_quitButton.setToolTipText("Quit");
 		_quitButton.setIcon(new ImageIcon("resources/icons/exit.png"));
-		_quitButton.addActionListener((e) -> Utils.quit(this));
+		_quitButton.addActionListener((e) -> ViewUtils.quit(this));
 		_toolaBar.add(_quitButton);
 
 		_toolaBar.addSeparator();

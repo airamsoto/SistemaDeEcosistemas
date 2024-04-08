@@ -3,6 +3,7 @@ package simulator.view;
 import simulator.model.Animal;
 import simulator.model.AnimalInfo;
 import simulator.model.MapInfo;
+import simulator.model.State;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -34,7 +35,7 @@ public class MapViewer extends AbstractMapViewer {
 
 	// Mostramos sólo animales con este estado. Los posibles valores de _currState
 	// son null, y los valores deAnimal.State.values(). Si es null mostramos todo.
-	Animal.State _currState;
+	State _currState; //REVISAR SI ES STATE PORQE¡UE ANTES PONIA ALGO DE ANIMAL
 
 	// En estos atributos guardamos la lista de animales y el tiempo que hemos
 	// recibido la última vez para dibujarlos.
@@ -131,7 +132,8 @@ public class MapViewer extends AbstractMapViewer {
 	private boolean visible(AnimalInfo a) {
 		// TODO Devolver true si el animal es visible, es decir si _currState es null o
 		// su estado es igual a _currState.
-		return true;
+		return (a.get_state() == null || a.get_state() == this._currState);
+	
 	}
 
 	private void drawObjects(Graphics2D g, Collection<AnimalInfo> animals, Double time) {
@@ -190,8 +192,9 @@ public class MapViewer extends AbstractMapViewer {
 
 		// Esto cambia el tamaño del componente, y así cambia el tamaño de la ventana
 		// porque en MapWindow llamamos a pack() después de llamar a reset
+		
 		setPreferredSize(new Dimension(map.get_width(), map.get_height()));
-
+		
 		// Dibuja el estado
 		update(animals, time);
 	}

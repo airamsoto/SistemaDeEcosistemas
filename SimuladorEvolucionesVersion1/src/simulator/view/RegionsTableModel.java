@@ -9,7 +9,7 @@ import simulator.model.*;
 import javax.swing.table.AbstractTableModel;
 
 class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
-	// TODO definir atributos necesarios
+
 	private Controller _ctrl;
 	private List<MapInfo.RegionData> _region;
 	
@@ -19,11 +19,11 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 		this._ctrl = ctrl;
 		this._ctrl.addObserver(this);
 	}
-	// TODO el resto de métodos van aquí…
+	
 
 	@Override
 	public int getRowCount() {
-		// TODO Auto-generated method stub
+
 		return this._region.size();
 	}
 
