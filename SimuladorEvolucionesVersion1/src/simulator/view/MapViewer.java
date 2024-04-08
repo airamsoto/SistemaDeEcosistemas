@@ -77,6 +77,7 @@ public class MapViewer extends AbstractMapViewer {
 					repaint();
 					break;
 				case 's':
+					
 					// TODO Cambiar _currState al siguiente (de manera circular). Después de null
 					// viene el primero de Animal.State.values() y después del último viene null.
 					repaint();
@@ -100,6 +101,15 @@ public class MapViewer extends AbstractMapViewer {
 
 		// Por defecto mostramos el texto de ayuda
 		_showHelp = true;
+	}
+	
+	private void changeState() {
+		if (this._currState == null) {
+			this._currState = State.values()[0];
+		} else {
+			int indice = this._currState.ordinal();
+			//int siguiente = 
+		}
 	}
 
 	@Override
