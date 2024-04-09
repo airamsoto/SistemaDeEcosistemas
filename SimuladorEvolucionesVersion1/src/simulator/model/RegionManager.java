@@ -213,9 +213,24 @@ public class RegionManager implements AnimalMapView {
 
 	@Override
 	public Iterator<RegionData> iterator() {
+		
 		//METODO QUE RECORRE LAS FILAS DE IZQ A DER DE CADA REGION Y DEVUELVE UNA INSTANCIA DE REGION DATA
 		//PARA CADA REGION
-		return null;
+		return new Iterator<>(){
+
+			@Override
+			public boolean hasNext() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+			@Override
+			public RegionData next() {
+				// TODO Auto-generated method stub
+				return null;
+			}}
+		
+		;
 	}
 
 }

@@ -24,7 +24,7 @@ public class MainWindow extends JFrame {
 	private void initGUI() {
 	JPanel mainPanel = new JPanel(new BorderLayout());
 	setContentPane(mainPanel);
-	
+	 
 	// TODO crear ControlPanel y añadirlo en PAGE_START de mainPanel
 	ControlPanel controlPanel = new ControlPanel(_ctrl);
 	mainPanel.add(controlPanel, BorderLayout.PAGE_START);

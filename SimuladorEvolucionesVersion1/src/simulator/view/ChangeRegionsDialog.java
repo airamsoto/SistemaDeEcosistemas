@@ -54,6 +54,7 @@ class ChangeRegionsDialog extends JDialog implements EcoSysObserver {
 // TODO crea varios paneles para organizar los componentes visuales en el
 // dialogo, y añadelos al mainpanel. P.ej., uno para el texto de ayuda,
 // uno para la tabla, uno para los combobox, y uno para los botones.
+		//USAR ETIQUETAS HTML EN VEZ DE JLABEL
 		JLabel helpText = new JLabel("Select a region type, the rows/cols interval, and provide values for the parametes in the Value column (default values are used for parameters with no value).");
 		JPanel helpTextPanel = new JPanel();
 		helpText.setMaximumSize(helpTextPanel.getMaximumSize());
