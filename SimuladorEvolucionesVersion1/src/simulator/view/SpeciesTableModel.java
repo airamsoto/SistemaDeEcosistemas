@@ -21,11 +21,7 @@ public class SpeciesTableModel extends AbstractTableModel implements EcoSysObser
 	
 	SpeciesTableModel(Controller ctrl) {
 		this._ctrl = ctrl;
-		this._animals = new HashMap<>();
-		
-		for (State state : State.values()) {
-			this._animals.put(state.toString(), new HashMap<>());
-		}
+		this._animals = new HashMap<>();		
 		this._ctrl.addObserver(this);
 	}
 
@@ -40,11 +36,18 @@ public class SpeciesTableModel extends AbstractTableModel implements EcoSysObser
 
 		return State.values().length +1;
 	}
+
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
- //COMPLETAR
-		return "";
+	    String nombreEspecie = this._animals.keySet().toArray()[rowIndex].toString();
+	    if(columnIndex == 0) return nombreEspecie;
+	    else {
+	    	Map<String, Integer> mapaEspecies = this._animals.get(nombreEspecie);
+	    	int contador = mapaEspecies.getOrDefault(State.values()[columnIndex -1].toString(), 0);
+	    	return contador;
+	    }
 	}
+
 	@Override
 	public String getColumnName(int column) {
 		if(column == 0) return "Species";
@@ -52,9 +55,18 @@ public class SpeciesTableModel extends AbstractTableModel implements EcoSysObser
 	}
 	@Override
 	public void onRegister(double time, MapInfo map, List<AnimalInfo> animals) {
-
-		
+		this._animals.clear();
+		for (AnimalInfo animal : animals) {
+			if(!this._animals.containsKey(animal.get_genetic_code())){
+				this._animals.put(animal.get_genetic_code(), new HashMap<>());
+			}
+			Map <String, Integer> estadosYContador = this._animals.get(animal.get_genetic_code());
+			estadosYContador.put(animal.get_state().toString(), estadosYContador.getOrDefault(animal.get_state().toString(), 0) + 1);
+		}
+	
 	}
+
+
 
 	@Override
 	public void onReset(double time, MapInfo map, List<AnimalInfo> animals) {

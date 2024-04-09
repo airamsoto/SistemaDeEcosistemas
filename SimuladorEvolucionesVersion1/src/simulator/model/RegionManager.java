@@ -33,21 +33,6 @@ public class RegionManager implements AnimalMapView {
 	}
 
 	void set_region(int row, int col, Region r) {
-
-		/*
-		 no es necesario (creo), revisar los metodos de abajo
-		if (row >= this._rows) {
-			row = this._rows - 1;
-		}
-		if (col >= this._cols) {
-			col = this._cols - 1;
-		}
-		if (row <= 0) {
-			row = 0;
-		}
-		if (col <= 0) {
-			col = 0;
-		}*/
 		for (Animal a : this._regions[row][col].getAnimals()) {
 			r.add_animal(a);
 			this._animal_region.put(a, r);
@@ -217,17 +202,26 @@ public class RegionManager implements AnimalMapView {
 		//METODO QUE RECORRE LAS FILAS DE IZQ A DER DE CADA REGION Y DEVUELVE UNA INSTANCIA DE REGION DATA
 		//PARA CADA REGION
 		return new Iterator<>(){
+			private int row;
+			private int col;
 
 			@Override
 			public boolean hasNext() {
 				// TODO Auto-generated method stub
-				return false;
+				return row < _rows && col < _cols;
 			}
 
 			@Override
 			public RegionData next() {
-				// TODO Auto-generated method stub
-				return null;
+				if(!hasNext()) throw new NoSuchElementException();
+				RegionData regionData = new RegionData (row,col,  null );
+				col++;
+	            if (col >= _cols) {
+	                col = 0;
+	                row++;
+	            }
+	            
+	            return regionData;
 			}}
 		
 		;
