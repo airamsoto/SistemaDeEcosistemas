@@ -52,6 +52,7 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 	    MapInfo.RegionData regionData = (MapInfo.RegionData) _regionsMap.keySet().toArray()[rowIndex];
+	    System.out.print(_regionsMap.keySet().toArray()[rowIndex].toString());
 	    
 	    switch (columnIndex) {
 	        case 0:
@@ -72,10 +73,9 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 
 	@Override
 	public void onRegister(double time, MapInfo map, List<AnimalInfo> animals) {
-		this._regionsMap.clear();
-		//RELLENAR
-	    fireTableDataChanged();
+	   
 	}
+
 
 
 	@Override
