@@ -16,11 +16,18 @@ import simulator.model.MapInfo;
 import simulator.model.RegionInfo;
 
 public class StatusBar extends JPanel implements EcoSysObserver {
+	private double time;
+	private int animals;
+	private int width;
+	private int height;
+	private int row;
+	private int col;
 
 	@Override
 	public void onRegister(double time, MapInfo map, List<AnimalInfo> animals) {
-		// TODO Auto-generated method stub
-
+		this.time = time;
+		//this.dimension = new Dimension( map.get_region_height(), map.get_region_width());
+		this.animals = animals.size();
 	}
 
 	@Override
@@ -37,8 +44,11 @@ public class StatusBar extends JPanel implements EcoSysObserver {
 
 	@Override
 	public void onRegionSet(int row, int col, MapInfo map, RegionInfo r) {
-		// TODO Auto-generated method stub
-
+		System.out.println(row + " "+ col);
+		this.row = row;
+		this.col = col;
+		r.toString();
+		//this.dimension = new Dimension( map.get_region_height(), map.get_region_width());
 	}
 
 	@Override
@@ -55,26 +65,30 @@ public class StatusBar extends JPanel implements EcoSysObserver {
 	
 
 	private void initGUI() {
+		//TODO poner los valores para time animal y dimensiones
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		this.setBorder(BorderFactory.createBevelBorder(1));
-		JLabel time = new JLabel ("Time");
+		//TODO ver pq se quedan en 0 y poner el time con mas decimales
+		JLabel time = new JLabel ("Time: " + this.time);
 		this.add(time);
+			
 		JSeparator s1 = new JSeparator(JSeparator.VERTICAL);
 		s1.setPreferredSize(new Dimension(10, 20));
 		this.add(s1);
-		JLabel animals = new JLabel ("Total Animals");
+		
+		JLabel animals = new JLabel ("Total Animals: " + this.animals);
 		this.add(animals);
+		
 		JSeparator s2 = new JSeparator(JSeparator.VERTICAL);
 		s2.setPreferredSize(new Dimension(10, 20));
 		this.add(s2);
-		JLabel dimension = new JLabel ("Dimension");
+		
+		//TODO la dimension es nula
+		
+		JLabel dimension = new JLabel ("Dimension: " + this.row + "x" + this.col);
 		this.add(dimension);
-		// TODO Crear varios JLabel para el tiempo, el número de animales, y la
-		// dimensión y añadirlos al panel. Puedes utilizar el siguiente código
-		// para añadir un separador vertical
-		//
+		
 	}
 	
-	// TODO el resto de métodos van aquí…
 
 }
