@@ -74,6 +74,7 @@ public class MapViewer extends AbstractMapViewer {
 				switch (e.getKeyChar()) {
 				case 'h':
 					_showHelp = !_showHelp;
+					
 					repaint();
 					break;
 				case 's':
@@ -105,6 +106,7 @@ public class MapViewer extends AbstractMapViewer {
 	
 	private void changeState() {
 		if (this._currState == null) {
+		
 			this._currState = State.values()[0];
 		} else {
 			int indice = this._currState.ordinal();
@@ -197,6 +199,7 @@ public class MapViewer extends AbstractMapViewer {
 			g.setColor(colorA);
 			g.fillOval(posx, posy, tamanio, tamanio);
 		}
+	//	if(this._currState == null) this.changeState();
 
 		// TODO Dibujar la etiqueta del estado visible, sin no es null.
 		if(this._currState != null) {

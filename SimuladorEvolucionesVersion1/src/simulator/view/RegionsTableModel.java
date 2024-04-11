@@ -13,23 +13,21 @@ import javax.swing.table.AbstractTableModel;
 class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 
 	private Controller _ctrl;
-	private Map<String, Integer> _regionsMap;
+	private Map<String,  Integer> _regions;
 
 	RegionsTableModel(Controller ctrl) {
-		this._regionsMap = new HashMap<>();
+		this._regions = new HashMap<>();
 		this._ctrl = ctrl;
 		this._ctrl.addObserver(this);
 	}
 
 	@Override
 	public int getRowCount() {
-
-		return this._regionsMap.size();
+		return this.mapaa.size() +2;
 	}
 
 	@Override
 	public int getColumnCount() {
-		// TODO Auto-generated method stub
 		return Diet.values().length + 3;
 	}
 
@@ -48,30 +46,33 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 		}
 
 	}
+
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-	    
-	    
-	    
-	    switch (columnIndex) {
-	        case 0:
-	           // return regionData.row();
-	        case 1:
-	           // return regionData.col();
-	        case 2:
-	             return ""; //TODO tenenmos que buscar la manera de que imprima el tipo de region
-	        default:
-	          
-	          return 0;
-	    }
+
+		switch (columnIndex) {
+		case 0:
+		return 
+			
+		case 1:
+			return 0;
+			
+		case 2:
+		
+		default:
+
+			return 0;
+		}
 	}
 
 	@Override
 	public void onRegister(double time, MapInfo map, List<AnimalInfo> animals) {
+		this.mapaa = map;
+		this.mapaa.
 		
+		
+
 	}
-
-
 
 	@Override
 	public void onReset(double time, MapInfo map, List<AnimalInfo> animals) {
@@ -80,12 +81,15 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 
 	@Override
 	public void onAnimalAdded(double time, MapInfo map, List<AnimalInfo> animals, AnimalInfo a) {
-		
+
 	}
 
 	@Override
 	public void onRegionSet(int row, int col, MapInfo map, RegionInfo r) {
-		// TODO Auto-generated method stub
+		
+		
+		
+
 
 	}
 

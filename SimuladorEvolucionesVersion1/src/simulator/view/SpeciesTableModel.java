@@ -63,6 +63,7 @@ public class SpeciesTableModel extends AbstractTableModel implements EcoSysObser
 			Map <String, Integer> estadosYContador = this._animals.get(animal.get_genetic_code());
 			estadosYContador.put(animal.get_state().toString(), estadosYContador.getOrDefault(animal.get_state().toString(), 0) + 1);
 		}
+		fireTableDataChanged();
 	
 	}
 
@@ -87,8 +88,9 @@ public class SpeciesTableModel extends AbstractTableModel implements EcoSysObser
 	}
 
 	@Override
-	public void onAvanced(double time, MapInfo map, List<AnimalInfo> animals, double dt) {
-
+	public void onAvanced(double time, MapInfo map, List<AnimalInfo> animals, double dt) {	
+		this._animals.clear();
+		this.onRegister(time, map, animals);
 		
 	}
 	
