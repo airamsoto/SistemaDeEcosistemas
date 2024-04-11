@@ -101,6 +101,7 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 
 	@Override
 	public void onReset(double time, MapInfo map, List<AnimalInfo> animals) {
+		
 		this.mapa = map;
 		fireTableDataChanged();
 		
