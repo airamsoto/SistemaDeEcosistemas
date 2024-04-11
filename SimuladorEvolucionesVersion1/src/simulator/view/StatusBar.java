@@ -44,11 +44,8 @@ public class StatusBar extends JPanel implements EcoSysObserver {
 
 	@Override
 	public void onRegionSet(int row, int col, MapInfo map, RegionInfo r) {
-		System.out.println(row + " "+ col);
-		this.row = row;
-		this.col = col;
-		r.toString();
-		//this.dimension = new Dimension( map.get_region_height(), map.get_region_width());
+	
+	
 	}
 
 	@Override

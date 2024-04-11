@@ -3,6 +3,8 @@ package simulator.view;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -15,6 +17,9 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
+
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import simulator.control.Controller;
 import simulator.misc.Utils;
@@ -45,6 +50,7 @@ public class ControlPanel extends JPanel {
 		_ctrl = ctrl;
 		initGUI();
 		this._changeRegionsDialog = new ChangeRegionsDialog(this._ctrl); // SE INICIA AQUI?
+		
 	}
 
 	private void initGUI() {
@@ -59,10 +65,12 @@ public class ControlPanel extends JPanel {
 		this._openButton.addActionListener((e) -> {
 			this._fc = new JFileChooser();
 			_fc.setCurrentDirectory(new File(System.getProperty("user.dir") + "/resources/examples"));
-			_fc.showOpenDialog(ViewUtils.getWindow(this));
-			// resetar con los parametros correspondientes
-			this._ctrl.reset(ALLBITS, ABORT, WIDTH, HEIGHT);
-			this._ctrl.load_data(null);
+			try {
+				this.openActions();
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 
 		});
 		this._toolaBar.add(this._openButton);
@@ -98,11 +106,10 @@ public class ControlPanel extends JPanel {
 			this._quitButton.setEnabled(false);
 			this._stopped = false;
 
-		/*	int steps = (int) this._stepsSpinner.getValue();
-			double dt = Double.parseDouble(this._dt.getText());
-		*/
-			int steps = 10;
-			double dt = 0.03;
+		
+			int steps = (int) this._stepsSpinner.getValue();
+			double dt = Double.valueOf(this._dt.getText());
+			
 			this.run_sim(steps, dt);
 		});
 		this._toolaBar.add(this._runButton);
@@ -131,7 +138,7 @@ public class ControlPanel extends JPanel {
 		_toolaBar.add(_stepsSpinner);
 
 		_toolaBar.add(new JLabel(" DELTA-TIME: "));
-		this._dt = new JTextField();
+		this._dt = new JTextField("0.03");
 		this._dt.setMaximumSize(new Dimension(80, 40));
 		this._dt.setMinimumSize(new Dimension(80, 40));
 		this._dt.setPreferredSize(new Dimension(80, 40));
@@ -174,6 +181,22 @@ public class ControlPanel extends JPanel {
 			_runButton.setEnabled(true);
 			_stopButton.setEnabled(true);
 		}
+	}
+	private void openActions() throws FileNotFoundException {
+		this._fc.showOpenDialog(ViewUtils.getWindow(this));
+		
+		File file = this._fc.getSelectedFile();
+		FileInputStream fis = new FileInputStream(file);
+		JSONObject json = new JSONObject(new JSONTokener(fis));
+		
+		int cols = json.getInt("cols");
+		int rows  = json.getInt("rows");
+		int width  = json.getInt("width");
+		int height  = json.getInt("height");
+		
+		this._ctrl.reset(cols, rows, width, height);
+		
+		this._ctrl.load_data(json);
 	}
 
 }

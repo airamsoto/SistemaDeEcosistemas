@@ -35,7 +35,7 @@ public class MapViewer extends AbstractMapViewer {
 
 	// Mostramos sólo animales con este estado. Los posibles valores de _currState
 	// son null, y los valores deAnimal.State.values(). Si es null mostramos todo.
-	State _currState; //REVISAR SI ES STATE PORQE¡UE ANTES PONIA ALGO DE ANIMAL
+	State _currState; // REVISAR SI ES STATE PORQE¡UE ANTES PONIA ALGO DE ANIMAL
 
 	// En estos atributos guardamos la lista de animales y el tiempo que hemos
 	// recibido la última vez para dibujarlos.
@@ -74,7 +74,7 @@ public class MapViewer extends AbstractMapViewer {
 				switch (e.getKeyChar()) {
 				case 'h':
 					_showHelp = !_showHelp;
-					
+
 					repaint();
 					break;
 				case 's':
@@ -103,17 +103,20 @@ public class MapViewer extends AbstractMapViewer {
 		// Por defecto mostramos el texto de ayuda
 		_showHelp = true;
 	}
-	
+
 	private void changeState() {
 		if (this._currState == null) {
-		
+
 			this._currState = State.values()[0];
 		} else {
 			int indice = this._currState.ordinal();
-			//MIRAR
-			 int siguiente = (indice + 1) % (State.values().length + 1); // Siguiente estado (circular)
-	            this._currState = siguiente == 0 ? null : State.values()[siguiente - 1];	
-			//int siguiente = 
+			// MIRAR
+			int siguiente = (indice + 1) % (State.values().length); // Siguiente estado (circular)
+			if (siguiente > State.values().length)
+				this._currState = null;
+			else this._currState = siguiente == 0 ? null : State.values()[siguiente];
+			
+			// int siguiente =
 		}
 	}
 
@@ -148,7 +151,7 @@ public class MapViewer extends AbstractMapViewer {
 		// TODO Devolver true si el animal es visible, es decir si _currState es null o
 		// su estado es igual a _currState.
 		return (a.get_state() == null || a.get_state() == this._currState);
-	
+
 	}
 
 	private void drawObjects(Graphics2D g, Collection<AnimalInfo> animals, Double time) {
@@ -156,32 +159,31 @@ public class MapViewer extends AbstractMapViewer {
 		this._rwidth = this._width / this._cols;
 		this._rheight = this._height / this._rows;
 		for (int i = 0; i <= this._cols; i++) {
-			int x  = i * this._rwidth;
+			int x = i * this._rwidth;
 			g.drawLine(x, 0, x, this._height);
-			
+
 		}
 		for (int j = 0; j <= this._rows; j++) {
-			int y  = j * this._rheight;
-			g.drawLine( 0, y, this._width,y);
-			
+			int y = j * this._rheight;
+			g.drawLine(0, y, this._width, y);
+
 		}
 
 		// Dibujar los animales
 		for (AnimalInfo a : animals) {
 
 			// Si no es visible saltamos la iteración
-			if (!visible(a))
-				continue;
+		//	if (!visible(a))
+		//		continue;
 
 			// La información sobre la especie de 'a'
 			SpeciesInfo esp_info = _kindsInfo.get(a.get_genetic_code());
 
 			// TODO Si esp_info es null, añade una entrada correspondiente al mapa. Para el
 			// color usa ViewUtils.get_color(a.get_genetic_code())
-			if(esp_info == null) {
-				
+			if (esp_info == null) {
 				Color color = ViewUtils.get_color(a.get_genetic_code());
-				esp_info =  new SpeciesInfo(color);
+				esp_info = new SpeciesInfo(color);
 				this._kindsInfo.put(a.get_genetic_code(), esp_info);
 			}
 
@@ -193,41 +195,37 @@ public class MapViewer extends AbstractMapViewer {
 			// tag_info._color. Su tamaño tiene que ser relativo a su edad, por ejemplo
 			// edad/2+2. Se puede dibujar usando fillRoundRect, fillRect o fillOval.
 			Color colorA = esp_info._color;
-			int tamanio = (int) (a.get_age() / 2+2);
+			int tamanio = (int) (a.get_age() / 2 + 2);
 			int posx = (int) a.get_position().getX();
 			int posy = (int) a.get_position().getY();
 			g.setColor(colorA);
 			g.fillOval(posx, posy, tamanio, tamanio);
 		}
-	//	if(this._currState == null) this.changeState();
+		// if(this._currState == null) this.changeState();
 
 		// TODO Dibujar la etiqueta del estado visible, sin no es null.
-		if(this._currState != null) {
-			g.setColor(Color.PINK); //revisar esto del color
-			g.drawString("visible state: " + this._currState.toString(), 10,20); 
+		if (this._currState != null) {
+			g.setColor(Color.PINK); // revisar esto del color
+			g.drawString("visible state: " + this._currState.toString(), 10, 20);
 		}
 
 		// TODO Dibujar la etiqueta del tiempo. Para escribir solo 3 decimales puede
 		// usar String.format("%.3f", time)
-		g.drawString("Time "+ String.format("%.3f", time), 10,40);
+		g.drawString("Time " + String.format("%.3f", time), 10, 40);
 
 		// TODO Dibujar la información de todas la especies. Al final de cada iteración
 		// poner el contador de la especie correspondiente a 0 (para resetear el cuento)
-		
-		
-		
-		//CAMBIAR ESTO 
-		
-		
-		
+
+		// CAMBIAR ESTO
+
 		int yPos = 60; // Posición vertical inicial para dibujar la información de las especies
 		for (Entry<String, SpeciesInfo> e : _kindsInfo.entrySet()) {
-		    String speciesName = e.getKey();
-		    SpeciesInfo speciesInfo = e.getValue();
-		    g.setColor(speciesInfo._color);
-		    g.drawString(speciesName + ": " + speciesInfo._count, 10, yPos);
-		    yPos += 20; // Incrementar la posición vertical para la próxima especie
-		    speciesInfo._count = 0; // Reiniciar el contador de la especie
+			String speciesName = e.getKey();
+			SpeciesInfo speciesInfo = e.getValue();
+			g.setColor(speciesInfo._color);
+			g.drawString(speciesName + ": " + speciesInfo._count, 10, yPos);
+			yPos += 20; // Incrementar la posición vertical para la próxima especie
+			speciesInfo._count = 0; // Reiniciar el contador de la especie
 		}
 	}
 
@@ -257,9 +255,9 @@ public class MapViewer extends AbstractMapViewer {
 
 		// Esto cambia el tamaño del componente, y así cambia el tamaño de la ventana
 		// porque en MapWindow llamamos a pack() después de llamar a reset
-		
+
 		setPreferredSize(new Dimension(map.get_width(), map.get_height()));
-		
+
 		// Dibuja el estado
 		update(animals, time);
 	}

@@ -22,6 +22,7 @@ public class Controller {
 	}
 
 	public void load_data(JSONObject data) {
+	
 		if (data.has("regions")) {
 			JSONArray jRegions = data.getJSONArray("regions");
 			for (int i = 0; i < jRegions.length(); i++) {

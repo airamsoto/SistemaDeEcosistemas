@@ -4,16 +4,21 @@ import simulator.control.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import simulator.model.*;
+import simulator.model.MapInfo.RegionData;
+
 import javax.swing.table.AbstractTableModel;
 
 class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 
 	private Controller _ctrl;
 	private Map<String,  Integer> _regions;
+	private MapInfo mapa;
+	
 
 	RegionsTableModel(Controller ctrl) {
 		this._regions = new HashMap<>();
@@ -23,7 +28,7 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 
 	@Override
 	public int getRowCount() {
-		return this.mapaa.size() +2;
+		return this.mapa.get_cols()*this.mapa.get_rows();		
 	}
 
 	@Override
@@ -33,6 +38,9 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 
 	@Override
 	public String getColumnName(int column) {
+		
+		
+		
 
 		switch (column) {
 		case 0:
@@ -49,34 +57,53 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
+	    if (mapa != null) {
+	        Iterator<MapInfo.RegionData> it = mapa.iterator();
 
-		switch (columnIndex) {
-		case 0:
-		return 
-			
-		case 1:
-			return 0;
-			
-		case 2:
-		
-		default:
+	        // Avanzamos hasta la región correspondiente a la fila y columna seleccionada
+	        for (int i = 0; i < rowIndex && it.hasNext(); i++) {
+	            it.next();
+	        }
 
-			return 0;
-		}
+	        if (it.hasNext()) {
+	            MapInfo.RegionData regionData = it.next();
+	            RegionInfo region = regionData.get_r();
+
+	            if (region != null) {
+	                switch (columnIndex) {
+	                    case 0:
+	                        return regionData.get_row(); 
+	                    case 1:
+	                        return regionData.get_col(); 
+	                    case 2:
+	                        return region.toString(); 
+	                    case 3:
+	                        return getHerbivoreCount(region);
+	                    case 4:
+	                        return getCarnivoreCount(region);
+	                    default:
+	                        return null;
+	                }
+	            } 
+	            
+	        }
+	    }
+	    return null;
 	}
+
 
 	@Override
 	public void onRegister(double time, MapInfo map, List<AnimalInfo> animals) {
-		this.mapaa = map;
-		this.mapaa.
-		
-		
+		this.mapa = map;
+		fireTableDataChanged();
 
 	}
 
 	@Override
 	public void onReset(double time, MapInfo map, List<AnimalInfo> animals) {
-
+		this.mapa = map;
+		fireTableDataChanged();
+		
 	}
 
 	@Override
@@ -86,6 +113,8 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 
 	@Override
 	public void onRegionSet(int row, int col, MapInfo map, RegionInfo r) {
+		this.mapa = map;
+		
 		
 		
 		
@@ -97,5 +126,27 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 	public void onAvanced(double time, MapInfo map, List<AnimalInfo> animals, double dt) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	// Método para calcular el número de herbívoros en la región
+	private int getHerbivoreCount(RegionInfo region) {
+	    int count = 0;
+	    for (AnimalInfo animal : region.getAnimalsInfo()) {
+	        if (animal.get_diet() == Diet.HERBIVORE) {
+	            count++;
+	        }
+	    }
+	    return count;
+	}
+
+	// Método para calcular el número de carnívoros en la región
+	private int getCarnivoreCount(RegionInfo region) {
+	    int count = 0;
+	    for (AnimalInfo animal : region.getAnimalsInfo()) {
+	        if (animal.get_diet() == Diet.CARNIVORE) {
+	            count++;
+	        }
+	    }
+	    return count;
 	}
 }
