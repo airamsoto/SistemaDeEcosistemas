@@ -10,7 +10,7 @@ public interface MapInfo extends JSONable, Iterable<MapInfo.RegionData>  	{
 			return col;
 		}
 		public RegionInfo get_r() {
-			return r;
+			return this.r;
 		}
 	}
 
@@ -25,4 +25,6 @@ public interface MapInfo extends JSONable, Iterable<MapInfo.RegionData>  	{
 	public int get_region_width();
 
 	public int get_region_height();
+
+	
 }

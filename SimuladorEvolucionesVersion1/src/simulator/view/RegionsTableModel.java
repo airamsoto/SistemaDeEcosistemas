@@ -18,6 +18,7 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 	private Controller _ctrl;
 	private Map<String,  Integer> _regions;
 	private MapInfo mapa;
+
 	
 
 	RegionsTableModel(Controller ctrl) {
@@ -60,7 +61,6 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 	    if (mapa != null) {
 	        Iterator<MapInfo.RegionData> it = mapa.iterator();
 
-	        // Avanzamos hasta la región correspondiente a la fila y columna seleccionada
 	        for (int i = 0; i < rowIndex && it.hasNext(); i++) {
 	            it.next();
 	        }
@@ -108,23 +108,24 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 
 	@Override
 	public void onAnimalAdded(double time, MapInfo map, List<AnimalInfo> animals, AnimalInfo a) {
-
+		this.mapa = map;
+		fireTableDataChanged();
 	}
 
 	@Override
 	public void onRegionSet(int row, int col, MapInfo map, RegionInfo r) {
+		
 		this.mapa = map;
+		fireTableDataChanged();
 		
-		
-		
-		
-
 
 	}
 
 	@Override
 	public void onAvanced(double time, MapInfo map, List<AnimalInfo> animals, double dt) {
-		// TODO Auto-generated method stub
+		// TODO Autxo-generated method stub
+		this.mapa = map;
+		this.fireTableDataChanged();
 
 	}
 	

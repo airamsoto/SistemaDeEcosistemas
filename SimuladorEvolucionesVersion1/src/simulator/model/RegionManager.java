@@ -214,7 +214,7 @@ public class RegionManager implements AnimalMapView {
 			@Override
 			public RegionData next() {
 				if(!hasNext()) throw new NoSuchElementException();
-				RegionData regionData = new RegionData (row,col,  null );
+				RegionData regionData = new RegionData (row,col,  _regions[row][col]);
 				col++;
 	            if (col >= _cols) {
 	                col = 0;

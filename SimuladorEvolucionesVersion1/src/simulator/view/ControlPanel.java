@@ -50,7 +50,7 @@ public class ControlPanel extends JPanel {
 		_ctrl = ctrl;
 		initGUI();
 		this._changeRegionsDialog = new ChangeRegionsDialog(this._ctrl); // SE INICIA AQUI?
-		
+
 	}
 
 	private void initGUI() {
@@ -106,10 +106,9 @@ public class ControlPanel extends JPanel {
 			this._quitButton.setEnabled(false);
 			this._stopped = false;
 
-		
 			int steps = (int) this._stepsSpinner.getValue();
 			double dt = Double.valueOf(this._dt.getText());
-			
+
 			this.run_sim(steps, dt);
 		});
 		this._toolaBar.add(this._runButton);
@@ -154,6 +153,7 @@ public class ControlPanel extends JPanel {
 		_toolaBar.add(_quitButton);
 
 	}
+
 //CAMBIO EN EL TIPO DE N
 	private void run_sim(int n, double dt) {
 		if (n > 0 && !_stopped) {
@@ -182,21 +182,24 @@ public class ControlPanel extends JPanel {
 			_stopButton.setEnabled(true);
 		}
 	}
+
 	private void openActions() throws FileNotFoundException {
 		this._fc.showOpenDialog(ViewUtils.getWindow(this));
-		
-		File file = this._fc.getSelectedFile();
-		FileInputStream fis = new FileInputStream(file);
-		JSONObject json = new JSONObject(new JSONTokener(fis));
-		
-		int cols = json.getInt("cols");
-		int rows  = json.getInt("rows");
-		int width  = json.getInt("width");
-		int height  = json.getInt("height");
-		
-		this._ctrl.reset(cols, rows, width, height);
-		
-		this._ctrl.load_data(json);
-	}
 
+		File file = this._fc.getSelectedFile();
+		if (file != null) {
+			FileInputStream fis = new FileInputStream(file);
+			JSONObject json = new JSONObject(new JSONTokener(fis));
+
+			int cols = json.getInt("cols");
+			int rows = json.getInt("rows");
+			int width = json.getInt("width");
+			int height = json.getInt("height");
+
+			this._ctrl.reset(cols, rows, width, height);
+
+			this._ctrl.load_data(json);
+		}
+
+	}
 }
