@@ -133,6 +133,7 @@ public class Simulator implements JSONable, Observable<EcoSysObserver> {
 			o.onAvanced(this._time, _regionManager, animals, dt);
 		}
 	}
+	//TODO MUCHAS DUDAS
 	//VER DT PARA QUE LO USARIAMOS?
 	private void notify_on_reset (double dt) {
 		for (EcoSysObserver o : this._observableList) {

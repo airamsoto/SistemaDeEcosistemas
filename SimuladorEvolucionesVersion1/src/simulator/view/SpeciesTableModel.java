@@ -77,8 +77,6 @@ public class SpeciesTableModel extends AbstractTableModel implements EcoSysObser
 
 	@Override
 	public void onReset(double time, MapInfo map, List<AnimalInfo> animals) {
-		this._animals.clear();
-
 		this.onRegister(time, map, animals);
 		fireTableDataChanged();
 

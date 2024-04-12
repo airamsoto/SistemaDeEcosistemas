@@ -22,6 +22,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import simulator.control.Controller;
+import simulator.launcher.Main;
 import simulator.misc.Utils;
 
 public class ControlPanel extends JPanel {
@@ -137,7 +138,10 @@ public class ControlPanel extends JPanel {
 		_toolaBar.add(_stepsSpinner);
 
 		_toolaBar.add(new JLabel(" DELTA-TIME: "));
-		this._dt = new JTextField("0.03");
+		if(Main._delta != null) {
+			this._dt = new JTextField(String.valueOf(Main._delta));
+		} else this._dt = new JTextField("0.03");
+	
 		this._dt.setMaximumSize(new Dimension(80, 40));
 		this._dt.setMinimumSize(new Dimension(80, 40));
 		this._dt.setPreferredSize(new Dimension(80, 40));
@@ -156,7 +160,7 @@ public class ControlPanel extends JPanel {
 
 //CAMBIO EN EL TIPO DE N
 	private void run_sim(int n, double dt) {
-		if (n > 0 && !_stopped) {
+		if (n > 0 && !_stopped ) {
 			try {
 				_ctrl.advance(dt);
 				SwingUtilities.invokeLater(() -> run_sim(n - 1, dt));
@@ -164,7 +168,7 @@ public class ControlPanel extends JPanel {
 				// llamar a eso con el mensaje que corresponda
 				ViewUtils.showErrorMsg(e.getMessage());
 
-				// TODO activar todos los botones
+		
 				_stopped = true;
 				_openButton.setEnabled(true);
 				_viewerButton.setEnabled(true);

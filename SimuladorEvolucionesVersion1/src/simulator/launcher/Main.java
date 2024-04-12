@@ -57,7 +57,7 @@ public class Main {
 	// default values for some parameters
 	//
 	private final static Double _default_time = 10.0; // in seconds
-	private final static Double _default_delta = 0.03;
+	public final static Double _default_delta = 0.03;
 	// some attributes to stores values corresponding to command-line parameters
 	//
 	private static Double _time = null;

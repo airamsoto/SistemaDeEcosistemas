@@ -92,6 +92,7 @@ public class Controller {
 		this._sim.reset(cols, rows, width, height);
 	}
 	public void set_regions(JSONObject rs) {
+		//TODO todo eso
 		//: suponiendo que rs es una estructura JSON que incluye la clave “regions” (como en la primera práctica), modifica las regiones correspondientes usando
 		//set_regions del simulador. Hay que hacer refactorización del código del load_data para que no haya
 		//duplicación de código (porque load_data ya hacía algo parecido).
