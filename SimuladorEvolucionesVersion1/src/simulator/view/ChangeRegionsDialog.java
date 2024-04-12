@@ -161,7 +161,7 @@ class ChangeRegionsDialog extends JDialog implements EcoSysObserver {
 		pack();
 		setVisible(true);
 	}
-// TODO el resto de métodos van aquí…
+// TODO VER FALLO SE SALE DEL PANEL
 
 
 	@Override
