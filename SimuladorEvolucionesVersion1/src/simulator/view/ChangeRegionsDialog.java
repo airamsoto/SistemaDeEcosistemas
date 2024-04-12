@@ -92,8 +92,8 @@ class ChangeRegionsDialog extends JDialog implements EcoSysObserver {
 
 		JTable jt =  new JTable (this._dataTableModel);
 		
-		tablePanel.setMinimumSize(mainPanel.getPreferredSize());
 		tablePanel.add(new JScrollPane (jt));
+		
 		
 				
 // _regionsModel es un modelo de combobox que incluye los tipos de regiones
@@ -108,11 +108,12 @@ class ChangeRegionsDialog extends JDialog implements EcoSysObserver {
 		}
 		
 		
+		
 // ya que estos nos dan información sobre lo que puede crear la factoría.
 // TODO crear un combobox que use _regionsModel y añadirlo al diálogo.
 		
 		JComboBox region = new JComboBox (this._regionsModel);
-		comboBoxPanel.add(new JLabel ("Region type: "));
+		comboBoxPanel.add(new JLabel ("Region type:"));
 		
 		comboBoxPanel.add(region);
 		
@@ -130,23 +131,14 @@ class ChangeRegionsDialog extends JDialog implements EcoSysObserver {
 		JComboBox combo_toColModel= new JComboBox (_toColModel);
 		
 		//TODO BUSCA LA MANERA DE PONER LAS FILAS Y LAS COLUMNAS BIEN
-		this._dataTableModel.setColumnCount(10);
-		this._dataTableModel.setRowCount(10);
-		for (int i = 0; i < this._dataTableModel.getRowCount(); i++) {
-		    _fromRowModel.addElement(String.valueOf(i));
-		    _toRowModel.addElement(String.valueOf(i));
-		}
-
-		for (int i = 0; i < this._dataTableModel.getColumnCount(); i++) {
-		    _fromColModel.addElement(String.valueOf(i));
-		    _toColModel.addElement(String.valueOf(i));
-		}
-		comboBoxPanel.add(new JLabel ("Row from/to: "));
+		
+		comboBoxPanel.add(new JLabel ("Row from/to:"));
 		comboBoxPanel.add(combo_fromRowModel);
 		comboBoxPanel.add(combo_toRowModel);
-		comboBoxPanel.add(new JLabel ("Column from/to: "));
+		comboBoxPanel.add(new JLabel ("Column from/to:"));
 		comboBoxPanel.add(combo_fromColModel);
 		comboBoxPanel.add(combo_toColModel);
+		
 	
 	
 		
@@ -171,10 +163,19 @@ class ChangeRegionsDialog extends JDialog implements EcoSysObserver {
 	}
 // TODO el resto de métodos van aquí…
 
+
 	@Override
 	public void onRegister(double time, MapInfo map, List<AnimalInfo> animals) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method s
+		for (int i = 0; i < map.get_rows(); i++) {
+			_fromRowModel.addElement(String.valueOf(i));
+			_toRowModel.addElement(String.valueOf(i));
+		}
+
+		for (int i = 0; i < map.get_cols(); i++) {
+			_fromColModel.addElement(String.valueOf(i));
+			_toColModel.addElement(String.valueOf(i));
+		}
 	}
 
 	@Override

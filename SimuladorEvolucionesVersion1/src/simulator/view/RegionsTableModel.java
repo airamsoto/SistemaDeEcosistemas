@@ -96,6 +96,7 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 
 	@Override
 	public void onRegister(double time, MapInfo map, List<AnimalInfo> animals) {
+		this._regions.clear();
 		this.mapa = map;
 		fireTableDataChanged();
 
@@ -103,7 +104,7 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 
 	@Override
 	public void onReset(double time, MapInfo map, List<AnimalInfo> animals) {
-		
+		this._regions.clear();
 		this.mapa = map;
 		fireTableDataChanged();
 		
@@ -120,6 +121,7 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 		//con esta info si tenemos las regiones en una lista sabemos done esta esa region a paritr de la row col
 		//division y modulo
 		//no hace falta recorrer todo se que solo ha cambiado una
+		this._regions.clear();
 		this.mapa = map;
 		fireTableDataChanged();
 		
