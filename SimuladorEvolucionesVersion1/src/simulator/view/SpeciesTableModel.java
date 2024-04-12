@@ -67,7 +67,7 @@ public class SpeciesTableModel extends AbstractTableModel implements EcoSysObser
 	
 	}
 
-
+//TODO REVISAR TODOS LO OVERRIDES EVITAR RECORRER TODA LA LA LISTA EN EL ONANIMALADED
 
 	@Override
 	public void onReset(double time, MapInfo map, List<AnimalInfo> animals) {
@@ -80,13 +80,14 @@ public class SpeciesTableModel extends AbstractTableModel implements EcoSysObser
 
 	@Override
 	public void onAnimalAdded(double time, MapInfo map, List<AnimalInfo> animals, AnimalInfo a) {
-
+		this.onRegister(time, map, animals);
+		this.fireTableDataChanged();
 		
 	}
 
 	@Override
 	public void onRegionSet(int row, int col, MapInfo map, RegionInfo r) {
-
+		
 		
 	}
 

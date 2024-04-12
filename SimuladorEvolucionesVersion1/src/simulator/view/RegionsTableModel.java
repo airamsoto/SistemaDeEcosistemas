@@ -64,6 +64,8 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 	        for (int i = 0; i < rowIndex && it.hasNext(); i++) {
 	            it.next();
 	        }
+	        //guardarlo en una lista.
+	        //no buckes , sabiendo el numero de cada cosa columnas y numero de elemento stotales puedo calcular directamemte donde esta esa region
 
 	        if (it.hasNext()) {
 	            MapInfo.RegionData regionData = it.next();
@@ -115,7 +117,9 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 
 	@Override
 	public void onRegionSet(int row, int col, MapInfo map, RegionInfo r) {
-		
+		//con esta info si tenemos las regiones en una lista sabemos done esta esa region a paritr de la row col
+		//division y modulo
+		//no hace falta recorrer todo se que solo ha cambiado una
 		this.mapa = map;
 		fireTableDataChanged();
 		

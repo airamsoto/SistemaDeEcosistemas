@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.SwingUtilities;
 
 import simulator.model.AnimalInfo;
 import simulator.model.EcoSysObserver;
@@ -16,18 +17,19 @@ import simulator.model.MapInfo;
 import simulator.model.RegionInfo;
 
 public class StatusBar extends JPanel implements EcoSysObserver {
-	private double time;
-	private int animals;
-	private int width;
-	private int height;
-	private int row;
-	private int col;
+	private JLabel _time;
+	private JLabel _animals;
+	private JLabel _dimension;
 
 	@Override
 	public void onRegister(double time, MapInfo map, List<AnimalInfo> animals) {
-		this.time = time;
-		//this.dimension = new Dimension( map.get_region_height(), map.get_region_width());
-		this.animals = animals.size();
+
+		SwingUtilities.invokeLater(() -> {
+			this._time.setText("Time: " + String.format("%.3f", time));
+			this._animals.setText("Total Animals: " + animals.size());
+			this._dimension.setText("Dimension: " + map.get_width() + "x" + map.get_height() + " " + map.get_cols()
+					+ "x" + map.get_rows());
+		});
 	}
 
 	@Override
@@ -39,18 +41,17 @@ public class StatusBar extends JPanel implements EcoSysObserver {
 	@Override
 	public void onAnimalAdded(double time, MapInfo map, List<AnimalInfo> animals, AnimalInfo a) {
 		// TODO Auto-generated method stub
-
+		this._animals.setText("Total Animals: " + animals.size());
 	}
 
 	@Override
 	public void onRegionSet(int row, int col, MapInfo map, RegionInfo r) {
-	
-	
+
 	}
 
 	@Override
 	public void onAvanced(double time, MapInfo map, List<AnimalInfo> animals, double dt) {
-		// TODO Auto-generated method stub
+		this._animals.setText("Total Animals: " + animals.size());
 
 	}
 
@@ -59,33 +60,29 @@ public class StatusBar extends JPanel implements EcoSysObserver {
 		ctrl.addObserver(this);
 	}
 
-	
-
 	private void initGUI() {
-		//TODO poner los valores para time animal y dimensiones
+		// TODO poner los valores para time animal y dimensiones
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		this.setBorder(BorderFactory.createBevelBorder(1));
-		//TODO ver pq se quedan en 0 y poner el time con mas decimales
-		JLabel time = new JLabel ("Time: " + this.time);
-		this.add(time);
-			
+		// TODO ver pq se quedan en 0 y poner el time con mas decimales
+		this._time = new JLabel("Time: ");
+		this.add(this._time);
+
 		JSeparator s1 = new JSeparator(JSeparator.VERTICAL);
 		s1.setPreferredSize(new Dimension(10, 20));
 		this.add(s1);
-		
-		JLabel animals = new JLabel ("Total Animals: " + this.animals);
-		this.add(animals);
-		
+
+		this._animals = new JLabel("Total Animals: ");
+		this.add(_animals);
+
 		JSeparator s2 = new JSeparator(JSeparator.VERTICAL);
 		s2.setPreferredSize(new Dimension(10, 20));
 		this.add(s2);
-		
-		//TODO la dimension es nula
-		
-		JLabel dimension = new JLabel ("Dimension: " + this.row + "x" + this.col);
-		this.add(dimension);
-		
+
+		// TODO la dimension es nula
+		this._dimension = new JLabel("Dimension: ");
+		this.add(this._dimension);
+
 	}
-	
 
 }
