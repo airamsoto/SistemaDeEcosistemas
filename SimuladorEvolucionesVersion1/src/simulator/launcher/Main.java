@@ -244,7 +244,7 @@ public class Main {
 			int height = json.getInt("height");
 			int rows = json.getInt("rows");
 			int cols = json.getInt("cols");
-			Simulator simer = new Simulator(rows, cols, width, height, _animalFactory, _regionFactory);
+			Simulator simer = new Simulator(cols, rows, width, height, _animalFactory, _regionFactory);
 			Controller cont = new Controller(simer);
 			cont.load_data(json);
 			SwingUtilities.invokeAndWait(() -> new MainWindow(cont));
