@@ -31,6 +31,7 @@ import simulator.control.*;
 import java.util.*;
 
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 public class Main {
 
@@ -251,7 +252,8 @@ public class Main {
 			SwingUtilities.invokeAndWait(() -> new MainWindow(cont));
 			
 		}
-		
+		// que funcione con el simulator con cosas por defecto dice Santi
+		// para el upload data
 		
 	}
 
@@ -270,7 +272,9 @@ public class Main {
 
 	public static void main(String[] args) {
 		Utils._rand.setSeed(2147483647l);
+		
 		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			start(args);
 		} catch (Exception e) {
 			System.err.println("Something went wrong ...");
