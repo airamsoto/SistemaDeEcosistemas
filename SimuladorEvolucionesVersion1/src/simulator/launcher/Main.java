@@ -245,6 +245,7 @@ public class Main {
 			int rows = json.getInt("rows");
 			int cols = json.getInt("cols");
 			Simulator simer = new Simulator(cols, rows, width, height, _animalFactory, _regionFactory);
+			// parametros estaban al reves no cambia nada 
 			Controller cont = new Controller(simer);
 			cont.load_data(json);
 			SwingUtilities.invokeAndWait(() -> new MainWindow(cont));
