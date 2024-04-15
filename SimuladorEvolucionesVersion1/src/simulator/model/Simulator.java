@@ -24,17 +24,13 @@ public class Simulator implements JSONable, Observable<EcoSysObserver> {
 		this._animalFactory = animals_factory;
 		this._animalList = new ArrayList<Animal>();
 		this._regionManager = new RegionManager(cols, rows, width, height);
-		
-		
-		
-		//REVISAR
 		this._observableList = new ArrayList<>();
 
 	}
-
+	//TODO preguntar si puedo pasar r (interfaz) al notificar e igual con AnimalInfo
 	private void set_region(int row, int col, Region r) {
 		this._regionManager.set_region(row, col, r);
-		this.notify_on_setRegion(_time);
+		this.notify_on_setRegion(_time, r);
 	}
 
 
@@ -45,8 +41,8 @@ public class Simulator implements JSONable, Observable<EcoSysObserver> {
 	private void add_animal(Animal a) {
 		this._animalList.add(a);
 		this._regionManager.register_animal(a);
-		//SE LE PASA TIME O DT??
-		this.notify_on_addAnimal(_time);
+		
+		this.notify_on_addAnimal(_time, a);
 
 	}
 
@@ -97,7 +93,7 @@ public class Simulator implements JSONable, Observable<EcoSysObserver> {
 		for (Animal animal : babys) {
 			this.add_animal(animal);
 		}
-		//SE LE PASA TIME O DT??
+		
 		this.notify_on_advanced(_time);
 
 	}
@@ -110,7 +106,7 @@ public class Simulator implements JSONable, Observable<EcoSysObserver> {
 	}
 
 	public void reset(int cols, int rows, int width, int height) {
-		this._animalList.clear(); // o crear una lista nueva
+		this._animalList.clear(); 
 		this._regionManager = new RegionManager(cols, rows, width, height);
 		this._time = 0.0;
 		this.notify_on_reset(_time);
@@ -130,29 +126,29 @@ public class Simulator implements JSONable, Observable<EcoSysObserver> {
 		List<AnimalInfo> animals = new ArrayList<>(this._animalList);
 
 		for (EcoSysObserver o : this._observableList) {
-			o.onAvanced(this._time, _regionManager, animals, dt);
+			o.onAvanced(_time, _regionManager, animals, dt);
 		}
 	}
-	//TODO MUCHAS DUDAS
-	//VER DT PARA QUE LO USARIAMOS?
+	//TODO dt o _time
+	
 	private void notify_on_reset (double dt) {
 		for (EcoSysObserver o : this._observableList) {
 			o.onReset(_time, _regionManager, Collections.unmodifiableList(this._animalList));
 		}
 		
 	}
-	//VER DT PARA QUE LO USARIAMOS?
-	private void notify_on_addAnimal (double dt) {
-		//FALTA PONER LO DE ANIMAL INFO DONDE VA NULL
+	
+	private void notify_on_addAnimal (double dt, AnimalInfo a) {
+		
 		for (EcoSysObserver o : this._observableList) {
-			o.onAnimalAdded(dt, _regionManager, Collections.unmodifiableList(this._animalList), null);
+			o.onAnimalAdded(_time, _regionManager, Collections.unmodifiableList(this._animalList), a);
 		}
 	}
-	//VER DT PARA QUE LO USARIAMOS?
-	private void notify_on_setRegion (double dt) {
-		//REVISAR EL NULL DEL ARGUMENTO
+	
+	private void notify_on_setRegion (double dt, RegionInfo r) {
+	
 		for (EcoSysObserver o : this._observableList) {
-			o.onRegionSet(_regionManager.get_rows(), _regionManager.get_cols(), _regionManager, null);
+			o.onRegionSet(_regionManager.get_rows(), _regionManager.get_cols(), _regionManager, r);
 		}
 	}
 
