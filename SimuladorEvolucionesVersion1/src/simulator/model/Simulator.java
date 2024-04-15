@@ -30,7 +30,7 @@ public class Simulator implements JSONable, Observable<EcoSysObserver> {
 	//TODO preguntar si puedo pasar r (interfaz) al notificar e igual con AnimalInfo
 	private void set_region(int row, int col, Region r) {
 		this._regionManager.set_region(row, col, r);
-		this.notify_on_setRegion(_time, r);
+		this.notify_on_setRegion(r);
 	}
 
 
@@ -94,7 +94,7 @@ public class Simulator implements JSONable, Observable<EcoSysObserver> {
 			this.add_animal(animal);
 		}
 		
-		this.notify_on_advanced(_time);
+		this.notify_on_advanced(_time, dt);
 
 	}
 
@@ -122,30 +122,30 @@ public class Simulator implements JSONable, Observable<EcoSysObserver> {
 		this._observableList.remove(o);
 	}
 
-	private void notify_on_advanced(double dt) {
+	private void notify_on_advanced(double time, double dt) {
 		List<AnimalInfo> animals = new ArrayList<>(this._animalList);
 
 		for (EcoSysObserver o : this._observableList) {
-			o.onAvanced(_time, _regionManager, animals, dt);
+			o.onAvanced(time, _regionManager, animals, dt);
 		}
 	}
 	//TODO dt o _time
 	
-	private void notify_on_reset (double dt) {
+	private void notify_on_reset (double time) {
 		for (EcoSysObserver o : this._observableList) {
-			o.onReset(_time, _regionManager, Collections.unmodifiableList(this._animalList));
+			o.onReset(time, _regionManager, Collections.unmodifiableList(this._animalList));
 		}
 		
 	}
 	
-	private void notify_on_addAnimal (double dt, AnimalInfo a) {
+	private void notify_on_addAnimal (double time, AnimalInfo a) {
 		
 		for (EcoSysObserver o : this._observableList) {
-			o.onAnimalAdded(_time, _regionManager, Collections.unmodifiableList(this._animalList), a);
+			o.onAnimalAdded(time, _regionManager, Collections.unmodifiableList(this._animalList), a);
 		}
 	}
 	
-	private void notify_on_setRegion (double dt, RegionInfo r) {
+	private void notify_on_setRegion (RegionInfo r) {
 	
 		for (EcoSysObserver o : this._observableList) {
 			o.onRegionSet(_regionManager.get_rows(), _regionManager.get_cols(), _regionManager, r);

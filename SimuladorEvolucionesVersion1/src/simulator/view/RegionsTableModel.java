@@ -51,6 +51,7 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 		case 2:
 			return "Desc.";
 		default:
+			//TODO REVISAR SI ESTO ESTA BIEN
 			return Diet.values()[column - 3].toString();
 		}
 
@@ -78,13 +79,9 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 	                    case 1:
 	                        return regionData.get_col(); 
 	                    case 2:
-	                        return region.toString(); 
-	                    case 3:
-	                        return getHerbivoreCount(region);
-	                    case 4:
-	                        return getCarnivoreCount(region);
+	                        return region.toString();
 	                    default:
-	                        return null;
+	                    	return this.getAnimalDietCount(region, Diet.values()[columnIndex-3]);
 	                }
 	            } 
 	            
@@ -130,31 +127,21 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 
 	@Override
 	public void onAvanced(double time, MapInfo map, List<AnimalInfo> animals, double dt) {
-		// TODO Autxo-generated method stub
+		
 		this.mapa = map;
 		this.fireTableDataChanged();
 
 	}
 	
-	// Método para calcular el número de herbívoros en la región
-	private int getHerbivoreCount(RegionInfo region) {
-	    int count = 0;
-	    for (AnimalInfo animal : region.getAnimalsInfo()) {
-	        if (animal.get_diet() == Diet.HERBIVORE) {
+	
+	private int getAnimalDietCount(RegionInfo r, Diet d) {
+		int count = 0;
+	    for (AnimalInfo animal : r.getAnimalsInfo()) {
+	        if (animal.get_diet() == d) {
 	            count++;
 	        }
 	    }
 	    return count;
 	}
-
-	// Método para calcular el número de carnívoros en la región
-	private int getCarnivoreCount(RegionInfo region) {
-	    int count = 0;
-	    for (AnimalInfo animal : region.getAnimalsInfo()) {
-	        if (animal.get_diet() == Diet.CARNIVORE) {
-	            count++;
-	        }
-	    }
-	    return count;
-	}
+	
 }
