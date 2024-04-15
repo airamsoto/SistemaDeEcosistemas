@@ -18,6 +18,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import simulator.launcher.Main;
@@ -28,7 +29,6 @@ import simulator.model.RegionInfo;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-
 
 class ChangeRegionsDialog extends JDialog implements EcoSysObserver {
 	private static final long serialVersionUID = 6417401071679027376L;
@@ -141,27 +141,68 @@ class ChangeRegionsDialog extends JDialog implements EcoSysObserver {
 		comboBoxPanel.add(combo_fromColModel);
 		comboBoxPanel.add(combo_toColModel);
 
-
 		JButton okButton = new JButton("OK");
 		okButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO ACTIONS OF OK BUTTON
 				
+				JSONArray jsonRegiones = new JSONArray();
+				int fromCol = Integer.parseInt(_fromColModel.getSelectedItem().toString());
+				int toCol = Integer.parseInt(_toColModel.getSelectedItem().toString());
+				int fromRow = Integer.parseInt(_fromRowModel.getSelectedItem().toString());
+				int toRow = Integer.parseInt(_toRowModel.getSelectedItem().toString());
+				JSONObject spec = new JSONObject();
+		        spec.put("type", _regionsInfo.get(region.getSelectedIndex()).getString("type"));
+		        JSONObject region_data = new JSONObject();
+
+		        for (int i = 0; i < _dataTableModel.getRowCount(); i++) {
+		            String key = (String) _dataTableModel.getValueAt(i, 0);
+		            String value = (String) _dataTableModel.getValueAt(i, 1);
+		            if (!value.isEmpty()) {
+		                region_data.put(key, value);
+		            }
+		        }
+
+		        spec.put("data", region_data);
+
+		        JSONArray regionsArray = new JSONArray();
+		        JSONObject regionObject = new JSONObject();
+		        JSONArray rowArray = new JSONArray();
+		        JSONArray colArray = new JSONArray();
+
+		        rowArray.put(fromRow);
+		        rowArray.put(toRow);
+		        colArray.put(fromCol);
+		        colArray.put(toCol);
+
+		        regionObject.put("row", rowArray);
+		        regionObject.put("col", colArray);
+		        regionObject.put("spec", spec);
+
+		        jsonRegiones.put(regionObject);
+		   
+		        try {
+		            _ctrl.set_regions(jsonRegiones);
+		            setVisible(false); 
+		        } catch (Exception ex) {
+		            ViewUtils.showErrorMsg(ex.getMessage());
+		        }
+		    
+
 			}
-			
+
 		});
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//_status = 0;
+				// _status = 0;
 				setVisible(false);
-				
-			}}
-		);
+
+			}
+		});
 		buttonPanel.add(okButton);
 		buttonPanel.add(cancelButton);
 
@@ -178,7 +219,6 @@ class ChangeRegionsDialog extends JDialog implements EcoSysObserver {
 		pack();
 		setVisible(true);
 	}
-// TODO VER FALLO SE SALE DEL PANEL
 
 	@Override
 	public void onRegister(double time, MapInfo map, List<AnimalInfo> animals) {
@@ -186,7 +226,7 @@ class ChangeRegionsDialog extends JDialog implements EcoSysObserver {
 		this._fromRowModel.removeAllElements();
 		this._toColModel.removeAllElements();
 		this._toRowModel.removeAllElements();
-		// TODO Auto-generated method s
+
 		for (int i = 0; i < map.get_rows(); i++) {
 			_fromRowModel.addElement(String.valueOf(i));
 			_toRowModel.addElement(String.valueOf(i));

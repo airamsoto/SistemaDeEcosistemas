@@ -142,8 +142,12 @@ public class MapViewer extends AbstractMapViewer {
 		// TODO Mostrar el texto de ayuda si _showHelp es true. El texto a mostrar es el
 		// siguiente (en 2 líneas):
 		//
-		// h: toggle help
-		// s: show animals of a specific state
+		if(this._showHelp) {
+			g.setColor(Color.RED);
+			this.drawStringWithRect(gr, 20, 40, "h: toggle help");
+			this.drawStringWithRect(gr, 20, 60, "s: show animals of a specific state");
+		}
+		
 
 	}
 
@@ -204,29 +208,39 @@ public class MapViewer extends AbstractMapViewer {
 		// if(this._currState == null) this.changeState();
 
 		// TODO Dibujar la etiqueta del estado visible, sin no es null.
-		if (this._currState != null) {
-			g.setColor(Color.PINK); // revisar esto del color
-			g.drawString("visible state: " + this._currState.toString(), 10, 20);
-		}
+	
 
 		// TODO Dibujar la etiqueta del tiempo. Para escribir solo 3 decimales puede
 		// usar String.format("%.3f", time)
-		g.drawString("Time " + String.format("%.3f", time), 10, 40);
-
+		
 		// TODO Dibujar la información de todas la especies. Al final de cada iteración
 		// poner el contador de la especie correspondiente a 0 (para resetear el cuento)
 
 		// CAMBIAR ESTO
-
-		int yPos = 60; // Posición vertical inicial para dibujar la información de las especies
+		int yPos = this._height -70;
+		if (this._currState != null) {
+			int extraPos = 20;
+			yPos-=extraPos;
+			
+		}
+	 // Posición vertical inicial para dibujar la información de las especies
 		for (Entry<String, SpeciesInfo> e : _kindsInfo.entrySet()) {
 			String speciesName = e.getKey();
 			SpeciesInfo speciesInfo = e.getValue();
 			g.setColor(speciesInfo._color);
 			g.drawString(speciesName + ": " + speciesInfo._count, 10, yPos);
-			yPos += 20; // Incrementar la posición vertical para la próxima especie
-			speciesInfo._count = 0; // Reiniciar el contador de la especie
+			yPos += 20; 
+			speciesInfo._count = 0; 
 		}
+		g.setColor(Color.GREEN);
+		g.drawString("Time " + String.format("%.3f", time), 10, yPos);
+		
+		if (this._currState != null) {
+			g.setColor(Color.MAGENTA); // revisar esto del color
+			g.drawString("visible state: " + this._currState.toString(), 10, yPos+20);
+		}
+		
+
 	}
 
 	// Un método que dibujar un texto con un rectángulo
