@@ -154,7 +154,7 @@ public class MapViewer extends AbstractMapViewer {
 	private boolean visible(AnimalInfo a) {
 		// TODO Devolver true si el animal es visible, es decir si _currState es null o
 		// su estado es igual a _currState.
-		return (a.get_state() == null || a.get_state() == this._currState);
+		return (this._currState == null || a.get_state() == this._currState);
 
 	}
 
@@ -185,12 +185,16 @@ public class MapViewer extends AbstractMapViewer {
 
 			// TODO Si esp_info es null, añade una entrada correspondiente al mapa. Para el
 			// color usa ViewUtils.get_color(a.get_genetic_code())
-			if (esp_info == null) {
-				Color color = ViewUtils.get_color(a.get_genetic_code());
-				esp_info = new SpeciesInfo(color);
-				this._kindsInfo.put(a.get_genetic_code(), esp_info);
+			
+			if (!visible(a)) {
+				continue;
+				
 			}
-
+			Color color = ViewUtils.get_color(a.get_genetic_code());
+			if(esp_info == null) {
+			esp_info = new SpeciesInfo(color);
+			this._kindsInfo.put(a.get_genetic_code(), esp_info);
+			}
 			// TODO Incrementar el contador de la especie (es decir el contador dentro de
 			// tag_info)
 			esp_info._count++;

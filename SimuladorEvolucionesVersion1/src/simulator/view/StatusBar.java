@@ -25,6 +25,7 @@ public class StatusBar extends JPanel implements EcoSysObserver {
 	public void onRegister(double time, MapInfo map, List<AnimalInfo> animals) {
 
 		SwingUtilities.invokeLater(() -> {
+			
 			this._time.setText("Time: " + String.format("%.3f", time));
 			this._animals.setText("Total Animals: " + animals.size());
 			this._dimension.setText("Dimension: " + map.get_width() + "x" + map.get_height() + " " + map.get_cols()
@@ -34,6 +35,7 @@ public class StatusBar extends JPanel implements EcoSysObserver {
 
 	@Override
 	public void onReset(double time, MapInfo map, List<AnimalInfo> animals) {
+		this._time.setText("Time: " + String.format("%.3f", 0.0));
 		// TODO Auto-generated method stub
 
 	}
@@ -51,6 +53,7 @@ public class StatusBar extends JPanel implements EcoSysObserver {
 
 	@Override
 	public void onAvanced(double time, MapInfo map, List<AnimalInfo> animals, double dt) {
+		this._time.setText("Time: " + String.format("%.3f", time));
 		this._animals.setText("Total Animals: " + animals.size());
 
 	}
@@ -64,8 +67,9 @@ public class StatusBar extends JPanel implements EcoSysObserver {
 		// TODO poner los valores para time animal y dimensiones
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		this.setBorder(BorderFactory.createBevelBorder(1));
-		// TODO ver pq se quedan en 0 y poner el time con mas decimales
+		// TODO ver pq time se queda en 0 y poner el time con mas decimales
 		this._time = new JLabel("Time: ");
+		
 		this.add(this._time);
 
 		JSeparator s1 = new JSeparator(JSeparator.VERTICAL);
@@ -79,7 +83,7 @@ public class StatusBar extends JPanel implements EcoSysObserver {
 		s2.setPreferredSize(new Dimension(10, 20));
 		this.add(s2);
 
-		// TODO la dimension es nula
+		
 		this._dimension = new JLabel("Dimension: ");
 		this.add(this._dimension);
 
