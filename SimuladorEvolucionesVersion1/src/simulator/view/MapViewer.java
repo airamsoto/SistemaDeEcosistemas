@@ -92,8 +92,7 @@ public class MapViewer extends AbstractMapViewer {
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				requestFocus(); // Esto es necesario para capturar las teclas cuando el ratón está sobre este
-								// componente.
+				requestFocus(); 
 			}
 		});
 
@@ -195,13 +194,8 @@ public class MapViewer extends AbstractMapViewer {
 			esp_info = new SpeciesInfo(color);
 			this._kindsInfo.put(a.get_genetic_code(), esp_info);
 			}
-			// TODO Incrementar el contador de la especie (es decir el contador dentro de
-			// tag_info)
+			
 			esp_info._count++;
-
-			// TODO Dibijar el animal en la posicion correspondiente, usando el color
-			// tag_info._color. Su tamaño tiene que ser relativo a su edad, por ejemplo
-			// edad/2+2. Se puede dibujar usando fillRoundRect, fillRect o fillOval.
 			Color colorA = esp_info._color;
 			int tamanio = (int) (a.get_age() / 2 + 2);
 			int posx = (int) a.get_position().getX();
@@ -209,25 +203,16 @@ public class MapViewer extends AbstractMapViewer {
 			g.setColor(colorA);
 			g.fillOval(posx, posy, tamanio, tamanio);
 		}
-		// if(this._currState == null) this.changeState();
-
-		// TODO Dibujar la etiqueta del estado visible, sin no es null.
-	
-
-		// TODO Dibujar la etiqueta del tiempo. Para escribir solo 3 decimales puede
-		// usar String.format("%.3f", time)
 		
-		// TODO Dibujar la información de todas la especies. Al final de cada iteración
-		// poner el contador de la especie correspondiente a 0 (para resetear el cuento)
 
-		// CAMBIAR ESTO
+	
 		int yPos = this._height -70;
 		if (this._currState != null) {
 			int extraPos = 20;
 			yPos-=extraPos;
 			
 		}
-	 // Posición vertical inicial para dibujar la información de las especies
+	
 		for (Entry<String, SpeciesInfo> e : _kindsInfo.entrySet()) {
 			String speciesName = e.getKey();
 			SpeciesInfo speciesInfo = e.getValue();
@@ -240,14 +225,14 @@ public class MapViewer extends AbstractMapViewer {
 		g.drawString("Time " + String.format("%.3f", time), 10, yPos);
 		
 		if (this._currState != null) {
-			g.setColor(Color.MAGENTA); // revisar esto del color
+			g.setColor(Color.MAGENTA); 
 			g.drawString("visible state: " + this._currState.toString(), 10, yPos+20);
 		}
 		
 
 	}
 
-	// Un método que dibujar un texto con un rectángulo
+	// TODO Un método que dibujar un texto con un rectángulo
 	void drawStringWithRect(Graphics2D g, int x, int y, String s) {
 		Rectangle2D rect = g.getFontMetrics().getStringBounds(s, g);
 		g.drawString(s, x, y);
@@ -259,24 +244,20 @@ public class MapViewer extends AbstractMapViewer {
 		this._objs = objs;
 		this._time = time;
 		this.repaint();
-		// TODO Almacenar objs y time en los atributos correspondientes y llamar a
-		// repaint() para redibujar el componente.
+		
 	}
 
 	@Override
 	public void reset(double time, MapInfo map, List<AnimalInfo> animals) {
-		// TODO Actualizar los atributos _width, _height, _cols, _rows, etc.
+		
 		this._width = map.get_width();
 		this._height = map.get_height();
 		this._cols = map.get_cols();
 		this._rows = map.get_rows();
 
-		// Esto cambia el tamaño del componente, y así cambia el tamaño de la ventana
-		// porque en MapWindow llamamos a pack() después de llamar a reset
-
 		setPreferredSize(new Dimension(map.get_width(), map.get_height()));
 
-		// Dibuja el estado
+	
 		update(animals, time);
 	}
 
