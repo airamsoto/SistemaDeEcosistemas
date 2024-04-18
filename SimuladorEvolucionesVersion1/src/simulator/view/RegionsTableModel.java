@@ -79,7 +79,7 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 				return rd.r().toString();
 			default:
 				return this.getAnimalDietCount(rd.get_r(), Diet.values()[columnIndex - 3]);
-				//intentar sacarlo desde el mapa
+				// TODO intentar sacarlo desde el mapa
 			}
 		}
 
@@ -117,13 +117,19 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 		ArrayList <RegionData> arrayRD = new ArrayList<>(mapa_regiones.keySet());
 		int pos =  i+ map.get_cols() * j;
 		this.change(arrayRD.get(pos));
-		
+		this.fireTableDataChanged();
 		
 	
 	}
 
 	@Override
 	public void onRegionSet(int row, int col, MapInfo map, RegionInfo r) {
+		this.mapa_regiones.clear();
+		Iterator<RegionData> it = map.iterator();
+		while (it.hasNext()) {
+			RegionData ri = it.next();
+			this.change(ri);
+		}
 		int pos = col + map.get_cols() * row;
 		if( pos < this.mapa_regiones.size() &&r.equals(this.mapa_regiones.get(pos))) {
 			this.mapa_regiones.remove(this.mapa_regiones.get(pos));
@@ -161,6 +167,7 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 	}
 
 	private void change(RegionData r) {
+		if(r.r().toString()== "Dynamic region") System.out.print("HOLA");
 		Map<String, Integer> map = new HashMap<>();
 		if (this.mapa_regiones.containsKey(r)) {
 			map = mapa_regiones.get(r);
@@ -168,7 +175,7 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 		for (Diet dieta : Diet.values()) {
 			map.put(dieta.toString(), getAnimalDietCount(r.get_r(), dieta));
 		}
-		
+				
 		
 		
 		this.mapa_regiones.put(r, map);

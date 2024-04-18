@@ -92,10 +92,6 @@ public class Controller {
 		this._sim.reset(cols, rows, width, height);
 	}
 	public void set_regions(JSONArray rs) {
-		//TODO todo eso
-		//: suponiendo que rs es una estructura JSON que incluye la clave “regions” (como en la primera práctica), modifica las regiones correspondientes usando
-		//set_regions del simulador. Hay que hacer refactorización del código del load_data para que no haya
-		//duplicación de código (porque load_data ya hacía algo parecido).
 		for (int i = 0; i < rs.length(); i++) {
 			JSONObject regionData = rs.getJSONObject(i);
 			JSONObject spec = regionData.getJSONObject("spec");
@@ -106,8 +102,8 @@ public class Controller {
 			int toCol = col.getInt(1);
 			int fromRow = row.getInt(0);
 			int toRow = row.getInt(1); 
-			for (int r = fromRow; r < toRow; r++) {
-				for (int c = fromCol; c < toCol; c++) {
+			for (int r = fromRow; r <= toRow; r++) {
+				for (int c = fromCol; c <= toCol; c++) {
 					this._sim.set_region(r, c, spec);
 				}
 			}
