@@ -21,9 +21,7 @@ public class Utils {
 	}
 	
 
-	public static void quit(ControlPanel controlPanel) {
-		// TODO Auto-generated method stub
-	}
+	
 		
 
 

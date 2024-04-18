@@ -25,7 +25,7 @@ import simulator.control.Controller;
 import simulator.launcher.Main;
 import simulator.misc.Utils;
 
-public class ControlPanel extends JPanel {
+ public class ControlPanel extends JPanel {
 	/**
 	 * 
 	 */
@@ -153,7 +153,7 @@ public class ControlPanel extends JPanel {
 		_quitButton = new JButton();
 		_quitButton.setToolTipText("Quit");
 		_quitButton.setIcon(new ImageIcon("resources/icons/exit.png"));
-		_quitButton.addActionListener((e) -> ViewUtils.quit(this));
+		_quitButton.addActionListener((e) -> ViewUtils.quit(this)); //TODO HACER ESTO
 		_toolaBar.add(_quitButton);
 
 	}

@@ -3,10 +3,12 @@ package simulator.view;
 import simulator.control.*;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import simulator.model.*;
 import simulator.model.MapInfo.RegionData;
@@ -16,20 +18,30 @@ import javax.swing.table.AbstractTableModel;
 class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 
 	private Controller _ctrl;
-	private Map<String,  Integer> _regions;
-	private MapInfo mapa;
-
+	// private Map<String, Integer> _regions;
 	
 
+	private Map<RegionData, Map<String, Integer>> mapa_regiones;
+
 	RegionsTableModel(Controller ctrl) {
-		this._regions = new HashMap<>();
+		this.mapa_regiones = new TreeMap<>(new Comparator <>() {
+
+			@Override
+			public int compare(RegionData o1, RegionData o2) {
+				if(o1.get_col() == o2.get_col() && o1.get_row() == o2.get_row() ) return 0;
+				else if (o1.get_col()< o2.get_col() && o1.get_row()< o2.get_row()) return -1; 
+				else return 1;
+			}
+			
+		});
+		
 		this._ctrl = ctrl;
 		this._ctrl.addObserver(this);
 	}
 
 	@Override
 	public int getRowCount() {
-		return this.mapa.get_cols()*this.mapa.get_rows();		
+		return this.mapa_regiones.size();
 	}
 
 	@Override
@@ -39,9 +51,6 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 
 	@Override
 	public String getColumnName(int column) {
-		
-		
-		
 
 		switch (column) {
 		case 0:
@@ -51,7 +60,7 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 		case 2:
 			return "Desc.";
 		default:
-			//TODO REVISAR SI ESTO ESTA BIEN
+			
 			return Diet.values()[column - 3].toString();
 		}
 
@@ -59,89 +68,110 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-	    if (mapa != null) {
-	        Iterator<MapInfo.RegionData> it = mapa.iterator();
+		List<RegionData> it = new ArrayList<>(this.mapa_regiones.keySet());
+		MapInfo.RegionData rd = it.get(rowIndex);
+		RegionInfo r = rd.get_r();
 
-	        for (int i = 0; i < rowIndex && it.hasNext(); i++) {
-	            it.next();
-	        }
-	        //guardarlo en una lista.
-	        //no buckes , sabiendo el numero de cada cosa columnas y numero de elemento stotales puedo calcular directamemte donde esta esa region
+		if (r != null) {
+			switch (columnIndex) {
+			case 0:
+				return rd.get_row();
+			case 1:
+				return rd.get_col();
+			case 2:
+				return rd.r().toString();
+			default:
+				return this.getAnimalDietCount(rd.get_r(), Diet.values()[columnIndex - 3]);
+				//intentar sacarlo desde el mapa
+			}
+		}
 
-	        if (it.hasNext()) {
-	            MapInfo.RegionData regionData = it.next();
-	            RegionInfo region = regionData.get_r();
-
-	            if (region != null) {
-	                switch (columnIndex) {
-	                    case 0:
-	                        return regionData.get_row(); 
-	                    case 1:
-	                        return regionData.get_col(); 
-	                    case 2:
-	                        return region.toString();
-	                    default:
-	                    	return this.getAnimalDietCount(region, Diet.values()[columnIndex-3]);
-	                }
-	            } 
-	            
-	        }
-	    }
-	    return null;
+		return null;
 	}
-
 
 	@Override
 	public void onRegister(double time, MapInfo map, List<AnimalInfo> animals) {
-		this._regions.clear();
-		this.mapa = map;
-		fireTableDataChanged();
+		Iterator<RegionData> it = map.iterator();
+		while (it.hasNext()) {
+			RegionData r = it.next();
+			this.change(r);
+		}
+		this.fireTableDataChanged();
 
 	}
 
 	@Override
 	public void onReset(double time, MapInfo map, List<AnimalInfo> animals) {
-		this._regions.clear();
-		this.mapa = map;
-		fireTableDataChanged();
+		this.mapa_regiones.clear();
+		Iterator<RegionData> it = map.iterator();
+		while (it.hasNext()) {
+			RegionData r = it.next();
+			this.change(r);
+		}
 		
+		this.fireTableDataChanged();
 	}
 
 	@Override
 	public void onAnimalAdded(double time, MapInfo map, List<AnimalInfo> animals, AnimalInfo a) {
-		this.mapa = map;
-		fireTableDataChanged();
+
+		
+		this.fireTableDataChanged();
+		
+		
+	
 	}
 
 	@Override
 	public void onRegionSet(int row, int col, MapInfo map, RegionInfo r) {
-		//con esta info si tenemos las regiones en una lista sabemos done esta esa region a paritr de la row col
-		//division y modulo
-		//no hace falta recorrer todo se que solo ha cambiado una
-		this._regions.clear();
-		this.mapa = map;
-		fireTableDataChanged();
-		
+		int pos = col + map.get_cols() * row;
+		if(r.equals(this.mapa_regiones.get(pos)) && pos < this.mapa_regiones.size()) {
+			this.mapa_regiones.remove(this.mapa_regiones.get(pos));
+
+		}
+		RegionData rt = new RegionData(row, col, r);
+		this.change(rt);
+		this.fireTableDataChanged();
 
 	}
 
 	@Override
 	public void onAvanced(double time, MapInfo map, List<AnimalInfo> animals, double dt) {
+		this.mapa_regiones.clear();
+		Iterator<RegionData> it = map.iterator();
+		while (it.hasNext()) {
+			RegionData r = it.next();
+			this.change(r);
+		}
 		
-		this.mapa = map;
 		this.fireTableDataChanged();
 
+
 	}
-	
-	
+
 	private int getAnimalDietCount(RegionInfo r, Diet d) {
 		int count = 0;
-	    for (AnimalInfo animal : r.getAnimalsInfo()) {
-	        if (animal.get_diet() == d) {
-	            count++;
-	        }
-	    }
-	    return count;
+		for (AnimalInfo animal : r.getAnimalsInfo()) {
+			if (animal.get_diet() == d) {
+				count++;
+			}
+		}
+		
+		return count;
 	}
-	
+
+	private void change(RegionData r) {
+		Map<String, Integer> map = new HashMap<>();
+		if (this.mapa_regiones.containsKey(r)) {
+			map = mapa_regiones.get(r);
+		}
+		for (Diet dieta : Diet.values()) {
+			map.put(dieta.toString(), getAnimalDietCount(r.get_r(), dieta));
+		}
+		
+		
+		
+		this.mapa_regiones.put(r, map);
+	}
+
 }

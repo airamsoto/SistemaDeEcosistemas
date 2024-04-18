@@ -16,7 +16,7 @@ public class Wolf extends Animal {
 
 	public Wolf(SelectionStrategy mate_strategy, SelectionStrategy hunting_strategy, Vector2D pos)
 			throws IllegalArgumentException {
-		super("wolf", Diet.CARNIVORE, INIT_CAMPOVISUAL, INIT_SPEED, mate_strategy, pos);
+		super("Wolf", Diet.CARNIVORE, INIT_CAMPOVISUAL, INIT_SPEED, mate_strategy, pos);
 		this._hunt_target = null;
 		this._hunting_strategy = hunting_strategy;
 	}

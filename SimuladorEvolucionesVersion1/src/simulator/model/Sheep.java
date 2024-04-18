@@ -15,7 +15,7 @@ public class Sheep extends Animal {
 	private Animal _danger_source;
 
 	public Sheep(SelectionStrategy mate_strategy, SelectionStrategy danger_strategy, Vector2D pos) {
-		super("sheep", Diet.HERBIVORE, INIT_CAMPOVISUAL, INIT_SPEED, mate_strategy, pos);
+		super("Sheep", Diet.HERBIVORE, INIT_CAMPOVISUAL, INIT_SPEED, mate_strategy, pos);
 		this._danger_strategy = danger_strategy;
 		this._danger_source = null;
 

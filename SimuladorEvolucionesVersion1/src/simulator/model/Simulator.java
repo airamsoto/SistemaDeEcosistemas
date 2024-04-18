@@ -24,10 +24,10 @@ public class Simulator implements JSONable, Observable<EcoSysObserver> {
 		this._animalFactory = animals_factory;
 		this._animalList = new ArrayList<Animal>();
 		this._regionManager = new RegionManager(cols, rows, width, height);
-		this._observableList = new ArrayList<>();
+		this._observableList = new ArrayList<EcoSysObserver>();
 
 	}
-	//TODO preguntar si puedo pasar r (interfaz) al notificar e igual con AnimalInfo
+
 	private void set_region(int row, int col, Region r) {
 		this._regionManager.set_region(row, col, r);
 		this.notify_on_setRegion(r);
