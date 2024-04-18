@@ -18,9 +18,6 @@ import javax.swing.table.AbstractTableModel;
 class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 
 	private Controller _ctrl;
-	// private Map<String, Integer> _regions;
-	
-
 	private Map<RegionData, Map<String, Integer>> mapa_regiones;
 
 	RegionsTableModel(Controller ctrl) {
@@ -115,8 +112,11 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 	@Override
 	public void onAnimalAdded(double time, MapInfo map, List<AnimalInfo> animals, AnimalInfo a) {
 
-		
-		this.fireTableDataChanged();
+		int i = (int) (a.get_position().getX() / map.get_region_width());
+		int j = (int) (a.get_position().getY() / map.get_region_height());
+		ArrayList <RegionData> arrayRD = new ArrayList<>(mapa_regiones.keySet());
+		int pos =  i+ map.get_cols() * j;
+		this.change(arrayRD.get(pos));
 		
 		
 	
@@ -125,7 +125,7 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 	@Override
 	public void onRegionSet(int row, int col, MapInfo map, RegionInfo r) {
 		int pos = col + map.get_cols() * row;
-		if(r.equals(this.mapa_regiones.get(pos)) && pos < this.mapa_regiones.size()) {
+		if( pos < this.mapa_regiones.size() &&r.equals(this.mapa_regiones.get(pos))) {
 			this.mapa_regiones.remove(this.mapa_regiones.get(pos));
 
 		}
