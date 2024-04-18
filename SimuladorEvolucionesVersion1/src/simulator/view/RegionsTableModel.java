@@ -88,11 +88,7 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 
 	@Override
 	public void onRegister(double time, MapInfo map, List<AnimalInfo> animals) {
-		Iterator<RegionData> it = map.iterator();
-		while (it.hasNext()) {
-			RegionData r = it.next();
-			this.change(r);
-		}
+		this.updateMap(map);
 		this.fireTableDataChanged();
 
 	}
@@ -100,11 +96,7 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 	@Override
 	public void onReset(double time, MapInfo map, List<AnimalInfo> animals) {
 		this.mapa_regiones.clear();
-		Iterator<RegionData> it = map.iterator();
-		while (it.hasNext()) {
-			RegionData r = it.next();
-			this.change(r);
-		}
+		this.updateMap(map);
 		
 		this.fireTableDataChanged();
 	}
@@ -125,11 +117,7 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 	@Override
 	public void onRegionSet(int row, int col, MapInfo map, RegionInfo r) {
 		this.mapa_regiones.clear();
-		Iterator<RegionData> it = map.iterator();
-		while (it.hasNext()) {
-			RegionData ri = it.next();
-			this.change(ri);
-		}
+		this.updateMap(map);
 		int pos = col + map.get_cols() * row;
 		if( pos < this.mapa_regiones.size() &&r.equals(this.mapa_regiones.get(pos))) {
 			this.mapa_regiones.remove(this.mapa_regiones.get(pos));
@@ -144,11 +132,7 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 	@Override
 	public void onAvanced(double time, MapInfo map, List<AnimalInfo> animals, double dt) {
 		this.mapa_regiones.clear();
-		Iterator<RegionData> it = map.iterator();
-		while (it.hasNext()) {
-			RegionData r = it.next();
-			this.change(r);
-		}
+		this.updateMap(map);
 		
 		this.fireTableDataChanged();
 
@@ -167,7 +151,7 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 	}
 
 	private void change(RegionData r) {
-		if(r.r().toString()== "Dynamic region") System.out.print("HOLA");
+
 		Map<String, Integer> map = new HashMap<>();
 		if (this.mapa_regiones.containsKey(r)) {
 			map = mapa_regiones.get(r);
@@ -179,6 +163,16 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 		
 		
 		this.mapa_regiones.put(r, map);
+	}
+	
+	private void updateMap (MapInfo map) {
+		this.mapa_regiones.clear();
+		Iterator<RegionData> it = map.iterator();
+		while (it.hasNext()) {
+			RegionData ri = it.next();
+			this.change(ri);
+		}
+		
 	}
 
 }
