@@ -68,8 +68,10 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 		List<RegionData> it = new ArrayList<>(this.mapa_regiones.keySet());
 		MapInfo.RegionData rd = it.get(rowIndex);
 		RegionInfo r = rd.get_r();
+		Map<String, Integer> dietmap = this.mapa_regiones.get(rd);
 
 		if (r != null) {
+
 			switch (columnIndex) {
 			case 0:
 				return rd.get_row();
@@ -79,7 +81,7 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 				return rd.r().toString();
 			default:
 				return this.getAnimalDietCount(rd.get_r(), Diet.values()[columnIndex - 3]);
-				// TODO intentar sacarlo desde el mapa
+				
 			}
 		}
 

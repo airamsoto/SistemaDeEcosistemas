@@ -73,8 +73,6 @@ public class SpeciesTableModel extends AbstractTableModel implements EcoSysObser
 
 	}
 
-//TODO REVISAR TODOS LO OVERRIDES EVITAR RECORRER TODA LA LA LISTA EN EL ONANIMALADED
-
 	@Override
 	public void onReset(double time, MapInfo map, List<AnimalInfo> animals) {
 		this.onRegister(time, map, animals);
@@ -82,27 +80,21 @@ public class SpeciesTableModel extends AbstractTableModel implements EcoSysObser
 
 	}
 
+//TODO REVISAR LO DEL BUCLE
 	@Override
 	public void onAnimalAdded(double time, MapInfo map, List<AnimalInfo> animals, AnimalInfo a) {
-		/*if (!this._animals.containsKey(a.get_genetic_code())) {
+
+		if (!this._animals.containsKey(a.get_genetic_code())) {
 			this._animals.put(a.get_genetic_code(), new HashMap<>());
 		}
 		Map<String, Integer> estadosYContador = this._animals.get(a.get_genetic_code());
-		estadosYContador.put(a.get_state().toString(),
-				estadosYContador.getOrDefault(a.get_state().toString(), 0) + 1);
+		estadosYContador.put(a.get_state().toString(), estadosYContador.getOrDefault(a.get_state().toString(), 0) + 1);
 		fireTableDataChanged();
-		*/
-		this.onRegister(time, map, animals);
 	}
-	
-
-	
 
 	@Override
 	public void onRegionSet(int row, int col, MapInfo map, RegionInfo r) {
 	};
-
-	
 
 	@Override
 	public void onAvanced(double time, MapInfo map, List<AnimalInfo> animals, double dt) {

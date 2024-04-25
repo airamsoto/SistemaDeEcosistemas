@@ -250,22 +250,17 @@ public class Main {
 			height = json.getInt("height");
 			rows = json.getInt("rows");
 			cols = json.getInt("cols");
-			
+
 			Simulator simer = new Simulator(cols, rows, width, height, _animalFactory, _regionFactory);
 			Controller cont = new Controller(simer);
 			cont.load_data(json);
 			SwingUtilities.invokeAndWait(() -> new MainWindow(cont));
-			
+
 		} else {
 			Simulator simer = new Simulator(cols, rows, width, height, _animalFactory, _regionFactory);
 			Controller cont = new Controller(simer);
 			SwingUtilities.invokeAndWait(() -> new MainWindow(cont));
 		}
-		
-		
-		
-		// que funcione con el simulator con cosas por defecto dice Santi
-		// para el upload data
 
 	}
 

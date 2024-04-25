@@ -199,15 +199,14 @@ public class RegionManager implements AnimalMapView {
 	@Override
 	public Iterator<RegionData> iterator() {
 		
-		//METODO QUE RECORRE LAS FILAS DE IZQ A DER DE CADA REGION Y DEVUELVE UNA INSTANCIA DE REGION DATA
-		//PARA CADA REGION
+		
 		return new Iterator<>(){
 			private int row;
 			private int col;
 
 			@Override
 			public boolean hasNext() {
-				// TODO Auto-generated method stub
+			
 				return row < _rows && col < _cols;
 			}
 

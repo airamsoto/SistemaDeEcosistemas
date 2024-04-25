@@ -20,29 +20,20 @@ import java.util.Map.Entry;
 @SuppressWarnings("serial")
 public class MapViewer extends AbstractMapViewer {
 
-	// Anchura/altura/ de la simulación -- se supone que siempre van a ser iguales
-	// al tamaño del componente
 	private int _width;
 	private int _height;
 
-	// Número de filas/columnas de la simulación
 	private int _rows;
 	private int _cols;
 
-	// Anchura/altura de una región
 	int _rwidth;
 	int _rheight;
 
-	// Mostramos sólo animales con este estado. Los posibles valores de _currState
-	// son null, y los valores deAnimal.State.values(). Si es null mostramos todo.
-	State _currState; // REVISAR SI ES STATE PORQE¡UE ANTES PONIA ALGO DE ANIMAL
+	State _currState;
 
-	// En estos atributos guardamos la lista de animales y el tiempo que hemos
-	// recibido la última vez para dibujarlos.
 	volatile private Collection<AnimalInfo> _objs;
 	volatile private Double _time;
 
-	// Una clase auxilar para almacenar información sobre una especie
 	private static class SpeciesInfo {
 		private Integer _count;
 		private Color _color;
@@ -53,13 +44,10 @@ public class MapViewer extends AbstractMapViewer {
 		}
 	}
 
-	// Un mapa para la información sobre las especies
 	Map<String, SpeciesInfo> _kindsInfo = new HashMap<>();
 
-	// El font que usamos para dibujar texto
 	private Font _font = new Font("Arial", Font.BOLD, 12);
 
-	// Indica si mostramos el texto la ayuda o no
 	private boolean _showHelp;
 
 	public MapViewer() {
@@ -79,8 +67,6 @@ public class MapViewer extends AbstractMapViewer {
 					break;
 				case 's':
 					changeState();
-					// TODO Cambiar _currState al siguiente (de manera circular). Después de null
-					// viene el primero de Animal.State.values() y después del último viene null.
 					repaint();
 				default:
 				}
@@ -92,14 +78,12 @@ public class MapViewer extends AbstractMapViewer {
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				requestFocus(); 
+				requestFocus();
 			}
 		});
 
-		// Por defecto mostramos todos los animales
 		_currState = null;
 
-		// Por defecto mostramos el texto de ayuda
 		_showHelp = true;
 	}
 
@@ -109,13 +93,12 @@ public class MapViewer extends AbstractMapViewer {
 			this._currState = State.values()[0];
 		} else {
 			int indice = this._currState.ordinal();
-			// MIRAR
-			int siguiente = (indice + 1) % (State.values().length); // Siguiente estado (circular)
+			int siguiente = (indice + 1) % (State.values().length);
 			if (siguiente > State.values().length)
 				this._currState = null;
-			else this._currState = siguiente == 0 ? null : State.values()[siguiente];
-			
-			// int siguiente =
+			else
+				this._currState = siguiente == 0 ? null : State.values()[siguiente];
+
 		}
 	}
 
@@ -126,33 +109,23 @@ public class MapViewer extends AbstractMapViewer {
 		Graphics2D gr = (Graphics2D) g;
 		gr.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		gr.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-
-		// Cambiar el font para dibujar texto
 		g.setFont(_font);
-
-		// Dibujar fondo blanco
 		gr.setBackground(Color.WHITE);
 		gr.clearRect(0, 0, _width, _height);
 
-		// Dibujar los animales, el tiempo, etc.
 		if (_objs != null)
 			drawObjects(gr, _objs, _time);
 
-		// TODO Mostrar el texto de ayuda si _showHelp es true. El texto a mostrar es el
-		// siguiente (en 2 líneas):
-		//
-		if(this._showHelp) {
+		if (this._showHelp) {
 			g.setColor(Color.RED);
 			this.drawStringWithRect(gr, 20, 40, "h: toggle help");
 			this.drawStringWithRect(gr, 20, 60, "s: show animals of a specific state");
 		}
-		
 
 	}
 
 	private boolean visible(AnimalInfo a) {
-		// TODO Devolver true si el animal es visible, es decir si _currState es null o
-		// su estado es igual a _currState.
+
 		return (this._currState == null || a.get_state() == this._currState);
 
 	}
@@ -172,29 +145,20 @@ public class MapViewer extends AbstractMapViewer {
 
 		}
 
-		// Dibujar los animales
 		for (AnimalInfo a : animals) {
 
-			// Si no es visible saltamos la iteración
-		//	if (!visible(a))
-		//		continue;
-
-			// La información sobre la especie de 'a'
 			SpeciesInfo esp_info = _kindsInfo.get(a.get_genetic_code());
 
-			// TODO Si esp_info es null, añade una entrada correspondiente al mapa. Para el
-			// color usa ViewUtils.get_color(a.get_genetic_code())
-			
 			if (!visible(a)) {
 				continue;
-				
+
 			}
 			Color color = ViewUtils.get_color(a.get_genetic_code());
-			if(esp_info == null) {
-			esp_info = new SpeciesInfo(color);
-			this._kindsInfo.put(a.get_genetic_code(), esp_info);
+			if (esp_info == null) {
+				esp_info = new SpeciesInfo(color);
+				this._kindsInfo.put(a.get_genetic_code(), esp_info);
 			}
-			
+
 			esp_info._count++;
 			Color colorA = esp_info._color;
 			int tamanio = (int) (a.get_age() / 2 + 2);
@@ -203,36 +167,32 @@ public class MapViewer extends AbstractMapViewer {
 			g.setColor(colorA);
 			g.fillOval(posx, posy, tamanio, tamanio);
 		}
-		
 
-	
-		int yPos = this._height -70;
+		int yPos = this._height - 70;
 		if (this._currState != null) {
 			int extraPos = 20;
-			yPos-=extraPos;
-			
+			yPos -= extraPos;
+
 		}
-	
+
 		for (Entry<String, SpeciesInfo> e : _kindsInfo.entrySet()) {
 			String speciesName = e.getKey();
 			SpeciesInfo speciesInfo = e.getValue();
 			g.setColor(speciesInfo._color);
-			g.drawString(speciesName + ": " + speciesInfo._count, 10, yPos);
-			yPos += 20; 
-			speciesInfo._count = 0; 
+			this.drawStringWithRect(g, 10, yPos, (speciesName + ": " + speciesInfo._count));
+			yPos += 20;
+			speciesInfo._count = 0;
 		}
 		g.setColor(Color.GREEN);
-		g.drawString("Time " + String.format("%.3f", time), 10, yPos);
-		
+		this.drawStringWithRect(g, 10, yPos, "Time " + String.format("%.3f", time));
+
 		if (this._currState != null) {
-			g.setColor(Color.MAGENTA); 
-			g.drawString("visible state: " + this._currState.toString(), 10, yPos+20);
+			g.setColor(Color.MAGENTA);
+			g.drawString("visible state: " + this._currState.toString(), 10, yPos + 20);
 		}
-		
 
 	}
 
-	// TODO Un método que dibujar un texto con un rectángulo
 	void drawStringWithRect(Graphics2D g, int x, int y, String s) {
 		Rectangle2D rect = g.getFontMetrics().getStringBounds(s, g);
 		g.drawString(s, x, y);
@@ -244,12 +204,12 @@ public class MapViewer extends AbstractMapViewer {
 		this._objs = objs;
 		this._time = time;
 		this.repaint();
-		
+
 	}
 
 	@Override
 	public void reset(double time, MapInfo map, List<AnimalInfo> animals) {
-		
+
 		this._width = map.get_width();
 		this._height = map.get_height();
 		this._cols = map.get_cols();
@@ -257,7 +217,6 @@ public class MapViewer extends AbstractMapViewer {
 
 		setPreferredSize(new Dimension(map.get_width(), map.get_height()));
 
-	
 		update(animals, time);
 	}
 

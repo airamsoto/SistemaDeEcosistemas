@@ -71,6 +71,8 @@ class ChangeRegionsDialog extends JDialog implements EcoSysObserver {
 		_regionsInfo = Main._regionFactory.get_info();
 
 		_dataTableModel = new DefaultTableModel() {
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public boolean isCellEditable(int row, int column) {
 				return column == 1;

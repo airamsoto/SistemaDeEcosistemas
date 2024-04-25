@@ -36,13 +36,13 @@ public class StatusBar extends JPanel implements EcoSysObserver {
 	@Override
 	public void onReset(double time, MapInfo map, List<AnimalInfo> animals) {
 		this._time.setText("Time: " + String.format("%.3f", 0.0));
-		// TODO Auto-generated method stub
+		
 
 	}
 
 	@Override
 	public void onAnimalAdded(double time, MapInfo map, List<AnimalInfo> animals, AnimalInfo a) {
-		// TODO Auto-generated method stub
+		
 		this._animals.setText("Total Animals: " + animals.size());
 	}
 
@@ -64,10 +64,9 @@ public class StatusBar extends JPanel implements EcoSysObserver {
 	}
 
 	private void initGUI() {
-		// TODO poner los valores para time animal y dimensiones
+		
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		this.setBorder(BorderFactory.createBevelBorder(1));
-		// TODO ver pq time se queda en 0 y poner el time con mas decimales
 		this._time = new JLabel("Time: ");
 		
 		this.add(this._time);

@@ -33,7 +33,6 @@ public class Simulator implements JSONable, Observable<EcoSysObserver> {
 		this.notify_on_setRegion(r);
 	}
 
-
 	public void set_region(int row, int col, JSONObject r_json) {
 		this.set_region(row, col, this._regionFactory.create_instance(r_json));
 	}
@@ -41,7 +40,7 @@ public class Simulator implements JSONable, Observable<EcoSysObserver> {
 	private void add_animal(Animal a) {
 		this._animalList.add(a);
 		this._regionManager.register_animal(a);
-		
+
 		this.notify_on_addAnimal(_time, a);
 
 	}
@@ -93,7 +92,7 @@ public class Simulator implements JSONable, Observable<EcoSysObserver> {
 		for (Animal animal : babys) {
 			this.add_animal(animal);
 		}
-		
+
 		this.notify_on_advanced(_time, dt);
 
 	}
@@ -106,7 +105,7 @@ public class Simulator implements JSONable, Observable<EcoSysObserver> {
 	}
 
 	public void reset(int cols, int rows, int width, int height) {
-		this._animalList.clear(); 
+		this._animalList.clear();
 		this._regionManager = new RegionManager(cols, rows, width, height);
 		this._time = 0.0;
 		this.notify_on_reset(_time);
@@ -129,24 +128,23 @@ public class Simulator implements JSONable, Observable<EcoSysObserver> {
 			o.onAvanced(time, _regionManager, animals, dt);
 		}
 	}
-	//TODO dt o _time
-	
-	private void notify_on_reset (double time) {
+
+	private void notify_on_reset(double time) {
 		for (EcoSysObserver o : this._observableList) {
 			o.onReset(time, _regionManager, Collections.unmodifiableList(this._animalList));
 		}
-		
+
 	}
-	
-	private void notify_on_addAnimal (double time, AnimalInfo a) {
-		
+
+	private void notify_on_addAnimal(double time, AnimalInfo a) {
+
 		for (EcoSysObserver o : this._observableList) {
 			o.onAnimalAdded(time, _regionManager, Collections.unmodifiableList(this._animalList), a);
 		}
 	}
-	
-	private void notify_on_setRegion (RegionInfo r) {
-	
+
+	private void notify_on_setRegion(RegionInfo r) {
+
 		for (EcoSysObserver o : this._observableList) {
 			o.onRegionSet(_regionManager.get_rows(), _regionManager.get_cols(), _regionManager, r);
 		}

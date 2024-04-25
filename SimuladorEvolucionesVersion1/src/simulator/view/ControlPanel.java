@@ -26,9 +26,7 @@ import simulator.launcher.Main;
 import simulator.misc.Utils;
 
 public class ControlPanel extends JPanel {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	private Controller _ctrl;
 	private ChangeRegionsDialog _changeRegionsDialog;
@@ -161,7 +159,6 @@ public class ControlPanel extends JPanel {
 	private void run_sim(double n, double dt) {
 		if (n > 0 && !_stopped) {
 			try {
-				System.out.println(n);
 				_ctrl.advance(dt);
 				Thread.sleep((long) (dt*500));
 				SwingUtilities.invokeLater(() -> run_sim(n - 1, dt));
