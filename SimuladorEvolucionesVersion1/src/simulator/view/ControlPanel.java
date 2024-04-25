@@ -25,7 +25,7 @@ import simulator.control.Controller;
 import simulator.launcher.Main;
 import simulator.misc.Utils;
 
- public class ControlPanel extends JPanel {
+public class ControlPanel extends JPanel {
 	/**
 	 * 
 	 */
@@ -34,11 +34,9 @@ import simulator.misc.Utils;
 	private ChangeRegionsDialog _changeRegionsDialog;
 	private JToolBar _toolaBar;
 	private JFileChooser _fc;
-	private boolean _stopped = true; // utilizado en los botones de run/stop
+	private boolean _stopped = true; 
 	private JButton _quitButton;
 
-// TODO añade más atributos aquí …
-	// botones
 	private JButton _openButton;
 	private JButton _viewerButton;
 	private JButton _regionButton;
@@ -50,7 +48,7 @@ import simulator.misc.Utils;
 	ControlPanel(Controller ctrl) {
 		_ctrl = ctrl;
 		initGUI();
-		this._changeRegionsDialog = new ChangeRegionsDialog(this._ctrl); // SE INICIA AQUI?
+		this._changeRegionsDialog = new ChangeRegionsDialog(this._ctrl); 
 
 	}
 
@@ -69,7 +67,7 @@ import simulator.misc.Utils;
 			try {
 				this.openActions();
 			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
+			
 				e1.printStackTrace();
 			}
 
@@ -82,7 +80,7 @@ import simulator.misc.Utils;
 		this._viewerButton.setToolTipText("map");
 		this._viewerButton.setIcon(new ImageIcon("resources/icons/viewer.png"));
 		this._viewerButton.addActionListener((e) -> {
-			MapWindow map = new MapWindow(null, this._ctrl); // REVISAR NULL
+			MapWindow map = new MapWindow(null, this._ctrl); 
 
 		});
 		this._toolaBar.add(this._viewerButton);
@@ -108,9 +106,11 @@ import simulator.misc.Utils;
 			this._stopped = false;
 
 			int steps = (int) this._stepsSpinner.getValue();
+
 			double dt = Double.valueOf(this._dt.getText());
 
 			this.run_sim(steps, dt);
+
 		});
 		this._toolaBar.add(this._runButton);
 
@@ -129,8 +129,7 @@ import simulator.misc.Utils;
 		this._toolaBar.add(this._stopButton);
 
 		_toolaBar.add(new JLabel(" Steps: "));
-
-		_stepsSpinner = new JSpinner(new SpinnerNumberModel(5000, 1, 10000, 100));
+		_stepsSpinner = new JSpinner(new SpinnerNumberModel(10, 1, 10000, 10));
 		_stepsSpinner.setToolTipText("Simulation steps to run: 1-10000");
 		_stepsSpinner.setMaximumSize(new Dimension(80, 40));
 		_stepsSpinner.setMinimumSize(new Dimension(80, 40));
@@ -138,10 +137,11 @@ import simulator.misc.Utils;
 		_toolaBar.add(_stepsSpinner);
 
 		_toolaBar.add(new JLabel(" DELTA-TIME: "));
-		if(Main._delta != null) {
+		if (Main._delta != null) {
 			this._dt = new JTextField(String.valueOf(Main._delta));
-		} else this._dt = new JTextField("0.03");
-	
+		} else
+			this._dt = new JTextField("0.03");
+
 		this._dt.setMaximumSize(new Dimension(80, 40));
 		this._dt.setMinimumSize(new Dimension(80, 40));
 		this._dt.setPreferredSize(new Dimension(80, 40));
@@ -153,37 +153,25 @@ import simulator.misc.Utils;
 		_quitButton = new JButton();
 		_quitButton.setToolTipText("Quit");
 		_quitButton.setIcon(new ImageIcon("resources/icons/exit.png"));
-		_quitButton.addActionListener((e) -> ViewUtils.quit(this)); //TODO HACER ESTO
+		_quitButton.addActionListener((e) -> ViewUtils.quit(this));
 		_toolaBar.add(_quitButton);
 
 	}
 
-//CAMBIO EN EL TIPO DE N
-	private void run_sim(int n, double dt) {
-		if (n > 0 && !_stopped ) {
+	private void run_sim(double n, double dt) {
+		if (n > 0 && !_stopped) {
 			try {
+				System.out.println(n);
 				_ctrl.advance(dt);
+				Thread.sleep((long) (dt*500));
 				SwingUtilities.invokeLater(() -> run_sim(n - 1, dt));
 			} catch (Exception e) {
-				// llamar a eso con el mensaje que corresponda
-				ViewUtils.showErrorMsg(e.getMessage());
 
-		
-				_stopped = true;
-				_openButton.setEnabled(true);
-				_viewerButton.setEnabled(true);
-				_regionButton.setEnabled(true);
-				_runButton.setEnabled(true);
-				_stopButton.setEnabled(true);
+				ViewUtils.showErrorMsg(e.getMessage());
+				this.enableButtons();
 			}
 		} else {
-			// TODO activar todos los botones
-			_stopped = true;
-			_openButton.setEnabled(true);
-			_viewerButton.setEnabled(true);
-			_regionButton.setEnabled(true);
-			_runButton.setEnabled(true);
-			_stopButton.setEnabled(true);
+			this.enableButtons();
 		}
 	}
 
@@ -204,6 +192,16 @@ import simulator.misc.Utils;
 
 			this._ctrl.load_data(json);
 		}
+
+	}
+
+	private void enableButtons() {
+		_stopped = true;
+		_openButton.setEnabled(true);
+		_viewerButton.setEnabled(true);
+		_regionButton.setEnabled(true);
+		_runButton.setEnabled(true);
+		_stopButton.setEnabled(true);
 
 	}
 }

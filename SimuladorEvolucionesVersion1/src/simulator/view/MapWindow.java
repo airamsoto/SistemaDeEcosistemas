@@ -31,61 +31,53 @@ class MapWindow extends JFrame implements EcoSysObserver {
 	}
 	   private void intiGUI() {
 	         JPanel mainPanel = new JPanel(new BorderLayout());
-	         // TODO poner contentPane como mainPanel
 	         setContentPane(mainPanel);
-	         // TODO crear el viewer y añadirlo a mainPanel (en el centro)
+	         
 	         this._viewer = new MapViewer();
 	         mainPanel.add(this._viewer, BorderLayout.CENTER);
-	         // TODO en el método windowClosing, eliminar ‘MapWindow.this’ de los
-/*	IMPORTANTE: Si añadimos más tipos de regiones a la factoría de regiones, el diálogo tiene que seguir
-	funcionando igual sin la necesidad de modificar nada de su código, y por eso está prohibido hacer referencia
-	explícita a tipos de regiones como “default” y “dynamic”, ni a claves como “factor” y “food”. Siempre
-	hay que sacar la información usando get_info() de la factoría.
-	 */
-//	      observadores
+
 	addWindowListener(new WindowListener() {
 
 		@Override
 		public void windowOpened(WindowEvent e) {
-			// TODO Auto-generated method stub
+
 			
 		}
 
 		@Override
 		public void windowClosing(WindowEvent e) {
-			// TODO Auto-generated method stub
+		
 			_ctrl.removeObserver(MapWindow.this);
 			
 		}
 
 		@Override
 		public void windowClosed(WindowEvent e) {
-			// TODO Auto-generated method stub
+		
 			
 		}
 
 		@Override
 		public void windowIconified(WindowEvent e) {
-			// TODO Auto-generated method stub
+
 			
 		}
 
 		@Override
 		public void windowDeiconified(WindowEvent e) {
-			// TODO Auto-generated method stub
+		
 			
 		}
 
 		@Override
 		public void windowActivated(WindowEvent e) {
-			// TODO Auto-generated method stub
+
 			
 		}
 
 		@Override
 		public void windowDeactivated(WindowEvent e) {
-			// TODO Auto-generated method stub
-			
+		
 		}  });
 	         pack();
 	         if (_parent != null)
@@ -118,9 +110,8 @@ class MapWindow extends JFrame implements EcoSysObserver {
 	}
 	@Override
 	public void onAvanced(double time, MapInfo map, List<AnimalInfo> animals, double dt) {
-		//DT???
+		
 		SwingUtilities.invokeLater(() -> { _viewer.update(animals, time); pack(); });
 		
 	}
 }
-	// TODO otros métodos van aquí.... }

@@ -54,7 +54,6 @@ class ChangeRegionsDialog extends JDialog implements EcoSysObserver {
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		setContentPane(mainPanel);
-		// TODO TAMAÑO DEL TEXTO
 		JLabel helpText = new JLabel(
 				"<html><p>Select a region type, the rows/cols interval, and provide values for the parameters in the <b>Value column</b> (default values are used for parameters with no value).</p></html>");
 		JPanel helpTextPanel = new JPanel();
@@ -75,8 +74,7 @@ class ChangeRegionsDialog extends JDialog implements EcoSysObserver {
 			@Override
 			public boolean isCellEditable(int row, int column) {
 				return column == 1;
-				// return rootPaneCheckingEnabled;
-// TODO hacer editable solo la columna 1
+				
 			}
 		};
 
@@ -159,6 +157,7 @@ class ChangeRegionsDialog extends JDialog implements EcoSysObserver {
 		        for (int i = 0; i < _dataTableModel.getRowCount(); i++) {
 		            String key = (String) _dataTableModel.getValueAt(i, 0);
 		            String value = (String) _dataTableModel.getValueAt(i, 1);
+		           
 		            if (!value.isEmpty()) {
 		                region_data.put(key, value);
 		            }
@@ -166,7 +165,7 @@ class ChangeRegionsDialog extends JDialog implements EcoSysObserver {
 
 		        spec.put("data", region_data);
 
-		        JSONArray regionsArray = new JSONArray();
+		       
 		        JSONObject regionObject = new JSONObject();
 		        JSONArray rowArray = new JSONArray();
 		        JSONArray colArray = new JSONArray();
@@ -198,7 +197,6 @@ class ChangeRegionsDialog extends JDialog implements EcoSysObserver {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// _status = 0;
 				setVisible(false);
 
 			}
@@ -206,14 +204,14 @@ class ChangeRegionsDialog extends JDialog implements EcoSysObserver {
 		buttonPanel.add(okButton);
 		buttonPanel.add(cancelButton);
 
-		setPreferredSize(new Dimension(700, 400)); // puedes usar otro tamaño
+		setPreferredSize(new Dimension(700, 400)); //	TODO  puedes usar otro tamaño
 		pack();
 		setResizable(false);
 		setVisible(false);
 	}
 
 	public void open(Frame parent) {
-		setLocation(//
+		setLocation(
 				parent.getLocation().x + parent.getWidth() / 2 - getWidth() / 2, //
 				parent.getLocation().y + parent.getHeight() / 2 - getHeight() / 2);
 		pack();
@@ -246,19 +244,18 @@ class ChangeRegionsDialog extends JDialog implements EcoSysObserver {
 
 	@Override
 	public void onAnimalAdded(double time, MapInfo map, List<AnimalInfo> animals, AnimalInfo a) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void onRegionSet(int row, int col, MapInfo map, RegionInfo r) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
 	@Override
 	public void onAvanced(double time, MapInfo map, List<AnimalInfo> animals, double dt) {
-		// TODO Auto-generated method stub
+		
 
 	}
 }

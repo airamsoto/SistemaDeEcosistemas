@@ -117,7 +117,7 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 	@Override
 	public void onRegionSet(int row, int col, MapInfo map, RegionInfo r) {
 		this.mapa_regiones.clear();
-		this.updateMap(map); //TODO ESTO HAY QUE HACERLO?
+		this.updateMap(map); 
 		int pos = col + map.get_cols() * row;
 		if( pos < this.mapa_regiones.size() &&r.equals(this.mapa_regiones.get(pos))) {
 			this.mapa_regiones.remove(this.mapa_regiones.get(pos));

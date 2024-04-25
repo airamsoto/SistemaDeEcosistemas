@@ -42,7 +42,7 @@ public class Main {
 		private String _desc;
 
 		private ExecMode(String modeTag, String modeDesc) {
-			 _tag = modeTag;
+			_tag = modeTag;
 			_desc = modeDesc;
 		}
 
@@ -87,7 +87,7 @@ public class Main {
 			parse_delta_option(line);
 			parse_output_option(line);
 			parse_sv_option(line);
-			parse_m_option(line);	
+			parse_m_option(line);
 
 			// if there are some remaining arguments, then something wrong is
 			// provided in the command line!
@@ -192,8 +192,10 @@ public class Main {
 	}
 
 	private static void parse_m_option(CommandLine line) throws ParseException {
-		if(line.hasOption("m") && line.getOptionValue("m") == "batch") {
+		if (line.hasOption("m") && line.getOptionValue("m") == "batch") {
 			_mode = ExecMode.BATCH;
+		} else if (line.hasOption("m") && line.getOptionValue("m") == "gui") {
+			_mode = ExecMode.GUI;
 		}
 
 	}
@@ -237,24 +239,34 @@ public class Main {
 	}
 
 	private static void start_GUI_mode() throws Exception {
+		int width = 800;
+		int height = 600;
+		int rows = 15;
+		int cols = 20;
 		if (_in_file != null) {
 			InputStream is = new FileInputStream(new File(_in_file));
-			
 			JSONObject json = load_JSON_file(is);
-			int width = json.getInt("width");
-			int height = json.getInt("height");
-			int rows = json.getInt("rows");
-			int cols = json.getInt("cols");
+			width = json.getInt("width");
+			height = json.getInt("height");
+			rows = json.getInt("rows");
+			cols = json.getInt("cols");
+			
 			Simulator simer = new Simulator(cols, rows, width, height, _animalFactory, _regionFactory);
-			// parametros estaban al reves no cambia nada 
 			Controller cont = new Controller(simer);
 			cont.load_data(json);
 			SwingUtilities.invokeAndWait(() -> new MainWindow(cont));
 			
+		} else {
+			Simulator simer = new Simulator(cols, rows, width, height, _animalFactory, _regionFactory);
+			Controller cont = new Controller(simer);
+			SwingUtilities.invokeAndWait(() -> new MainWindow(cont));
 		}
+		
+		
+		
 		// que funcione con el simulator con cosas por defecto dice Santi
 		// para el upload data
-		
+
 	}
 
 	private static void start(String[] args) throws Exception {
@@ -272,7 +284,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		Utils._rand.setSeed(2147483647l);
-		
+
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			start(args);
