@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -26,13 +27,13 @@ import simulator.launcher.Main;
 import simulator.misc.Utils;
 
 public class ControlPanel extends JPanel {
-	
+
 	private static final long serialVersionUID = 1L;
 	private Controller _ctrl;
 	private ChangeRegionsDialog _changeRegionsDialog;
 	private JToolBar _toolaBar;
 	private JFileChooser _fc;
-	private boolean _stopped = true; 
+	private boolean _stopped = true;
 	private JButton _quitButton;
 
 	private JButton _openButton;
@@ -46,7 +47,7 @@ public class ControlPanel extends JPanel {
 	ControlPanel(Controller ctrl) {
 		_ctrl = ctrl;
 		initGUI();
-		this._changeRegionsDialog = new ChangeRegionsDialog(this._ctrl); 
+		this._changeRegionsDialog = new ChangeRegionsDialog(this._ctrl);
 
 	}
 
@@ -65,7 +66,7 @@ public class ControlPanel extends JPanel {
 			try {
 				this.openActions();
 			} catch (FileNotFoundException e1) {
-			
+
 				e1.printStackTrace();
 			}
 
@@ -78,7 +79,7 @@ public class ControlPanel extends JPanel {
 		this._viewerButton.setToolTipText("map");
 		this._viewerButton.setIcon(new ImageIcon("resources/icons/viewer.png"));
 		this._viewerButton.addActionListener((e) -> {
-			MapWindow map = new MapWindow(null, this._ctrl); 
+			MapWindow map = new MapWindow(null, this._ctrl);
 
 		});
 		this._toolaBar.add(this._viewerButton);
@@ -104,10 +105,14 @@ public class ControlPanel extends JPanel {
 			this._stopped = false;
 
 			int steps = (int) this._stepsSpinner.getValue();
+			try {
+				double dt = Double.valueOf(this._dt.getText());
+				this.run_sim(steps, dt);
 
-			double dt = Double.valueOf(this._dt.getText());
+			} catch (NumberFormatException f) {
+				JOptionPane.showMessageDialog(null, "El valor dt no es valido");
 
-			this.run_sim(steps, dt);
+			}
 
 		});
 		this._toolaBar.add(this._runButton);
@@ -136,7 +141,9 @@ public class ControlPanel extends JPanel {
 
 		_toolaBar.add(new JLabel(" DELTA-TIME: "));
 		if (Main._delta != null) {
+
 			this._dt = new JTextField(String.valueOf(Main._delta));
+
 		} else
 			this._dt = new JTextField("0.03");
 
@@ -160,7 +167,7 @@ public class ControlPanel extends JPanel {
 		if (n > 0 && !_stopped) {
 			try {
 				_ctrl.advance(dt);
-				Thread.sleep((long) (dt*500));
+				Thread.sleep((long) (dt * 500));
 				SwingUtilities.invokeLater(() -> run_sim(n - 1, dt));
 			} catch (Exception e) {
 

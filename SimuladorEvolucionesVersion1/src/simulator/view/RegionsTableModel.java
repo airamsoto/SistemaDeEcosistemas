@@ -17,6 +17,7 @@ import javax.swing.table.AbstractTableModel;
 
 class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 
+	private static final long serialVersionUID = 1L;
 	private Controller _ctrl;
 	private Map<RegionData, Map<String, Integer>> mapa_regiones;
 

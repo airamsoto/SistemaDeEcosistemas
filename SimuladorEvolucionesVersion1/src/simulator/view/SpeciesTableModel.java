@@ -16,6 +16,7 @@ import simulator.model.State;
 
 public class SpeciesTableModel extends AbstractTableModel implements EcoSysObserver {
 
+	private static final long serialVersionUID = 1L;
 	private Controller _ctrl;
 	private Map<String, Map<String, Integer>> _animals;
 
@@ -80,7 +81,7 @@ public class SpeciesTableModel extends AbstractTableModel implements EcoSysObser
 
 	}
 
-//TODO REVISAR LO DEL BUCLE
+
 	@Override
 	public void onAnimalAdded(double time, MapInfo map, List<AnimalInfo> animals, AnimalInfo a) {
 
