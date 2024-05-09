@@ -18,8 +18,8 @@ public class SpeciesTableModel extends AbstractTableModel implements EcoSysObser
 
 	private static final long serialVersionUID = 1L;
 	private Controller _ctrl;
-	//TODO CAMBIAR EL STRING POR ENUMERADO
-	private Map<String, Map<String, Integer>> _animals;
+	
+	private Map<String, Map<State, Integer>> _animals;
 
 	SpeciesTableModel(Controller ctrl) {
 		this._ctrl = ctrl;
@@ -46,8 +46,8 @@ public class SpeciesTableModel extends AbstractTableModel implements EcoSysObser
 		if (columnIndex == 0)
 			return nombreEspecie;
 		else {
-			Map<String, Integer> mapaEspecies = this._animals.get(nombreEspecie);
-			int contador = mapaEspecies.getOrDefault(State.values()[columnIndex - 1].toString(), 0);
+			Map<State, Integer> mapaEspecies = this._animals.get(nombreEspecie);
+			int contador = mapaEspecies.getOrDefault(State.values()[columnIndex - 1], 0);
 			return contador;
 		}
 	}
@@ -67,9 +67,9 @@ public class SpeciesTableModel extends AbstractTableModel implements EcoSysObser
 			if (!this._animals.containsKey(animal.get_genetic_code())) {
 				this._animals.put(animal.get_genetic_code(), new HashMap<>());
 			}
-			Map<String, Integer> estadosYContador = this._animals.get(animal.get_genetic_code());
-			estadosYContador.put(animal.get_state().toString(),
-					estadosYContador.getOrDefault(animal.get_state().toString(), 0) + 1);
+			Map<State, Integer> estadosYContador = this._animals.get(animal.get_genetic_code());
+			estadosYContador.put(animal.get_state(),
+					estadosYContador.getOrDefault(animal.get_state(), 0) + 1);
 		}
 		fireTableDataChanged();
 
@@ -89,8 +89,8 @@ public class SpeciesTableModel extends AbstractTableModel implements EcoSysObser
 		if (!this._animals.containsKey(a.get_genetic_code())) {
 			this._animals.put(a.get_genetic_code(), new HashMap<>());
 		}
-		Map<String, Integer> estadosYContador = this._animals.get(a.get_genetic_code());
-		estadosYContador.put(a.get_state().toString(), estadosYContador.getOrDefault(a.get_state().toString(), 0) + 1);
+		Map<State, Integer> estadosYContador = this._animals.get(a.get_genetic_code());
+		estadosYContador.put(a.get_state(), estadosYContador.getOrDefault(a.get_state(), 0) + 1);
 		fireTableDataChanged();
 	}
 
