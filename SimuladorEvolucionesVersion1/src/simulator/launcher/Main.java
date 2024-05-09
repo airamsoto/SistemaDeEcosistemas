@@ -81,12 +81,13 @@ public class Main {
 		try {
 			CommandLine line = parser.parse(cmdLineOptions, args);
 			parse_help_option(line, cmdLineOptions);
+			parse_m_option(line);
 			parse_in_file_option(line);
 			parse_time_option(line);
 			parse_delta_option(line);
 			parse_output_option(line);
 			parse_sv_option(line);
-			parse_m_option(line);
+			
 
 			// if there are some remaining arguments, then something wrong is
 			// provided in the command line!

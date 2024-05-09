@@ -18,6 +18,7 @@ public class SpeciesTableModel extends AbstractTableModel implements EcoSysObser
 
 	private static final long serialVersionUID = 1L;
 	private Controller _ctrl;
+	//TODO CAMBIAR EL STRING POR ENUMERADO
 	private Map<String, Map<String, Integer>> _animals;
 
 	SpeciesTableModel(Controller ctrl) {

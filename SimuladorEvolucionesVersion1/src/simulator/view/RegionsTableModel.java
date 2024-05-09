@@ -19,6 +19,7 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 
 	private static final long serialVersionUID = 1L;
 	private Controller _ctrl;
+	//TODO CAMBIAR EL STRING POR EL ENUMERADO
 	private Map<RegionData, Map<String, Integer>> mapa_regiones;
 
 	RegionsTableModel(Controller ctrl) {
@@ -82,7 +83,7 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 				return rd.r().toString();
 			default:
 				return this.getAnimalDietCount(rd.get_r(), Diet.values()[columnIndex - 3]);
-				
+				//TODO sacarlo directamente del mapa			
 			}
 		}
 
