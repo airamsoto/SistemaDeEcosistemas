@@ -21,7 +21,6 @@ import org.json.JSONTokener;
 import simulator.misc.Utils;
 import simulator.model.Simulator;
 import simulator.view.MainWindow;
-import simulator.view.SimpleObjectViewer;
 import simulator.model.*;
 import simulator.factories.*;
 import simulator.factories.SelectClosestBuilder;
@@ -192,10 +191,13 @@ public class Main {
 	}
 
 	private static void parse_m_option(CommandLine line) throws ParseException {
-		if (line.hasOption("m") && line.getOptionValue("m") == "batch") {
+		if (line.hasOption("m") && line.getOptionValue("m").equals("batch")) {
 			_mode = ExecMode.BATCH;
-		} else if (line.hasOption("m") && line.getOptionValue("m") == "gui") {
-			_mode = ExecMode.GUI;
+		} else {
+			if (line.hasOption("m") && line.getOptionValue("m").equals("gui")) {
+
+				_mode = ExecMode.GUI;
+			}
 		}
 
 	}
