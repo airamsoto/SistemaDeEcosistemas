@@ -19,21 +19,23 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 
 	private static final long serialVersionUID = 1L;
 	private Controller _ctrl;
-	//TODO CAMBIAR EL STRING POR EL ENUMERADO
 	private Map<RegionData, Map<Diet, Integer>> mapa_regiones;
 
 	RegionsTableModel(Controller ctrl) {
-		this.mapa_regiones = new TreeMap<>(new Comparator <>() {
+		this.mapa_regiones = new TreeMap<>(new Comparator<>() {
 
 			@Override
 			public int compare(RegionData o1, RegionData o2) {
-				if(o1.get_col() == o2.get_col() && o1.get_row() == o2.get_row() ) return 0;
-				else if (o1.get_col()< o2.get_col() && o1.get_row()< o2.get_row()) return -1; 
-				else return 1;
+				if (o1.get_col() == o2.get_col() && o1.get_row() == o2.get_row())
+					return 0;
+				else if (o1.get_col() < o2.get_col() && o1.get_row() < o2.get_row())
+					return -1;
+				else
+					return 1;
 			}
-			
+
 		});
-		
+
 		this._ctrl = ctrl;
 		this._ctrl.addObserver(this);
 	}
@@ -59,7 +61,7 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 		case 2:
 			return "Desc.";
 		default:
-			
+
 			return Diet.values()[column - 3].toString();
 		}
 
@@ -70,7 +72,6 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 		List<RegionData> it = new ArrayList<>(this.mapa_regiones.keySet());
 		MapInfo.RegionData rd = it.get(rowIndex);
 		RegionInfo r = rd.get_r();
-		Map<Diet, Integer> dietmap = this.mapa_regiones.get(rd);
 
 		if (r != null) {
 
@@ -83,8 +84,7 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 				return rd.r().toString();
 			default:
 				return this.getAnimalDietCount(rd.get_r(), Diet.values()[columnIndex - 3]);
-				//TODO sacarlo directamente del mapa
-							}
+			}
 		}
 
 		return null;
@@ -101,7 +101,6 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 	public void onReset(double time, MapInfo map, List<AnimalInfo> animals) {
 		this.mapa_regiones.clear();
 		this.updateMap(map);
-		
 		this.fireTableDataChanged();
 	}
 
@@ -110,20 +109,19 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 
 		int i = (int) (a.get_position().getX() / map.get_region_width());
 		int j = (int) (a.get_position().getY() / map.get_region_height());
-		ArrayList <RegionData> arrayRD = new ArrayList<>(mapa_regiones.keySet());
-		int pos =  i+ map.get_cols() * j;
+		ArrayList<RegionData> arrayRD = new ArrayList<>(mapa_regiones.keySet());
+		int pos = i + map.get_cols() * j;
 		this.change(arrayRD.get(pos));
 		this.fireTableDataChanged();
-		
-	
+
 	}
 
 	@Override
 	public void onRegionSet(int row, int col, MapInfo map, RegionInfo r) {
 		this.mapa_regiones.clear();
-		this.updateMap(map); 
+		this.updateMap(map);
 		int pos = col + map.get_cols() * row;
-		if( pos < this.mapa_regiones.size() &&r.equals(this.mapa_regiones.get(pos))) {
+		if (pos < this.mapa_regiones.size() && r.equals(this.mapa_regiones.get(pos))) {
 			this.mapa_regiones.remove(this.mapa_regiones.get(pos));
 
 		}
@@ -137,9 +135,8 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 	public void onAvanced(double time, MapInfo map, List<AnimalInfo> animals, double dt) {
 		this.mapa_regiones.clear();
 		this.updateMap(map);
-		
-		this.fireTableDataChanged();
 
+		this.fireTableDataChanged();
 
 	}
 
@@ -150,7 +147,7 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 				count++;
 			}
 		}
-		
+
 		return count;
 	}
 
@@ -163,20 +160,18 @@ class RegionsTableModel extends AbstractTableModel implements EcoSysObserver {
 		for (Diet dieta : Diet.values()) {
 			map.put(dieta, getAnimalDietCount(r.get_r(), dieta));
 		}
-				
-		
-		
+
 		this.mapa_regiones.put(r, map);
 	}
-	
-	private void updateMap (MapInfo map) {
+
+	private void updateMap(MapInfo map) {
 		this.mapa_regiones.clear();
 		Iterator<RegionData> it = map.iterator();
 		while (it.hasNext()) {
 			RegionData ri = it.next();
 			this.change(ri);
 		}
-		
+
 	}
 
 }
